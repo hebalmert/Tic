@@ -1,0 +1,108 @@
+﻿@model Tic.Shared.Entites.Manager
+
+@{
+    ViewData["Title"] = "Detalle Usuario";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-8">
+            <div class="shadow-lg mb-5 card-roud">
+
+                <div class="card card-roud">
+                    <div class="card-body">
+                        <p>
+                            <h2>Detalle Usuario</h2>
+                        <p />
+                        <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group" style="text-align:center;">
+                                    <img src="@Model!.ImageFullPath" alt="image" style="width:100px;height:100px;max-width: 100%; height: auto;" />
+                                </div>
+                            </div>
+                        </div>
+                        <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+                        <div class="row">
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <strong>@Html.DisplayNameFor(model => model.Document):</strong>
+                                        @Html.DisplayFor(model => model.Document)
+                                    <p></p>
+                                </div>
+                                <div class="form-group">
+                                    <strong>@Html.DisplayNameFor(model => model.FirstName):</strong>
+                                        @Html.DisplayFor(model => model.FirstName)
+                                    <p></p>
+                                </div>
+                                <div class="form-group">
+                                    <strong>@Html.DisplayNameFor(model => model.LastName):</strong>
+                                        @Html.DisplayFor(model => model.LastName)
+                                    <p></p>
+                                </div>
+                                <div class="form-group">
+                                    <strong>@Html.DisplayNameFor(model => model.PhoneNumber):</strong>
+                                        @Html.DisplayFor(model => model.PhoneNumber)
+                                    <p></p>
+                                </div>
+                                <div class="form-group">
+                                    <strong>@Html.DisplayNameFor(model => model.Address):</strong>
+                                        @Html.DisplayFor(model => model.Address)
+                                    <p></p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <strong>@Html.DisplayNameFor(model => model.Corporate!.Name):</strong>
+                                        @Html.DisplayFor(model => model.Corporate!.Name)
+                                    <p></p>
+                                </div>
+                                <div class="form-group">
+                                    <strong>@Html.DisplayNameFor(model => model.UserName):</strong>
+                                        @Html.DisplayFor(model => model.UserName)
+                                    <p></p>
+                                </div>
+                                <div class="form-group">
+                                    <strong>@Html.DisplayNameFor(model => model.UserType):</strong>
+                                        @Html.DisplayFor(model => model.UserType)
+                                    <p></p>
+                                </div>
+                                <div class="form-group">
+                                    <strong>@Html.DisplayNameFor(model => model.Job):</strong>
+                                        @Html.DisplayFor(model => model.Job)
+                                    <p></p>
+                                </div>
+                                <div class="form-group">
+                                    <strong>@Html.DisplayNameFor(model => model.Activo):</strong>
+                                        @Html.DisplayFor(model => model.Activo)
+                                    <p></p>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+                                <br />
+                                <div class="form-group col-12">
+                                    <button title="Volver" type="button" class="btn btn-outline-dark btn-bor" onclick="location.href = '@Url.Action("Index", new  {})'">
+                                        <i class="bi bi-box-arrow-left" style="font-size: 20px;"></i>
+                                        Volver
+                                    </button>
+
+                                    <a title="Editar" asp-action="Edit" asp-route-id="@Model.ManagerId" class="btn btn-outline-primary btn-bor">
+                                        <i class="bi bi-pencil-square" style="font-size: 20px;"></i>
+                                        Editar
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

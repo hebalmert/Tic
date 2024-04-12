@@ -1,0 +1,446 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="Keywords" content="Software Ticket WIFI, Vender Internet, Software WIFI Mirkotik, Software Venta Mikrotik, Venta Tickets WIFI">
+    <meta name="Description" content="Software para la Creacion y Venta de Tickets WIFI, Conectando con equipos Mikrotik.">
+    <meta name="Robots" content="all">
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="~/Images/SiteLogo.png" type="image/png" />
+
+    <title>@ViewData["Title"] - Tic NexxtPlanet</title>
+
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Tic.Web.styles.css" asp-append-version="true" />
+
+    <!-- Vamos agregar el link de ICONOS BootStrap para consumirlos desde Internet-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <link href="~/jquerysearch/jquery-ui.css" rel="stylesheet" />
+</head>
+<body>
+    <partial name="_SpinnerLayout" />
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Laden.Web</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    @if (User.Identity!.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-shield-plus"></i>
+                                    Sistema
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-dark">
+                                    <li>
+                                        <h6 class="dropdown-header">
+                                            <i class="bi bi-ui-checks-grid"></i>
+                                            Control Sistema
+                                        </h6>
+                                    </li>
+                                    <li><a id="_Planes" class="dropdown-item" asp-action="Index" asp-controller="SoftPlans">Planes</a></li>
+                                    <li><a id="_Pais" class="dropdown-item" asp-action="Index" asp-controller="Countries">Pais</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a id="_Corporacion" class="dropdown-item" asp-action="Index" asp-controller="Corporates">Corporacion</a></li>
+                                    <li><a id="_Usuarios" class="dropdown-item" asp-action="Index" asp-controller="Managers">Usuarios</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    }
+                    @if (User.Identity!.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-shield-plus"></i>
+                                    Configuraciones
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-dark">
+                                    <li>
+                                        <h6 class="dropdown-header">
+                                            <i class="bi bi-ui-checks-grid"></i>
+                                            Control Sistema
+                                        </h6>
+                                    </li>
+                                    <li><a id="_Frecuencias" class="dropdown-item" asp-action="Index" asp-controller="FrecuencyTypes">Frecuencias</a></li>
+                                    <li><a id="_TipoOperacion" class="dropdown-item" asp-action="Index" asp-controller="Operations">Operaciones Wireless</a></li>
+                                    <li><a id="_CanalWireless" class="dropdown-item" asp-action="Index" asp-controller="Channels">Canales Wireless</a></li>
+                                    <li><a id="_SeguridadWireless" class="dropdown-item" asp-action="Index" asp-controller="Securities">Seguridad Wireless</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a id="_HotSpotType" class="dropdown-item" asp-action="Index" asp-controller="HotSpotTypes">Tipo HotSpot</a></li>
+                                    <li><a id="_ChainType" class="dropdown-item" asp-action="Index" asp-controller="ChainTypes">Tipo Chain</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    }
+                    @if (User.Identity!.IsAuthenticated && User.IsInRole("User"))
+                    {
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-cone-striped"></i>
+                                    Archivo
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-dark">
+                                    <li>
+                                        <h6 class="dropdown-header">
+                                            <i class="bi bi-textarea"></i>
+                                            General
+                                        </h6>
+                                    </li>
+                                    <li><a id="_Zonas" class="dropdown-item" asp-action="Index" asp-controller="Zones">Zonas</a></li>
+                                    <li><a id="_Marks" class="dropdown-item" asp-action="Index" asp-controller="Marks">Marcas/Modelos</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <h6 class="dropdown-header mt-3">
+                                            <i class="bi bi-textarea"></i>
+                                            Productos
+                                        </h6>
+                                    </li>
+                                    <li><a id="_CategoriaProducto" class="dropdown-item" asp-action="Index" asp-controller="ProductCategories">Categoria Productos</a></li>
+                                    <li><a id="_Productos" class="dropdown-item" asp-action="Index" asp-controller="Products">Productos</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <h6 class="dropdown-header mt-3">
+                                            <i class="bi bi-textarea"></i>
+                                            Servicios
+                                        </h6>
+                                    </li>
+                                    <li><a id="_CategoriaServicio" class="dropdown-item" asp-action="Index" asp-controller="ServiceCategories">Categoria Servicios</a></li>
+                                    <li><a id="_ServicioClientes" class="dropdown-item" asp-action="Index" asp-controller="ServiceClients">Servicios clientes</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <h6 class="dropdown-header mt-3">
+                                            <i class="bi bi-textarea"></i>
+                                            Planes
+                                        </h6>
+                                    </li>
+                                    <li><a id="_CategoriaPlanes" class="dropdown-item" asp-action="Index" asp-controller="PlanCategories">Categoria Planes</a></li>
+                                    <li><a id="_Planes" class="dropdown-item" asp-action="Index" asp-controller="Plans">Planes Clientes</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    }
+                    @if (User.Identity!.IsAuthenticated && User.IsInRole("User"))
+                    {
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-cone-striped"></i>
+                                    Network
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-dark">
+                                    <li>
+                                        <h6 class="dropdown-header">
+                                            <i class="bi bi-ethernet"></i>
+                                            Network
+                                        </h6>
+                                    </li>
+                                    <li><a id="_Ipnetwork" class="dropdown-item" asp-action="Index" asp-controller="IpNetworks">Ip Network</a></li>
+                                    <li><a id="_Ipnetwork" class="dropdown-item" asp-action="Index" asp-controller="IpNets">Ip Clientes</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <h6 class="dropdown-header mt-3">
+                                            <i class="bi bi-hdd-network"></i>
+                                            Equipos Red
+                                        </h6>
+                                    </li>
+                                    <li><a id="_Nodes" class="dropdown-item" asp-action="Index" asp-controller="Nodes">Equipo Nodes</a></li>
+                                    <li><a id="_Servers" class="dropdown-item" asp-action="Index" asp-controller="Servers">Servidores</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    }
+                    @if (User.Identity!.IsAuthenticated && User.IsInRole("User") | User.IsInRole("Cachier"))
+                    {
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item dropdown">
+
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-cone-striped"></i>
+                                    Operaciones
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-dark">
+                                    @if (User.IsInRole("User"))
+                                    {
+                                        <li>
+                                            <h6 class="dropdown-header">
+                                                <i class="bi bi-person"></i>
+                                                Personas
+                                            </h6>
+                                        </li>
+                                        <li><a id="_Clientes" class="dropdown-item" asp-action="Index" asp-controller="Clients">Clientes</a></li>
+                                        <li><a id="_Contract" class="dropdown-item" asp-action="Index" asp-controller="Contracts">Contratos</a></li>
+                                        <li><a id="_ServiceRequest" class="dropdown-item" asp-action="Index" asp-controller="ServiceRequests">Solicitud Soporte</a></li>
+                                    }
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <h6 class="dropdown-header mt-3">
+                                            <i class="bi bi-cash-coin"></i>
+                                            Contables
+                                        </h6>
+                                    </li>
+                                    @if (User.IsInRole("User") | User.IsInRole("Cachier"))
+                                    {
+                                        <li><a id="_CxCBill" class="dropdown-item" asp-action="Index" asp-controller="CxCBills">Cuentas por Cobrar</a></li>
+                                        <li><a id="_PrePayment" class="dropdown-item" asp-action="Index" asp-controller="PrePayments">Pago Adelantado</a></li>
+                                    }
+                                    @if (User.IsInRole("User"))
+                                    {
+                                        <li><a id="_PreExonerated" class="dropdown-item" asp-action="Index" asp-controller="PreExonerateds">Pago Exonerado</a></li>
+                                        <li><a id="_Outcomes" class="dropdown-item" asp-action="Index" asp-controller="Outcomes">Egresos Generales</a></li>
+
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li>
+                                            <h6 class="dropdown-header mt-3">
+                                                <i class="bi bi-sort-numeric-up"></i>
+                                                Seriales
+                                            </h6>
+                                        </li>
+                                        <li><a id="_Cargue" class="dropdown-item" asp-action="Index" asp-controller="Cargues">Cargue Seriales</a></li>
+                                        <li><a id="_BusSeriales" class="dropdown-item" asp-action="IndexSerial" asp-controller="Cargues">Ver Seriales</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li>
+                                            <h6 class="dropdown-header mt-3">
+                                                <i class="bi bi-cash-coin"></i>
+                                                Notas y Corte
+                                            </h6>
+                                        </li>
+                                        <li><a id="_BillingNoteOne" class="dropdown-item" asp-action="Index" asp-controller="BillingNoteOnes">Nota por Cliente</a></li>
+                                        <li><a id="_BillingNotes" class="dropdown-item" asp-action="Index" asp-controller="BillingNotes">Nota General</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a id="_ContractCuts" class="dropdown-item" asp-action="Index" asp-controller="ContractCuts">Suspension General</a></li>
+                                        <li><a id="_ContractSuspendeds" class="dropdown-item" asp-action="Index" asp-controller="ContractSuspendeds">Contratos Suspendidos</a></li>
+                                    }
+                                </ul>
+                            </li>
+                        </ul>
+                    }
+                    @if (User.Identity!.IsAuthenticated && User.IsInRole("UserAux"))
+                    {
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item dropdown">
+
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-cone-striped"></i>
+                                    Operaciones
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-dark">
+                                    <li>
+                                        <h6 class="dropdown-header">
+                                            <i class="bi bi-person"></i>
+                                            Personas
+                                        </h6>
+                                    </li>
+                                    <li><a id="_Clientes" class="dropdown-item" asp-action="Index" asp-controller="Clients">Clientes</a></li>
+                                    <li><a id="_Contract" class="dropdown-item" asp-action="Index" asp-controller="Contracts">Contratos</a></li>
+                                    <li><a id="_ServiceRequest" class="dropdown-item" asp-action="Index" asp-controller="ServiceRequests">Solicitud Soporte</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <h6 class="dropdown-header mt-3">
+                                            <i class="bi bi-cash-coin"></i>
+                                            Contables
+                                        </h6>
+                                    </li>
+                                    <li><a id="_CxCBill" class="dropdown-item" asp-action="Index" asp-controller="CxCBills">Cuentas por Cobrar</a></li>
+                                    <li><a id="_PrePayment" class="dropdown-item" asp-action="Index" asp-controller="PrePayments">Pago Adelantado</a></li>
+
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <h6 class="dropdown-header mt-3">
+                                            <i class="bi bi-sort-numeric-up"></i>
+                                            Seriales
+                                        </h6>
+                                    </li>
+                                    <li><a id="_Cargue" class="dropdown-item" asp-action="Index" asp-controller="Cargues">Cargue Seriales</a></li>
+                                    <li><a id="_BusSeriales" class="dropdown-item" asp-action="IndexSerial" asp-controller="Cargues">Ver Seriales</a></li>
+
+                                </ul>
+                            </li>
+                        </ul>
+                    }
+                    @if (User.Identity!.IsAuthenticated && User.IsInRole("User") | User.IsInRole("Cachier") | User.IsInRole("UserAux"))
+                    {
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-printer"></i>
+                                    Reportes
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-dark">
+                                    @if (User.IsInRole("User"))
+                                    {
+                                        <li>
+                                            <h6 class="dropdown-header">
+                                                <i class="bi bi-archive"></i>
+                                                Status Clientes
+                                            </h6>
+                                        </li>
+                                        <li><a id="_RepNode" class="dropdown-item" asp-action="RepClientsActives" asp-controller="Reports">Clientes Activos</a></li>
+                                        <li><a id="_RepNode" class="dropdown-item" asp-action="ActivoNodos" asp-controller="Reports">Clientes Activos por Nodo</a></li>
+                                        <li><a id="_RepNode" class="dropdown-item" asp-action="ActivoServer" asp-controller="Reports">Clientes Activos por Servidor</a></li>
+                                        <li><a id="_RepNode" class="dropdown-item" asp-action="ActivoZone" asp-controller="Reports">Clientes Activos por Zona</a></li>
+                                        <li><a id="_RepSelectDayNotas" class="dropdown-item" asp-action="SelectDaySuspended" asp-controller="Reports">Suspendidos por Fecha</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li>
+                                            <h6 class="dropdown-header">
+                                                <i class="bi bi-bank"></i>
+                                                General Ingresos
+                                            </h6>
+                                        </li>
+                                        <li><a id="_RepSelectDayNotas" class="dropdown-item" asp-action="SelectDayNotas" asp-controller="Reports">Nota Cobro por Fecha</a></li>
+                                        <li><a id="_RepSelectDayNotas" class="dropdown-item" asp-action="ExtracDateNotas" asp-controller="Reports">Nota Cobro Extracto por Fecha</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a id="_RepNode" class="dropdown-item" asp-action="RepClientsPrePayment" asp-controller="Reports">Clientes por Adelantado</a></li>
+                                        <li><a id="_RepNode" class="dropdown-item" asp-action="ClientPrePayDate" asp-controller="Reports">Clientes Adelantado Facturado por Mes</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a id="_RepNode" class="dropdown-item" asp-action="RepClientsExonerate" asp-controller="Reports">Clientes por Exonerar</a></li>
+                                        <li><a id="_RepNode" class="dropdown-item" asp-action="ClientExonDate" asp-controller="Reports">Clientes Exonerados por Mes</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li>
+                                            <h6 class="dropdown-header">
+                                                <i class="bi bi-bank"></i>
+                                                Contratistas
+                                            </h6>
+                                        </li>
+                                        <li><a id="_RepContractorPay" class="dropdown-item" asp-action="ContractorPayDate" asp-controller="Reports">Pago Contratistas por Fecha</a></li>
+                                        <li><a id="_RepContractorActiveClient" class="dropdown-item" asp-action="ContractorsSelect" asp-controller="Reports">Clientes Activos por Contratista</a></li>
+                                        <li><a id="_RepContractorActiveClient" class="dropdown-item" asp-action="ContractorCtSuspenDate" asp-controller="Reports">Clientes Suspendidos por Contratista</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                    }
+                                    @if (User.IsInRole("User") | User.IsInRole("Cachier") | User.IsInRole("UserAux"))
+                                    {
+                                        <li>
+                                            <h6 class="dropdown-header">
+                                                <i class="bi bi-archive"></i>
+                                                Operaciones
+                                            </h6>
+                                        </li>
+                                        <li><a id="_RepCachierDate" class="dropdown-item" asp-action="ReporteCajerosDate" asp-controller="Reports">Reporte Pagos Cajeros</a></li>
+                                        <li><a id="_RepCachierDate" class="dropdown-item" asp-action="ReportePrePayCajerosDate" asp-controller="Reports">Reporte Pagos Adelantados Cajeros</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                    }
+                                </ul>
+                            </li>
+                        </ul>
+                    }
+                    @if (User.Identity!.IsAuthenticated && User.IsInRole("User"))
+                    {
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-stack"></i>
+                                    Configuracion
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-dark">
+                                    <li>
+                                        <h6 class="dropdown-header">
+                                            <i class="bi bi-ui-checks"></i>
+                                            Controles
+                                        </h6>
+                                    </li>
+                                    <li><a id="_DocumentType" class="dropdown-item" asp-action="Index" asp-controller="DocumentTypes">Tipo Documento</a></li>
+                                    <li><a id="_Taxes" class="dropdown-item" asp-action="Index" asp-controller="Taxes">Impuestos</a></li>
+                                    <li><a id="_Consecutivos" class="dropdown-item" asp-action="Details" asp-controller="Registers">Consecutivos</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <h6 class="dropdown-header">
+                                            <i class="bi bi-toggles"></i>
+                                            Conexion Control Mikrotik
+                                        </h6>
+                                    </li>
+                                    <li><a id="_ConextionControlMikrotik" class="dropdown-item" asp-action="Details" asp-controller="ConectionMikrotikControls">Uso de HotSpot Mikrotik</a></li>
+                                    <li><a id="_ConextionControlMikrotik" class="dropdown-item" asp-action="Index" asp-controller="QueueTypes">Nombre Queue Type que Usa</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <h6 class="dropdown-header">
+                                            <i class="bi bi-people-fill"></i>
+                                            Personal
+                                        </h6>
+                                    </li>
+                                    <li><a id="_Contractor" class="dropdown-item" asp-action="Index" asp-controller="Contractors">Contratistas</a></li>
+                                    <li><a id="_AuxUsers" class="dropdown-item" asp-action="Index" asp-controller="AuxUsers">Usuario Auxiliar</a></li>
+                                    <li><a id="_Tecnicos" class="dropdown-item" asp-action="Index" asp-controller="Technicals">Tecnicos</a></li>
+                                    <li><a id="_Cajeros" class="dropdown-item" asp-action="Index" asp-controller="Cachiers">Cajeros</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    }
+
+                    <ul class="nav justify-content-end container-fluid">
+                        <li class="nav-item dropdown">
+                            @if (User.Identity!.IsAuthenticated)
+                            {
+                                <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="@Url.Content(Context.Session.GetString("Logo"))" class="avatar rounded-circle" alt="mdo" width="36" height="36" />
+                                    <label class="mb-1 text-white" ID="lblnomCompañia" style="font-weight:bold;">@Context.Session.GetString("NomCorp")</label>
+                                </a>
+                            }
+                        </li>
+                        <li class="nav-item dropdown">
+                            @if (User.Identity!.IsAuthenticated)
+                            {
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="@Url.Content(Context.Session.GetString("PicUser"))" class="avatar rounded-circle" alt="mdo" width="36" height="36" />
+                                    <label class="mb-1 text-white" ID="lblnomCompañia" style="font-weight:bold;">@Context.Session.GetString("NomUser")</label>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark">
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" asp-controller="Account" asp-action="ChangePasswordMVC">Cambio Clave</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout">Cerrar Sesión</a></li>
+                                </ul>
+                            }
+                            else
+                            {
+                                <a class="nav-link active" style="color:white" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                            }
+                        </li>
+                        <li class="nav-item dropdown">
+                            @if (User.Identity!.IsAuthenticated)
+                            {
+                                <a class="nav-link active text-white" style="font-size: 25px;" asp-area="" asp-controller="Account" asp-action="Logout">
+                                    <i class="bi-power"></i>
+                                </a>
+                            }
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - Tickets WIFI - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+    @await Component.InvokeAsync("Notyf")
+</body>
+</html>
+
+<script>
+    $(document).ready(function () {
+        $('#SpeedUp').click(function () {
+            $('.spinner').css('display', 'block');
+        });
+    });
+</script>

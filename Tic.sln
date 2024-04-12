@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tic.Shared", "Tic.Shared\Tic.Shared.csproj", "{D5DA16F7-EE14-4E77-9C37-4796E3B60FEF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tic.Web", "Tic.Web\Tic.Web.csproj", "{EF6B0A56-0628-4396-A094-4A98A2A31FF2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D5DA16F7-EE14-4E77-9C37-4796E3B60FEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5DA16F7-EE14-4E77-9C37-4796E3B60FEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5DA16F7-EE14-4E77-9C37-4796E3B60FEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5DA16F7-EE14-4E77-9C37-4796E3B60FEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF6B0A56-0628-4396-A094-4A98A2A31FF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF6B0A56-0628-4396-A094-4A98A2A31FF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF6B0A56-0628-4396-A094-4A98A2A31FF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF6B0A56-0628-4396-A094-4A98A2A31FF2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {797AA013-699D-4AA8-9777-F7EC10C30A73}
+	EndGlobalSection
+EndGlobal

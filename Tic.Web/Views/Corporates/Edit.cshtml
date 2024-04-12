@@ -1,0 +1,218 @@
+﻿@model Tic.Shared.Entites.Corporate
+
+@{
+    ViewData["Title"] = "Crear";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-8">
+
+            <div class="shadow-lg mb-5 card-roud">
+                <div class="card card-roud">
+                    <div class="card-body">
+                        <p>
+                            <h2>Crear Corporacion</h2>
+                        <p />
+                        <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form asp-action="Edit" enctype="multipart/form-data">
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                    <input type="hidden" asp-for="CorporateId" />
+                                    <input type="hidden" asp-for="ImageId" />
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+
+                                            <div class="form-group">
+                                                <label asp-for="Name" class="control-label"></label>
+                                                <input asp-for="Name" class="form-control" />
+                                                <span asp-validation-for="Name" class="text-danger"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label asp-for="Document" class="control-label"></label>
+                                                <input asp-for="Document" class="form-control" />
+                                                <span asp-validation-for="Document" class="text-danger"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label asp-for="PhoneNumber" class="control-label"></label>
+                                                <input asp-for="PhoneNumber" class="form-control" />
+                                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label asp-for="Address" class="control-label"></label>
+                                                <textarea asp-for="Address" class="form-control"></textarea>
+                                                <span asp-validation-for="Address" class="text-danger"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label asp-for="Email" class="control-label"></label>
+                                                <input asp-for="Email" class="form-control" />
+                                                <span asp-validation-for="Email" class="text-danger"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label asp-for="ImageFile" class="control-label"></label>
+                                                <input asp-for="ImageFile" type="file" class="form-control" />
+                                                <span asp-validation-for="ImageFile" class="text-danger"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+
+                                            <div class="form-group">
+                                                <label asp-for="SoftPlanId" class="control-label"></label>
+                                                <select asp-for="SoftPlanId" class="form-control" asp-items="Model.Softplans"></select>
+                                                <span asp-validation-for="SoftPlanId" class="text-danger"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label asp-for="ToStar" class="control-label"></label>
+                                                <input asp-for="ToStar" class="form-control" />
+                                                <span asp-validation-for="ToStar" class="text-danger"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label asp-for="ToEnd" class="control-label"></label>
+                                                <input asp-for="ToEnd" class="form-control" />
+                                                <span asp-validation-for="ToEnd" class="text-danger"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label asp-for="CountryId" class="control-label"></label>
+                                                <select asp-for="CountryId" class="form-control" asp-items="Model.ListCountry"></select>
+                                                <span asp-validation-for="CountryId" class="text-danger"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label asp-for="StateId" class="control-label"></label>
+                                                <select asp-for="StateId" class="form-control" asp-items="Model.ListState"></select>
+                                                <span asp-validation-for="StateId" class="text-danger"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label asp-for="CityId" class="control-label"></label>
+                                                <select asp-for="CityId" class="form-control" asp-items="Model.ListCities"></select>
+                                                <span asp-validation-for="CityId" class="text-danger"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="checkbox" asp-for="Activo" /> @Html.DisplayNameFor(model => model.Activo)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+
+                                    <div class="form-group">
+                                        <br />
+                                        <button title="Volver" type="button" class="btn btn-outline-dark btn-bor" onclick="location.href = '@Url.Action("Index", new  {})'">
+                                            <i class="bi bi-box-arrow-left" style="font-size: 20px;"></i>
+                                            Volver
+                                        </button>
+
+                                        <button title="Guardar" type="submit" class="btn btn-outline-primary btn-bor">
+                                            <i class="bi bi-check2-square" style="font-size: 20px;"></i>
+                                            Guardar
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script type="text/javascript">
+        $(function () {
+            $('#SaveBtn').click(function () {
+                if ($('#Name').val().length > 0 && $('#Ip').val() > 0) {
+                    $('.spinner').css('display', 'block');
+                }
+            });
+
+            $("#SoftPlanId").change(function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetNewDate")',
+                    dataType: 'json',
+                    data: { IdSoftPlan: $("#SoftPlanId").val(), finicio: $("#ToStar").val() },
+                    success: function (data) {
+                        var nuevafecha = new Date();
+                        nuevafecha = data.ndate;
+                        $("#ToEnd").val(data.ndate);
+                        console.log(nuevafecha);
+                    },
+                    error: function (ex) {
+                        alert('Falla en Nueva Fecha' + ex);
+                    }
+                });
+                return false;
+            })
+            $("#ToStar").change(function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetNewDate")',
+                    dataType: 'json',
+                    data: { IdSoftPlan: $("#SoftPlanId").val(), finicio: $("#ToStar").val() },
+                    success: function (data) {
+                        var nuevafecha = new Date();
+                        nuevafecha = data.ndate;
+                        $("#ToEnd").val(data.ndate);
+                        console.log(nuevafecha);
+                    },
+                    error: function (ex) {
+                        alert('Falla en Nueva Fecha' + ex);
+                    }
+                });
+                return false;
+            })
+
+            $("#CountryId").change(function () {
+                $("#StateId").empty();
+                $("#StateId").append('<option value="0">[Seleccione un Estado...]</option>');
+                $("#CityId").empty();
+                $("#CityId").append('<option value="0">[Seleccione una Ciudad...]</option>');
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetState")',
+                    dataType: 'json',
+                    data: { IdCountry: $("#CountryId").val() },
+                    success: function (data) {
+                        $.each(data, function (i, data) {
+                            $("#StateId").append('<option value="'
+                                + data.value + '">'
+                                + data.text + '</option>');
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Falla en Seleccion de Planillas' + ex);
+                    }
+                });
+                return false;
+            })
+            $("#StateId").change(function () {
+                $("#CityId").empty();
+                $("#CityId").append('<option value="0">[Seleccione una Ciudad...]</option>');
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetCity")',
+                    dataType: 'json',
+                    data: { Idstate: $("#StateId").val() },
+                    success: function (data) {
+                        $.each(data, function (i, data) {
+                            $("#CityId").append('<option value="'
+                                + data.value + '">'
+                                + data.text + '</option>');
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Falla en Seleccion de Planillas' + ex);
+                    }
+                });
+                return false;
+            })
+        });
+    </script>
+    }

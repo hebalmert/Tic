@@ -1,0 +1,128 @@
+﻿<head>
+    <style>
+        #nodos {
+            color: #007AFF;
+        }
+
+        #cajeros {
+            color: #36b9cc;
+        }
+
+        #servidores {
+            color: #6C757E;
+        }
+
+        #soportes {
+            color: #FEC107;
+        }
+
+        #activos {
+            color: #27A844;
+        }
+
+        #suspendidos {
+            color: #DC3546;
+        }
+
+        .center-div {
+            width: 300px;
+            height: 300px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin-left: -150px;
+            margin-top: -150px;
+        }
+
+        .spinner {
+            position: fixed;
+            z-index: 999;
+            height: 100%;
+            width: 100%;
+            top: 0;
+            left: 0;
+            background-color: Black;
+            opacity: 0.3;
+        }
+
+        .loader {
+            margin: auto;
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #15a0ec;
+            border-bottom: 16px solid #15a0ec;
+            width: 120px;
+            height: 120px;
+            -webkit-animation: spin 2s linear infinite;
+            animation: spin 2s linear infinite;
+        }
+
+        .inner-div {
+            background-color: white;
+            border-radius: 15px;
+            margin: auto;
+            padding: 2%;
+            width: 150px;
+        }
+
+        @@-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @@keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<div class="spinner" style="display:none">
+    <div class="center-div">
+        <div class="inner-div">
+            <div class="loader"></div>
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#_Zonas').click(function () {
+            $('.spinner').css('display', 'block');
+        });
+        $('#_Marks').click(function () {
+            $('.spinner').css('display', 'block');
+        });
+        $('#_CategoriaProducto').click(function () {
+            $('.spinner').css('display', 'block');
+        });
+        $('#_Productos').click(function () {
+            $('.spinner').css('display', 'block');
+        });
+        $('#_CategoriaServicio').click(function () {
+            $('.spinner').css('display', 'block');
+        });
+        $('#_ServicioClientes').click(function () {
+            $('.spinner').css('display', 'block');
+        });
+        $('#_CategoriaPlanes').click(function () {
+            $('.spinner').css('display', 'block');
+        });
+        $('#_PlanesClientes').click(function () {
+            $('.spinner').css('display', 'block');
+        });
+    });
+</script>
+
