@@ -1,0 +1,120 @@
+﻿@model Tic.Shared.EntitiesSoft.Zone
+
+@{
+    ViewData["Title"] = "Editar Zona";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-6">
+
+            <div class="shadow-lg mb-5 card-roud">
+                <div class="card card-roud">
+                    <div class="card-body">
+                        <p>
+                            <h2>Editar Zona</h2>
+                        <p />
+                        <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form asp-action="Edit">
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                    <input type="hidden" asp-for="CorporateId" />
+                                    <input type="hidden" asp-for="ZoneId" />
+                                    <input type="hidden" asp-for="CountryId" />
+
+                                    <div class="mb-3">
+                                        <div class="input-group">
+                                            <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.StateId)</span>
+                                            <select asp-for="StateId" class="form-control" asp-items="Model.ListState"></select>
+                                        </div>
+                                        <span asp-validation-for="StateId" class="form-text"></span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="input-group">
+                                            <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.CityId)</span>
+                                            <select asp-for="CityId" class="form-control" asp-items="Model.ListCities"></select>
+                                        </div>
+                                        <span asp-validation-for="CityId" class="form-text"></span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="input-group">
+                                            <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.ZoneName)</span>
+                                            <input asp-for="ZoneName" class="form-control" />
+                                        </div>
+                                        <span asp-validation-for="ZoneName" class="form-text"></span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-group form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" asp-for="Active" /> @Html.DisplayNameFor(model => model.Active)
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+
+                                    <div class="form-group">
+                                        <br />
+                                        <button title="Volver" type="button" class="btn btn-outline-dark btn-bor" onclick="location.href = '@Url.Action("Index", new  {})'">
+                                            <i class="bi bi-box-arrow-left" style="font-size: 20px;"></i>
+                                            Volver
+                                        </button>
+
+                                        <button title="Guardar" type="submit" class="btn btn-outline-primary btn-bor">
+                                            <i class="bi bi-check2-square" style="font-size: 20px;"></i>
+                                            Guardar
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script type="text/javascript">
+        var IdState;
+        $(document).ready(function () {
+            $('#SaveBtn').click(function () {
+                if ($('#Name').val().length > 0 && $('#Ip').val() > 0) {
+                    $('.spinner').css('display', 'block');
+                }
+            });
+
+            $("#StateId").change(function () {
+                $("#CityId").empty();
+                $("#CityId").append('<option value="0">[Seleccione Ciudad...]</option>');
+                IdState = $("#StateId").val();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetState")',
+                    dataType: 'json',
+                    data: { IdState },
+                    success: function (data) {
+                        $.each(data, function (i, data) {
+                            $("#CityId").append('<option value="'
+                                + data.value + '">'
+                                + data.text + '</option>');
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Problemas para Cargar las Ciudades' + ex);
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
+
+}

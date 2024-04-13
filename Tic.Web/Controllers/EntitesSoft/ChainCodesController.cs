@@ -1,94 +1,90 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Tic.Shared.Entites;
+using Tic.Shared.EntitiesSoft;
 using Tic.Web.Data;
 using X.PagedList;
 
-namespace Tic.Web.Controllers.Entities
+namespace Tic.Web.Controllers.EntitesSoft
 {
-    [Authorize(Roles = "Admin")]
-    public class SoftPlansController : Controller
+    [Authorize(Roles = "User")]
+    public class ChainCodesController : Controller
     {
         private readonly DataContext _context;
         private readonly INotyfService _notyfService;
 
-        public SoftPlansController(DataContext context, INotyfService notyfService)
+        public ChainCodesController(DataContext context, INotyfService notyfService)
         {
             _context = context;
             _notyfService = notyfService;
         }
 
-        [HttpPost]
-        public JsonResult Search(string Prefix)
+        // GET: ChainCodes
+        public async Task<IActionResult> Index(int? page)
         {
-            var datoMag = (from modelo in _context.SoftPlans
-                           where modelo.Name.ToLower().Contains(Prefix.ToLower())
-                           select new
-                           {
-                               label = modelo.Name,
-                               val = modelo.SoftPlanId
-                           }).ToList();
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity!.Name);
+            if (user == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
-            return Json(datoMag);
+            var dataContext = _context.ChainCodes
+                .Include(c => c.Corporate)
+                .Where(c => c.CorporateId == user.CorporateId);
 
+            return View(await dataContext.OrderBy(o => o.Cadena).ToPagedListAsync(page ?? 1, 10));
         }
 
-
-        // GET: SoftPlans
-        public async Task<IActionResult> Index(int? buscarId, int? page)
-        {
-            if (buscarId != null)
-            {
-                return View(await _context.SoftPlans.Where(c => c.SoftPlanId == buscarId).OrderBy(o => o.TimeMonth).ToPagedListAsync(page ?? 1, 25));
-            }
-            else
-            {
-                return View(await _context.SoftPlans.OrderBy(o => o.TimeMonth).ToPagedListAsync(page ?? 1, 25));
-            }
-        }
-
+        // GET: ChainCodes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.SoftPlans == null)
+            if (id == null || _context.ChainCodes == null)
             {
                 return NotFound();
             }
 
-            var softPlan = await _context.SoftPlans
-                .FirstOrDefaultAsync(m => m.SoftPlanId == id);
-            if (softPlan == null)
+            var chainCode = await _context.ChainCodes
+                .Include(c => c.Corporate)
+                .FirstOrDefaultAsync(m => m.ChainCodeId == id);
+            if (chainCode == null)
             {
                 return NotFound();
             }
 
-            return View(softPlan);
+            return View(chainCode);
         }
 
-        // GET: SoftPlans/Create
+        // GET: ChainCodes/Create
         public IActionResult Create()
         {
-            SoftPlan modelo = new()
+            var user = _context.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+            if (user == null)
             {
-                Activo = true
+                return RedirectToAction("Index", "Home");
+            }
+
+            ChainCode modelo = new()
+            {
+                CorporateId = Convert.ToInt32(user.CorporateId)
             };
 
             return View(modelo);
         }
 
-        // POST: SoftPlans/Create
+        // POST: ChainCodes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(SoftPlan softPlan)
+        public async Task<IActionResult> Create(ChainCode modelo)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Add(softPlan);
+                    _context.Add(modelo);
                     await _context.SaveChangesAsync();
 
                     _notyfService.Success("El Regitro se Guardado Con Exito -  Notificacion");
@@ -111,45 +107,52 @@ namespace Tic.Web.Controllers.Entities
                 }
             }
 
-            return View(softPlan);
+            return View(modelo);
         }
 
-        // GET: SoftPlans/Edit/5
+        // GET: ChainCodes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.SoftPlans == null)
+            var user = _context.Users.Include(u => u.Corporate).FirstOrDefault(u => u.UserName == User.Identity!.Name);
+            if (user == null)
+            {
+                _notyfService.Custom("Problemas de Autenticacion debe comprobar credenciales -  Notificacion", 5, "#D90000", "fa fa-trash");
+                return RedirectToAction("Login", "Account");
+            }
+
+            if (id == null || _context.ChainCodes == null)
             {
                 return NotFound();
             }
 
-            var softPlan = await _context.SoftPlans.FindAsync(id);
-            if (softPlan == null)
+            var chainCode = await _context.ChainCodes.FindAsync(id);
+            if (chainCode == null)
             {
                 return NotFound();
             }
-            return View(softPlan);
+
+            return View(chainCode);
         }
 
-        // POST: SoftPlans/Edit/5
+        // POST: ChainCodes/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, SoftPlan softPlan)
+        public async Task<IActionResult> Edit(int id, ChainCode modelo)
         {
-            if (id != softPlan.SoftPlanId)
+            if (id != modelo.ChainCodeId)
             {
                 return NotFound();
             }
-
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(softPlan);
+                    _context.Update(modelo);
                     await _context.SaveChangesAsync();
 
-                    _notyfService.Success("El Regitro se Guardado Con Exito -  Notificacion");
+                    _notyfService.Success("El Regitro se ha Actualizado con Exito -  Notificacion");
                     return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateException dbUpdateException)
@@ -168,7 +171,8 @@ namespace Tic.Web.Controllers.Entities
                     _notyfService.Error(exception.Message);
                 }
             }
-            return View(softPlan);
+
+            return View(modelo);
         }
 
         // Post: SpeedDowns/Delete/5
@@ -181,13 +185,13 @@ namespace Tic.Web.Controllers.Entities
 
             try
             {
-                var dato = await _context.SoftPlans.FirstOrDefaultAsync(m => m.SoftPlanId == id);
+                var dato = await _context.ChainCodes.FirstOrDefaultAsync(m => m.ChainCodeId == id);
                 if (dato == null)
                 {
                     return NotFound();
                 }
 
-                _context.SoftPlans.Remove(dato);
+                _context.Remove(dato);
                 await _context.SaveChangesAsync();
 
                 _notyfService.Custom("El Regitro se ha Eliminado Con Exito -  Notificacion", 5, "#D90000", "fa fa-trash");
@@ -214,9 +218,9 @@ namespace Tic.Web.Controllers.Entities
             return RedirectToAction("Index");
         }
 
-        private bool SoftPlanExists(int id)
+        private bool ChainCodeExists(int id)
         {
-            return _context.SoftPlans.Any(e => e.SoftPlanId == id);
+            return _context.ChainCodes.Any(e => e.ChainCodeId == id);
         }
     }
 }

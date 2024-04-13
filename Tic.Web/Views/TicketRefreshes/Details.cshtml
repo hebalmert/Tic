@@ -1,0 +1,57 @@
+﻿@model Tic.Shared.Entites.TicketRefresh
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-6">
+            <div class="shadow-lg mb-5 card-roud">
+
+                <div class="card card-roud">
+                    <div class="card-body">
+                        <p>
+                            <h2>Detalle Velocidad Down</h2>
+                        <p />
+                        <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+
+                        <flash dismissable="true" />
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group ">
+                                    <strong>@Html.DisplayNameFor(model => model.Tiempo):</strong>
+                                        @Html.DisplayFor(model => model.Tiempo)
+                                    <p></p>
+                                </div>
+                                <div class="form-group ">
+                                    <strong>@Html.DisplayNameFor(model => model.Activo):</strong>
+                                        @Html.DisplayFor(model => model.Activo)
+                                    <p></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+                                <br />
+                                <div class="form-group col-12">
+                                    <button title="Volver" type="button" class="btn btn-outline-dark btn-bor" onclick="location.href = '@Url.Action("Index", new  {})'">
+                                        <i class="fa fa-backspace"></i>
+                                        Volver
+                                    </button>
+
+                                    <a title="Editar" asp-action="Edit" asp-route-id="@Model.TicketRefreshId" class="btn btn-outline-primary btn-bor">
+                                        <i class="fa fa-pencil"></i>
+                                        Editar
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

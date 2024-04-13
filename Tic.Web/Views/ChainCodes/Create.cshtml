@@ -1,0 +1,109 @@
+﻿@model Tic.Shared.EntitiesSoft.ChainCode
+
+@{
+    ViewData["Title"] = "Crear";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-6">
+
+            <div class="shadow-lg mb-5 card-roud">
+                <div class="card card-roud">
+                    <div class="card-body">
+                        <p>
+                            <h2>Nuevo Chain Code</h2>
+                        <p />
+                        <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+
+                        <flash dismissable="true" />
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form asp-action="Create">
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                    <input type="hidden" asp-for="CorporateId" />
+
+                                    <div class="form-group">
+                                        <label asp-for="Cadena" class="control-label"></label>
+                                        <input asp-for="Cadena" class="form-control" />
+                                        <span asp-validation-for="Cadena" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="Largo" class="control-label"></label>
+                                        <input asp-for="Largo" class="form-control" />
+                                        <span asp-validation-for="Largo" class="text-danger"></span>
+                                    </div>
+
+                                    <br />
+                                    <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+
+                                    <div class="form-group">
+                                        <br />
+                                        <button title="Volver" type="button" class="btn btn-outline-dark btn-bor" onclick="location.href = '@Url.Action("Index", new  {})'">
+                                            <i class="fa fa-backspace"></i>
+                                            Volver
+                                        </button>
+
+                                        <button title="Guardar" type="submit" class="btn btn-outline-primary btn-bor">
+                                            <i class="fa fa-save"></i>
+                                            Guardar
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#Cadena").on("input", function () {
+                var cadena = $('#Cadena').val();
+                var caracter = cadena.includes("ñ");
+                var caracterM = cadena.includes("Ñ");
+                var caracter1 = cadena.includes("$");
+                var caracter2 = cadena.includes("#");
+                var caracter3 = cadena.includes("/");
+                if (caracter == true) {
+                    $('#Cadena').val(cadena.replace("ñ", ""))
+                    window.alert("No Puede Tener el Caracter ñ")
+                }
+                if (caracterM == true) {
+                    $('#Cadena').val(cadena.replace("Ñ", ""))
+                    window.alert("No Puede Tener el Caracter Ñ")
+                }
+                if (caracter1 == true) {
+                    $('#Cadena').val(cadena.replace("$", ""))
+                    window.alert("No Puede Tener el Caracter $")
+                }
+                if (caracter2 == true) {
+                    $('#Cadena').val(cadena.replace("#", ""))
+                    window.alert("No Puede Tener el Caracter #")
+                }
+                if (caracter3 == true) {
+                    $('#Cadena').val(cadena.replace("/", ""))
+                    window.alert("No Puede Tener el Caracter /")
+                }
+
+                let arr = $('#Cadena').val().split('');
+
+
+                let result = arr.filter((item, index) => {
+                    return arr.indexOf(item) === index;
+                })
+                let newArr = result;
+                $('#Cadena').val(newArr.join(''));
+            });
+        });
+    </script>
+    }

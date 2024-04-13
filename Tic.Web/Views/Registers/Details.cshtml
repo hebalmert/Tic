@@ -1,0 +1,77 @@
+﻿@model Tic.Shared.EntitiesSoft.Register
+
+@{
+    ViewData["Title"] = "Detalle Control Consecutivos";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-8">
+            <div class="shadow-lg mb-5 card-roud">
+
+                <div class="card card-roud">
+                    <div class="card-body">
+                        <p>
+                            <h2>Detalle Control Consecutivos</h2>
+                        <p />
+                        <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <span class="input-group-text" style="width: 130px">@Html.DisplayNameFor(model => model.OrderTickets)</span>
+                                    <text class="form-control">@Html.DisplayFor(model => model.OrderTickets)</text>
+                                </div>
+
+                                <div class="input-group">
+                                    <span class="input-group-text" style="width: 130px">@Html.DisplayNameFor(model => model.Tickets)</span>
+                                    <text class="form-control">@Html.DisplayFor(model => model.Tickets)</text>
+                                </div>
+
+                                <div class="input-group">
+                                    <span class="input-group-text" style="width: 130px">@Html.DisplayNameFor(model => model.Sells)</span>
+                                    <text class="form-control">@Html.DisplayFor(model => model.Sells)</text>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <span class="input-group-text" style="width: 130px">@Html.DisplayNameFor(model => model.SellCachier)</span>
+                                    <text class="form-control">@Html.DisplayFor(model => model.SellCachier)</text>
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-text" style="width: 130px">@Html.DisplayNameFor(model => model.PorcentCacheir)</span>
+                                    <text class="form-control">@Html.DisplayFor(model => model.PorcentCacheir)</text>
+                                </div>
+
+                                <div class="input-group">
+                                    <span class="input-group-text" style="width: 130px">@Html.DisplayNameFor(model => model.PayPorcentCacheir)</span>
+                                    <text class="form-control">@Html.DisplayFor(model => model.PayPorcentCacheir)</text>
+                                </div>
+                            </div>
+                        </div>
+                        <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+
+                        <br />
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+                                <br />
+                                <div class="form-group col-12">
+@*                                     <button title="Volver" type="button" class="btn btn-outline-dark btn-bor" onclick="location.href = '@Url.Action("Details", new  {id = Model.RegisterId})'">
+                                        <i class="bi bi-box-arrow-left" style="font-size: 20px;"></i>
+                                        Volver
+                                    </button> *@
+
+                                    <a title="Editar" asp-action="Edit" asp-route-id="@Model!.RegisterId" class="btn btn-outline-primary btn-bor">
+                                        <i class="bi bi-pencil-square" style="font-size: 20px;"></i>
+                                        Editar
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

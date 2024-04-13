@@ -1,0 +1,114 @@
+﻿@model Tic.Shared.EntitiesSoft.Register
+
+@{
+    ViewData["Title"] = "Crear Control Consecutivos";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-8">
+
+            <div class="shadow-lg mb-5 card-roud">
+                <div class="card card-roud">
+                    <div class="card-body">
+                        <p>
+                            <h2>Crear Control Consecutivos</h2>
+                        <p />
+                        <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form asp-action="Create">
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                    <input type="hidden" asp-for="CorporateId" />
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.OrderTickets)</span>
+                                                    <input asp-for="OrderTickets" class="form-control" />
+                                                </div>
+                                                <span asp-validation-for="OrderTickets" class="form-text"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.Tickets)</span>
+                                                    <input asp-for="Tickets" class="form-control" />
+                                                </div>
+                                                <span asp-validation-for="Tickets" class="form-text"></span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.Sells)</span>
+                                                    <input asp-for="Sells" class="form-control" />
+                                                </div>
+                                                <span asp-validation-for="Sells" class="form-text"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.SellCachier)</span>
+                                                    <input asp-for="SellCachier" class="form-control" />
+                                                </div>
+                                                <span asp-validation-for="SellCachier" class="form-text"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.PorcentCacheir)</span>
+                                                    <input asp-for="PorcentCacheir" class="form-control" />
+                                                </div>
+                                                <span asp-validation-for="PorcentCacheir" class="form-text"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.PayPorcentCacheir)</span>
+                                                    <input asp-for="PayPorcentCacheir" class="form-control" />
+                                                </div>
+                                                <span asp-validation-for="PayPorcentCacheir" class="form-text"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+                                    <div class="form-group">
+                                        <br />
+                                        <button title="Volver" type="button" class="btn btn-outline-dark btn-bor" onclick="location.href = '@Url.Action("Index", new  {})'">
+                                            <i class="bi bi-box-arrow-left" style="font-size: 20px;"></i>
+                                            Volver
+                                        </button>
+
+                                        <button title="Guardar" type="submit" class="btn btn-outline-primary btn-bor">
+                                            <i class="bi bi-check2-square" style="font-size: 20px;"></i>
+                                            Guardar
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

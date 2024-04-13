@@ -31,8 +31,4 @@
     <ProjectReference Include="..\Tic.Shared\Tic.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="EntitesConfig\EntitiesSoft\" />
-  </ItemGroup>
-
 </Project>

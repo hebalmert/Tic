@@ -25,10 +25,22 @@ namespace Tic.Web.Data
 
         public DbSet<Corporate> Corporates => Set<Corporate>();
 
+        public DbSet<TicketInactive> TicketInactives => Set<TicketInactive>();
+
+        public DbSet<TicketRefresh> TicketRefreshes => Set<TicketRefresh>();
+
+        public DbSet<TicketTime> TicketTimes => Set<TicketTime>();
+
 
         //Modelos de la parte de Los Usuarios
 
         public DbSet<Register> Registers => Set<Register>();
+
+        public DbSet<Tax> Taxes => Set<Tax>();
+
+        public DbSet<DocumentType> DocumentTypes => Set<DocumentType>();
+
+        public DbSet<ChainCode> ChainCodes => Set<ChainCode>();
 
         public DbSet<Zone> Zones => Set<Zone>();
 

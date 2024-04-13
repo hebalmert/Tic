@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Tic.Web.Data;
 
@@ -11,9 +12,11 @@ using Tic.Web.Data;
 namespace Tic.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240413015313_TicketTimeRefreInact")]
+    partial class TicketTimeRefreInact
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -589,65 +592,6 @@ namespace Tic.Web.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("Tic.Shared.EntitiesSoft.ChainCode", b =>
-                {
-                    b.Property<int>("ChainCodeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ChainCodeId"));
-
-                    b.Property<string>("Cadena")
-                        .IsRequired()
-                        .HasMaxLength(36)
-                        .HasColumnType("nvarchar(36)");
-
-                    b.Property<int>("CorporateId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Largo")
-                        .HasColumnType("int");
-
-                    b.HasKey("ChainCodeId");
-
-                    b.HasIndex("CorporateId");
-
-                    b.ToTable("ChainCodes");
-                });
-
-            modelBuilder.Entity("Tic.Shared.EntitiesSoft.DocumentType", b =>
-                {
-                    b.Property<int>("DocumentTypeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DocumentTypeId"));
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("CorporateId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Descripcion")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("DocumentName")
-                        .IsRequired()
-                        .HasMaxLength(5)
-                        .HasColumnType("nvarchar(5)");
-
-                    b.HasKey("DocumentTypeId");
-
-                    b.HasIndex("CorporateId");
-
-                    b.HasIndex("DocumentName", "CorporateId")
-                        .IsUnique();
-
-                    b.ToTable("DocumentTypes");
-                });
-
             modelBuilder.Entity("Tic.Shared.EntitiesSoft.Register", b =>
                 {
                     b.Property<int>("RegisterId")
@@ -682,39 +626,6 @@ namespace Tic.Web.Migrations
                     b.HasIndex("CorporateId");
 
                     b.ToTable("Registers");
-                });
-
-            modelBuilder.Entity("Tic.Shared.EntitiesSoft.Tax", b =>
-                {
-                    b.Property<int>("TaxId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TaxId"));
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("CorporateId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Rate")
-                        .HasColumnType("decimal(5,2)");
-
-                    b.Property<string>("TaxName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("TaxId");
-
-                    b.HasIndex("CorporateId", "Rate")
-                        .IsUnique();
-
-                    b.HasIndex("CorporateId", "TaxName")
-                        .IsUnique();
-
-                    b.ToTable("Taxes");
                 });
 
             modelBuilder.Entity("Tic.Shared.EntitiesSoft.Zone", b =>
@@ -882,40 +793,7 @@ namespace Tic.Web.Migrations
                     b.Navigation("Corporate");
                 });
 
-            modelBuilder.Entity("Tic.Shared.EntitiesSoft.ChainCode", b =>
-                {
-                    b.HasOne("Tic.Shared.Entites.Corporate", "Corporate")
-                        .WithMany()
-                        .HasForeignKey("CorporateId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Corporate");
-                });
-
-            modelBuilder.Entity("Tic.Shared.EntitiesSoft.DocumentType", b =>
-                {
-                    b.HasOne("Tic.Shared.Entites.Corporate", "Corporate")
-                        .WithMany()
-                        .HasForeignKey("CorporateId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Corporate");
-                });
-
             modelBuilder.Entity("Tic.Shared.EntitiesSoft.Register", b =>
-                {
-                    b.HasOne("Tic.Shared.Entites.Corporate", "Corporate")
-                        .WithMany()
-                        .HasForeignKey("CorporateId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Corporate");
-                });
-
-            modelBuilder.Entity("Tic.Shared.EntitiesSoft.Tax", b =>
                 {
                     b.HasOne("Tic.Shared.Entites.Corporate", "Corporate")
                         .WithMany()

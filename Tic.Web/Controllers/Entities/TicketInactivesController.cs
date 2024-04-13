@@ -9,86 +9,63 @@ using X.PagedList;
 namespace Tic.Web.Controllers.Entities
 {
     [Authorize(Roles = "Admin")]
-    public class SoftPlansController : Controller
+    public class TicketInactivesController : Controller
     {
         private readonly DataContext _context;
         private readonly INotyfService _notyfService;
 
-        public SoftPlansController(DataContext context, INotyfService notyfService)
+        public TicketInactivesController(DataContext context, INotyfService notyfService)
         {
             _context = context;
             _notyfService = notyfService;
         }
 
-        [HttpPost]
-        public JsonResult Search(string Prefix)
+        // GET: TicketInactives
+        public async Task<IActionResult> Index(int? page)
         {
-            var datoMag = (from modelo in _context.SoftPlans
-                           where modelo.Name.ToLower().Contains(Prefix.ToLower())
-                           select new
-                           {
-                               label = modelo.Name,
-                               val = modelo.SoftPlanId
-                           }).ToList();
-
-            return Json(datoMag);
-
+            return View(await _context.TicketInactives.OrderBy(c => c.Orden).ToPagedListAsync(page ?? 1, 25));
         }
 
-
-        // GET: SoftPlans
-        public async Task<IActionResult> Index(int? buscarId, int? page)
-        {
-            if (buscarId != null)
-            {
-                return View(await _context.SoftPlans.Where(c => c.SoftPlanId == buscarId).OrderBy(o => o.TimeMonth).ToPagedListAsync(page ?? 1, 25));
-            }
-            else
-            {
-                return View(await _context.SoftPlans.OrderBy(o => o.TimeMonth).ToPagedListAsync(page ?? 1, 25));
-            }
-        }
-
+        // GET: TicketInactives/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.SoftPlans == null)
+            if (id == null || _context.TicketInactives == null)
             {
                 return NotFound();
             }
 
-            var softPlan = await _context.SoftPlans
-                .FirstOrDefaultAsync(m => m.SoftPlanId == id);
-            if (softPlan == null)
+            var ticketInactive = await _context.TicketInactives
+                .FirstOrDefaultAsync(m => m.TicketInactiveId == id);
+            if (ticketInactive == null)
             {
                 return NotFound();
             }
 
-            return View(softPlan);
+            return View(ticketInactive);
         }
 
-        // GET: SoftPlans/Create
+        // GET: TicketInactives/Create
         public IActionResult Create()
         {
-            SoftPlan modelo = new()
+            TicketInactive modelo = new()
             {
                 Activo = true
             };
-
             return View(modelo);
         }
 
-        // POST: SoftPlans/Create
+        // POST: TicketInactives/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(SoftPlan softPlan)
+        public async Task<IActionResult> Create(TicketInactive ticketInactive)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Add(softPlan);
+                    _context.Add(ticketInactive);
                     await _context.SaveChangesAsync();
 
                     _notyfService.Success("El Regitro se Guardado Con Exito -  Notificacion");
@@ -107,37 +84,36 @@ namespace Tic.Web.Controllers.Entities
                 }
                 catch (Exception exception)
                 {
-                    _notyfService.Error(exception.Message);
+                    ModelState.AddModelError(string.Empty, exception.Message);
                 }
             }
-
-            return View(softPlan);
+            return View(ticketInactive);
         }
 
-        // GET: SoftPlans/Edit/5
+        // GET: TicketInactives/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.SoftPlans == null)
+            if (id == null || _context.TicketInactives == null)
             {
                 return NotFound();
             }
 
-            var softPlan = await _context.SoftPlans.FindAsync(id);
-            if (softPlan == null)
+            var ticketInactive = await _context.TicketInactives.FindAsync(id);
+            if (ticketInactive == null)
             {
                 return NotFound();
             }
-            return View(softPlan);
+            return View(ticketInactive);
         }
 
-        // POST: SoftPlans/Edit/5
+        // POST: TicketInactives/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, SoftPlan softPlan)
+        public async Task<IActionResult> Edit(int id, TicketInactive ticketInactive)
         {
-            if (id != softPlan.SoftPlanId)
+            if (id != ticketInactive.TicketInactiveId)
             {
                 return NotFound();
             }
@@ -146,10 +122,10 @@ namespace Tic.Web.Controllers.Entities
             {
                 try
                 {
-                    _context.Update(softPlan);
+                    _context.Update(ticketInactive);
                     await _context.SaveChangesAsync();
 
-                    _notyfService.Success("El Regitro se Guardado Con Exito -  Notificacion");
+                    _notyfService.Success("El Regitro se ha Actualizado con Exito -  Notificacion");
                     return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateException dbUpdateException)
@@ -168,8 +144,10 @@ namespace Tic.Web.Controllers.Entities
                     _notyfService.Error(exception.Message);
                 }
             }
-            return View(softPlan);
+
+            return View(ticketInactive);
         }
+
 
         // Post: SpeedDowns/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -181,13 +159,14 @@ namespace Tic.Web.Controllers.Entities
 
             try
             {
-                var dato = await _context.SoftPlans.FirstOrDefaultAsync(m => m.SoftPlanId == id);
-                if (dato == null)
+                var DataRemove = await _context.TicketInactives
+                    .FirstOrDefaultAsync(m => m.TicketInactiveId == id);
+                if (DataRemove == null)
                 {
                     return NotFound();
                 }
 
-                _context.SoftPlans.Remove(dato);
+                _context.Remove(DataRemove);
                 await _context.SaveChangesAsync();
 
                 _notyfService.Custom("El Regitro se ha Eliminado Con Exito -  Notificacion", 5, "#D90000", "fa fa-trash");
@@ -211,12 +190,12 @@ namespace Tic.Web.Controllers.Entities
                 _notyfService.Error(e.Message);
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
-        private bool SoftPlanExists(int id)
+        private bool TicketInactiveExists(int id)
         {
-            return _context.SoftPlans.Any(e => e.SoftPlanId == id);
+            return _context.TicketInactives.Any(e => e.TicketInactiveId == id);
         }
     }
 }

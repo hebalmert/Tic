@@ -2,97 +2,94 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Tic.Shared.Entites;
+using Tic.Shared.EntitiesSoft;
 using Tic.Web.Data;
 using X.PagedList;
 
-namespace Tic.Web.Controllers.Entities
+namespace Tic.Web.Controllers.EntitesSoft
 {
-    [Authorize(Roles = "Admin")]
-    public class SoftPlansController : Controller
+    [Authorize(Roles = "User")]
+    public class RegistersController : Controller
     {
         private readonly DataContext _context;
         private readonly INotyfService _notyfService;
 
-        public SoftPlansController(DataContext context, INotyfService notyfService)
+        public RegistersController(DataContext context, INotyfService notyfService)
         {
             _context = context;
             _notyfService = notyfService;
         }
 
-        [HttpPost]
-        public JsonResult Search(string Prefix)
+        // GET: Registers
+        public async Task<IActionResult> Index(int? page)
         {
-            var datoMag = (from modelo in _context.SoftPlans
-                           where modelo.Name.ToLower().Contains(Prefix.ToLower())
-                           select new
-                           {
-                               label = modelo.Name,
-                               val = modelo.SoftPlanId
-                           }).ToList();
+            var user = _context.Users.FirstOrDefault(u => u.UserName == User.Identity!.Name);
+            if (user == null)
+            {
+                _notyfService.Custom("Problemas de Autenticacion debe comprobar credenciales -  Notificacion", 5, "#D90000", "fa fa-trash");
+                return RedirectToAction("Login", "Account");
+            }
 
-            return Json(datoMag);
-
+            return View(await _context.Registers
+                .Where(c => c.CorporateId == user.CorporateId)
+                .ToPagedListAsync(page ?? 1, 25));
         }
 
-
-        // GET: SoftPlans
-        public async Task<IActionResult> Index(int? buscarId, int? page)
-        {
-            if (buscarId != null)
-            {
-                return View(await _context.SoftPlans.Where(c => c.SoftPlanId == buscarId).OrderBy(o => o.TimeMonth).ToPagedListAsync(page ?? 1, 25));
-            }
-            else
-            {
-                return View(await _context.SoftPlans.OrderBy(o => o.TimeMonth).ToPagedListAsync(page ?? 1, 25));
-            }
-        }
-
+        // GET: Registers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.SoftPlans == null)
+            var user = _context.Users.Include(u => u.Corporate).FirstOrDefault(u => u.UserName == User.Identity!.Name);
+            if (user == null)
+            {
+                _notyfService.Custom("Problemas de Autenticacion debe comprobar credenciales -  Notificacion", 5, "#D90000", "fa fa-trash");
+                return RedirectToAction("Login", "Account");
+            }
+
+            var register = await _context.Registers
+                .Include(r => r.Corporate)
+                .FirstOrDefaultAsync(m => m.CorporateId == user.CorporateId);
+            if (register == null)
             {
                 return NotFound();
             }
 
-            var softPlan = await _context.SoftPlans
-                .FirstOrDefaultAsync(m => m.SoftPlanId == id);
-            if (softPlan == null)
-            {
-                return NotFound();
-            }
-
-            return View(softPlan);
+            return View(register);
         }
 
-        // GET: SoftPlans/Create
+        // GET: Registers/Create
         public IActionResult Create()
         {
-            SoftPlan modelo = new()
+            var user = _context.Users.Include(u => u.Corporate).FirstOrDefault(u => u.UserName == User.Identity!.Name);
+            if (user == null)
             {
-                Activo = true
+                _notyfService.Custom("Problemas de Autenticacion debe comprobar credenciales -  Notificacion", 5, "#D90000", "fa fa-trash");
+                return RedirectToAction("Login", "Account");
+            }
+
+            Register modelo = new()
+            {
+                CorporateId = Convert.ToInt32(user.CorporateId)
             };
 
             return View(modelo);
         }
 
-        // POST: SoftPlans/Create
+        // POST: Registers/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(SoftPlan softPlan)
+        public async Task<IActionResult> Create(Register modelo)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Add(softPlan);
+                    _context.Add(modelo);
                     await _context.SaveChangesAsync();
 
                     _notyfService.Success("El Regitro se Guardado Con Exito -  Notificacion");
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Details));
                 }
                 catch (DbUpdateException dbUpdateException)
                 {
@@ -111,46 +108,53 @@ namespace Tic.Web.Controllers.Entities
                 }
             }
 
-            return View(softPlan);
+            return View(modelo);
         }
 
-        // GET: SoftPlans/Edit/5
+        // GET: Registers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.SoftPlans == null)
+            var user = _context.Users.Include(u => u.Corporate).FirstOrDefault(u => u.UserName == User.Identity!.Name);
+            if (user == null)
+            {
+                _notyfService.Custom("Problemas de Autenticacion debe comprobar credenciales -  Notificacion", 5, "#D90000", "fa fa-trash");
+                return RedirectToAction("Login", "Account");
+            }
+
+            if (id == null || _context.Registers == null)
             {
                 return NotFound();
             }
 
-            var softPlan = await _context.SoftPlans.FindAsync(id);
-            if (softPlan == null)
+            var register = await _context.Registers.FindAsync(id);
+            if (register == null)
             {
                 return NotFound();
             }
-            return View(softPlan);
+
+            return View(register);
         }
 
-        // POST: SoftPlans/Edit/5
+        // POST: Registers/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, SoftPlan softPlan)
+        public async Task<IActionResult> Edit(int id, Register modelo)
         {
-            if (id != softPlan.SoftPlanId)
+            if (id != modelo.RegisterId)
             {
                 return NotFound();
             }
-
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(softPlan);
+                    _context.Update(modelo);
                     await _context.SaveChangesAsync();
 
-                    _notyfService.Success("El Regitro se Guardado Con Exito -  Notificacion");
-                    return RedirectToAction(nameof(Index));
+                    _notyfService.Success("El Regitro se ha Actualizado con Exito -  Notificacion");
+                    return RedirectToAction(nameof(Details));
                 }
                 catch (DbUpdateException dbUpdateException)
                 {
@@ -168,7 +172,8 @@ namespace Tic.Web.Controllers.Entities
                     _notyfService.Error(exception.Message);
                 }
             }
-            return View(softPlan);
+
+            return View(modelo);
         }
 
         // Post: SpeedDowns/Delete/5
@@ -181,13 +186,13 @@ namespace Tic.Web.Controllers.Entities
 
             try
             {
-                var dato = await _context.SoftPlans.FirstOrDefaultAsync(m => m.SoftPlanId == id);
+                var dato = await _context.Registers.FirstOrDefaultAsync(m => m.RegisterId == id);
                 if (dato == null)
                 {
                     return NotFound();
                 }
 
-                _context.SoftPlans.Remove(dato);
+                _context.Remove(dato);
                 await _context.SaveChangesAsync();
 
                 _notyfService.Custom("El Regitro se ha Eliminado Con Exito -  Notificacion", 5, "#D90000", "fa fa-trash");
@@ -214,9 +219,9 @@ namespace Tic.Web.Controllers.Entities
             return RedirectToAction("Index");
         }
 
-        private bool SoftPlanExists(int id)
+        private bool RegisterExists(int id)
         {
-            return _context.SoftPlans.Any(e => e.SoftPlanId == id);
+            return _context.Registers.Any(e => e.RegisterId == id);
         }
     }
 }

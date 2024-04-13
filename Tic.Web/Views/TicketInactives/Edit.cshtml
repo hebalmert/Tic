@@ -1,0 +1,71 @@
+﻿@model Tic.Shared.Entites.TicketInactive
+
+@{
+    ViewData["Title"] = "Editar";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-8">
+
+            <div class="shadow-lg mb-5 card-roud">
+                <div class="card card-roud">
+                    <div class="card-body">
+                        <p>
+                            <h2>Editar Tiempo Inactividad</h2>
+                        <p />
+                        <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+
+                        <flash dismissable="true" />
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form asp-action="Edit">
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                    <input type="hidden" asp-for="TicketInactiveId" />
+
+                                    <div class="form-group">
+                                        <label asp-for="Tiempo" class="control-label"></label>
+                                        <input asp-for="Tiempo" class="form-control" />
+                                        <span asp-validation-for="Tiempo" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="Orden" class="control-label"></label>
+                                        <input asp-for="Orden" class="form-control" />
+                                        <span asp-validation-for="Orden" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group form-check">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" asp-for="Activo" /> @Html.DisplayNameFor(model => model.Activo)
+                                        </label>
+                                    </div>
+                                    <br />
+                                    <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+
+                                    <div class="form-group">
+                                        <br />
+                                        <button title="Volver" type="button" class="btn btn-outline-dark btn-bor" onclick="location.href = '@Url.Action("Index", new  {})'">
+                                            <i class="fa fa-backspace"></i>
+                                            Volver
+                                        </button>
+
+                                        <button title="Guardar" type="submit" class="btn btn-outline-primary btn-bor">
+                                            <i class="fa fa-save"></i>
+                                            Guardar
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
