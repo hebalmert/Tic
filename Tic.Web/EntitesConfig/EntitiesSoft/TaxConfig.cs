@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Tic.Shared.EntitiesSoft;
 
-namespace Spi.Web.EntitesConfig.EntitiesSoft
+namespace Tic.Web.EntitesConfig.EntitiesSoft
 {
     public class TaxConfig : IEntityTypeConfiguration<Tax>
     {

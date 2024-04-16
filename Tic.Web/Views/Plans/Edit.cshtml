@@ -1,0 +1,94 @@
+﻿@model Tic.Shared.EntitiesSoft.Plan
+
+@{
+    ViewData["Title"] = "Editar Plan Clientes";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-8">
+
+            <div class="shadow-lg mb-5 card-roud">
+                <div class="card card-roud">
+                    <div class="card-body">
+                        <p>
+                            <h2>Editar Plan Clientes</h2>
+                        <p />
+                        <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+                        <form asp-action="Edit">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input hidden="hidden" asp-for="CorporateId" />
+                            <input hidden="hidden" asp-for="DateCreated" />
+                            <input hidden="hidden" asp-for="PlanId" />
+                             <input hidden="hidden" asp-for="MkId" />
+                            <input hidden="hidden" asp-for="MkContinuoId" />
+
+                            <partial name="_PlanForm" />
+
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <br />
+                                    <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+
+                                    <div class="form-group">
+                                        <br />
+                                        <button title="Volver" type="button" class="btn btn-outline-dark btn-bor" onclick="location.href = '@Url.Action("Index", new  {})'">
+                                            <i class="bi bi-box-arrow-left" style="font-size: 20px;"></i>
+                                            Volver
+                                        </button>
+
+                                        <button title="Guardar" type="submit" class="btn btn-outline-primary btn-bor">
+                                            <i class="bi bi-check2-square" style="font-size: 20px;"></i>
+                                            Guardar
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script type="text/javascript">
+        var tasa = 0;
+        var rate = 0;
+        document.getElementById('Precio').addEventListener('input', function () {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetTax")',
+                dataType: 'json',
+                data: { IdTax: $("#TaxId").val() },
+                success: function (data) {
+                    tasa = parseFloat(data.tasa);
+                },
+                error: function (ex) {
+                    alert('Problemas para Recuperar Tasa de Impuesto' + ex);
+                }
+            });
+            var precio = parseFloat($('#Precio').val());
+            rate = (tasa / 100) + 1;
+            var subTotalStg = (precio / rate).toFixed(2);
+            var subTotal = parseFloat(subTotalStg);
+            var impuestoStg = (precio - subTotal).toFixed(2);
+            var impuesto = parseFloat(impuestoStg);
+            $("#SubTotal").val(subTotal);
+            $("#Impuesto").val(impuesto);
+        });
+        $("#TaxId").change(function () {
+            $("#SubTotal").val("");
+            $("#Impuesto").val("");
+            $("#Precio").val("");
+        });
+    </script>
+
+}

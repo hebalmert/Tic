@@ -28,5 +28,7 @@ namespace Tic.Shared.EntitiesSoft
 
         public Corporate? Corporate { get; set; }
 
+        public ICollection<Plan>? Plans { get; set; }
+
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Tic.Web.Data;
 
@@ -11,9 +12,11 @@ using Tic.Web.Data;
 namespace Tic.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240414225810_PlaCatServ")]
+    partial class PlaCatServ
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -758,9 +761,6 @@ namespace Tic.Web.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("ContinueTime")
-                        .HasColumnType("bit");
-
                     b.Property<int>("CorporateId")
                         .HasColumnType("int");
 
@@ -773,17 +773,6 @@ namespace Tic.Web.Migrations
                     b.Property<decimal>("Impuesto")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<bool>("MacCookies")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("MkContinuoId")
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
-
-                    b.Property<string>("MkId")
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
-
                     b.Property<int>("PlanCategoryId")
                         .HasColumnType("int");
 
@@ -795,13 +784,7 @@ namespace Tic.Web.Migrations
                     b.Property<decimal>("Precio")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<bool>("Proxy")
-                        .HasColumnType("bit");
-
                     b.Property<int>("ServerId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ShareUser")
                         .HasColumnType("int");
 
                     b.Property<int>("SpeedDown")
@@ -818,6 +801,9 @@ namespace Tic.Web.Migrations
 
                     b.Property<decimal>("SubTotal")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("TasaReuso")
+                        .HasColumnType("int");
 
                     b.Property<int>("TaxId")
                         .HasColumnType("int");

@@ -1,0 +1,242 @@
+﻿@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@model IEnumerable<Tic.Shared.EntitiesSoft.Server>
+
+@{
+    ViewData["Title"] = "Servidores";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-10">
+            <div class="shadow-lg mb-5 card-roud">
+                <div class="card card-roud">
+                    <div class="card-body">
+                        <p>
+                            <h2>Servidores</h2>
+                        <p />
+
+                        <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="input-group input-group-dropdown">
+                                        <div class="input-group-append">
+                                            <a asp-action="Create" class="btn btn-outline-primary btn-bor">
+                                                <i class="bi bi-plus-square" style="font-size: 20px;"></i>
+                                                Nuevo
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-9">
+                                        @using (Html.BeginForm("Index", "Servers"))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                        <div class="input-group input-group-dropdown btn-borCua">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-dark btn-bor" type="submit" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="bi bi-search" style="font-size: 20px;"></i>
+                                                    BUSCAR
+                                                </button>
+                                            </div>
+                                            <input type="text" name="txt_search" id="txt_search" class="form-control btn-bor" style="text-align: left"
+                                                   autocomplete="off" spellcheck="false" placeholder="Buscar..." />
+                                            <input type="hidden" id="item_list" name="buscarId" />
+                                        </div>
+                                        }
+                                </div>
+                            </div>
+                            <br />
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-12 table-responsive">
+                                <table class="table table-responsive table-striped table-hover justify-content-center" id="MyTable">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                    @Html.DisplayNameFor(model => model.ServerName)
+                                            </th>
+                                            <th>
+                                                    @Html.DisplayNameFor(model => model.IpNetwork!.Ip)
+                                            </th>
+                                            <th>
+                                                    @Html.DisplayNameFor(model => model.MarkModel!.MarkModelName)
+                                            </th>
+                                            <th>
+                                                    @Html.DisplayNameFor(model => model.Zone!.ZoneName)
+                                            </th>
+                                            <th>
+                                                    @Html.DisplayNameFor(model => model.Active)
+                                            </th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="reordenable">
+                                            @foreach (var item in Model)
+                                            {
+                                            <tr>
+                                                <td>
+                                                        @Html.DisplayFor(modelItem => item.ServerName)
+                                                </td>
+                                                <td>
+                                                        @Html.DisplayFor(modelItem => item.IpNetwork!.Ip)
+                                                </td>
+                                                <td>
+                                                        @Html.DisplayFor(modelItem => item.MarkModel!.MarkModelName)
+                                                </td>
+                                                <td>
+                                                        @Html.DisplayFor(modelItem => item.Zone!.ZoneName)
+                                                </td>
+                                                <td>
+                                                        @Html.DisplayFor(modelItem => item.Active)
+                                                </td>
+                                                <td style="width:1px; padding-left:1px; padding-right:4px">
+                                                    <button type="button" title="Ping" data-id="@item.IpNetworkId" onclick="pingNetClick(this)"
+                                                            class="btn btn-outline-success btn-bor btn-sm" id="pingNetwork"
+                                                            data-bs-toggle="modal" data-bs-target="#pingDialog">
+                                                        <i class="bi bi-hdd-network" style="font-size: 17px;"></i>
+                                                    </button>
+                                                </td>
+                                                <td style="width:1px; padding-left:1px; padding-right:4px">
+                                                    <button type="button" title="Conexion" data-id="@item.ServerId" onclick="mikroNetClick(this)"
+                                                            class="btn btn-outline-success btn-bor btn-sm" id="mikroNetwork"
+                                                            data-bs-toggle="modal" data-bs-target="#mikroDialog">
+                                                        <i class="bi bi-hdd-stack" style="font-size: 17px;"></i>
+                                                    </button>
+                                                </td>
+                                                <td style="width:1px; padding-left:1px; padding-right:4px">
+                                                    <a title="Editar" asp-action="Edit" asp-route-id="@item.ServerId" class="btn btn-outline-dark btn-bor btn-sm"><i class="bi bi-pencil-square" style="font-size: 17px;"></i></a>
+                                                </td>
+                                                <td style="width:1px; padding-left:1px; padding-right:4px">
+                                                    <a title="Detalle" asp-action="Details" asp-route-id="@item.ServerId" class="btn btn-outline-dark btn-bor btn-sm"><i class="bi bi-card-text" style="font-size: 17px;"></i></a>
+                                                </td>
+                                                <td style="width:1px; padding-left:1px; padding-right:4px">
+                                                    <button type="button" title="Borrar" data-id="@item.ServerId"
+                                                            class="btn btn-outline-danger btn-bor btn-sm" id="deleteItem"
+                                                            data-bs-toggle="modal" data-bs-target="#deleteDialog">
+                                                        <i class="bi bi-trash" style="font-size: 17px;"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <br />
+                            @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page = page }),
+                                     new PagedListRenderOptions
+                        {
+                            DisplayPageCountAndCurrentLocation = true,
+                            ContainerDivClasses = new string[] { "navigation" },
+                            LiElementClasses = new string[] { "page-item" },
+                            PageClasses = new[] { "page-link" },
+                            UlElementClasses = new[] { "pagination justify-content-center" }
+                        })
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<partial name="_DeleteDialog" />
+
+<partial name="_PingDialog" />
+
+<partial name="_MikroDialog" />
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="~/jquerysearch/jquery-ui.js"></script>
+    <script src="~/js/deletedialog.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('ul.pagination > li.disabled > a').addClass('page-link');
+        });
+    </script>
+    <script type="text/javascript">
+        sufijoControl = "Servers";
+        itemdelete = `/${sufijoControl}/Delete/`;
+        var ipnetwok;
+        var ipServer;
+        $("#txt_search").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: `/${sufijoControl}/Search/`,
+                    data: { Prefix: $("#txt_search").val() },
+                    dataType: "json",
+                    type: "POST",
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return item;
+                        }))
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            },
+            select: function (e, i) {
+                $("#item_list").val(i.item.val);
+            },
+            minLength: 1
+        });
+
+        function pingNetClick(pingNet) {
+            // Acceder al valor del atributo data-id
+            var ipnetwok = pingNet.getAttribute('data-id');
+            $('#ping_Descripcion1').html(`&nbsp; Realizando Conexion... Espere!`);
+            $.ajax({
+                type: 'POST',
+                url: `/${sufijoControl}/GetPing/`,
+                dataType: 'json',
+                data: { ipnetwok },
+                success: function (dato) {
+                    console.log(dato);
+                    $('#ping_Nombre').html("&nbsp;<i class=\"bi bi-hdd-network \" style=\"font-size: 50px; color:green;\"></i> &nbsp; ¡Pruebas de Ping!");
+                    $('#ping_Descripcion1').html(`&nbsp; ${dato.text}`);
+                    $('#ping_Descripcion2').html(`&nbsp; ${dato.value}`);
+                },
+                error: function (ex) {
+                    alert('Problemas para Cargar' + ex);
+                }
+            });
+        }
+
+        function mikroNetClick(mikroNet) {
+            // Acceder al valor del atributo data-id
+            ipServer = mikroNet.getAttribute('data-id');
+            $('#mikro_Descripcion1').html(`&nbsp; Realizando Ping... Espere!`);
+            $.ajax({
+                type: 'POST',
+                url: `/${sufijoControl}/GetMikro/`,
+                dataType: 'json',
+                data: { ipServer },
+                success: function (dato) {
+                    $('#mikro_Nombre').html("&nbsp;<i class=\"bi bi-hdd-stack \" style=\"font-size: 50px; color:green;\"></i> &nbsp; ¡Pruebas Conexion Mikrotik!");
+                    $('#mikro_Descripcion1').html(`&nbsp; ${dato.text}`);
+                    $('#mikro_Descripcion2').html(`&nbsp; ${dato.value}`);
+                },
+                error: function (ex) {
+                    alert('Problemas para Cargar' + ex);
+                }
+            });
+        }
+
+    </script>
+}

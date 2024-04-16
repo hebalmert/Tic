@@ -1,0 +1,66 @@
+﻿@model Tic.Shared.EntitiesSoft.Mark
+
+@{
+    ViewData["Title"] = "Nueva Marca";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-6">
+
+            <div class="shadow-lg mb-5 card-roud">
+                <div class="card card-roud">
+                    <div class="card-body">
+                        <p>
+                            <h2>Nueva Marca</h2>
+                        <p />
+                        <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form asp-action="Create">
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                    <input type="hidden" asp-for="CorporateId" />
+
+                                    <div class="mb-3">
+                                        <div class="input-group">
+                                            <span class="input-group-text" style="width: 120px">@Html.DisplayNameFor(model => model.MarkName)</span>
+                                            <input asp-for="MarkName" class="form-control" />
+                                        </div>
+                                        <span asp-validation-for="MarkName" class="form-text"></span>
+                                    </div>
+                                    <div class="form-group form-check">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" asp-for="Active" /> @Html.DisplayNameFor(model => model.Active)
+                                        </label>
+                                    </div>
+                                    <br />
+                                    <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+
+                                    <div class="form-group">
+                                        <br />
+                                        <button title="Volver" type="button" class="btn btn-outline-dark btn-bor" onclick="location.href = '@Url.Action("Index", new  {})'">
+                                            <i class="bi bi-box-arrow-left" style="font-size: 20px;"></i>
+                                            Volver
+                                        </button>
+
+                                        <button title="Guardar" type="submit" class="btn btn-outline-primary btn-bor">
+                                            <i class="bi bi-check2-square" style="font-size: 20px;"></i>
+                                            Guardar
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

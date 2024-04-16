@@ -44,6 +44,18 @@ namespace Tic.Web.Data
 
         public DbSet<Zone> Zones => Set<Zone>();
 
+        public DbSet<Mark> Marks => Set<Mark>();
+
+        public DbSet<MarkModel> MarkModels => Set<MarkModel>();
+
+        public DbSet<IpNetwork> IpNetworks => Set<IpNetwork>();
+
+        public DbSet<Server> Servers => Set<Server>();
+
+        public DbSet<PlanCategory> PlanCategories => Set<PlanCategory>();
+
+
+        public DbSet<Plan> Plans => Set<Plan>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

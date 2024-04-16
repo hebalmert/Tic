@@ -1,0 +1,206 @@
+﻿@model Tic.Shared.EntitiesSoft.Plan
+
+@{
+    ViewData["Title"] = "Detalle Plan";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-8">
+            <div class="shadow-lg mb-5 card-roud">
+
+                <div class="card card-roud">
+                    <div class="card-body">
+                        <p>
+                            <h2>Detalle Plan</h2>
+                        <p />
+                        <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.PlanName)</span>
+                                    <text class="form-control">@Html.DisplayFor(model => model.PlanName)</text>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="input-group">
+                                    <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.DateCreated)</span>
+                                    <text class="form-control">@Html.DisplayFor(model => model.DateCreated)</text>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.PlanCategoryId)</span>
+                                    <text class="form-control">@Html.DisplayFor(model => model.PlanCategory!.PlanCategoryName)</text>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.Server!.ServerName)</span>
+                                    <text class="form-control">@Html.DisplayFor(model => model.Server!.ServerName)</text>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-4 md-3">
+                                        <div class="input-group">
+                                            <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.Proxy)</span>
+                                            <text class="form-control">@Html.DisplayFor(model => model.Proxy)</text>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 md-3">
+                                        <div class="input-group">
+                                            <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.MacCookies)</span>
+                                            <text class="form-control">@Html.DisplayFor(model => model.MacCookies)</text>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 md-3">
+                                        <div class="input-group">
+                                            <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.ContinueTime)</span>
+                                            <text class="form-control">@Html.DisplayFor(model => model.ContinueTime)</text>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.ShareUser)</span>
+                                    <text class="form-control">@Html.DisplayFor(model => model.ShareUser)</text>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <span class="input-group-text" style="width: 100px">Upload</span>
+                                    <text class="form-control">@Html.DisplayFor(model => model.VelocidadUp)</text>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <span class="input-group-text" style="width: 100px">Download</span>
+                                    <text class="form-control">@Html.DisplayFor(model => model.VelocidadDown)</text>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.TicketTime!.Tiempo)</span>
+                                    <text class="form-control">@Html.DisplayFor(model => model.TicketTime!.Tiempo)</text>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.TicketRefresh!.Tiempo)</span>
+                                    <text class="form-control">@Html.DisplayFor(model => model.TicketRefresh!.Tiempo)</text>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.TicketInactive!.Tiempo)</span>
+                                    <text class="form-control">@Html.DisplayFor(model => model.TicketInactive!.Tiempo)</text>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-4 md-3">
+                                            @{
+                                                string crado = Model.MkId != null ? crado = "On Line" : crado = "";
+                                            }
+                                        <div class="input-group">
+                                            <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.MkId)</span>
+                                            <text class="form-control" style="color:darkgreen; font-weight:bold">@crado</text>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 md-3">
+                                        <div class="input-group">
+                                            <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.Active)</span>
+                                            <text class="form-control">@Html.DisplayFor(model => model.Active)</text>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 md-3">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-4">
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.TaxId)</span>
+                                    <text class="form-control">@Html.DisplayFor(model => model.Tax!.TaxName)</text>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.SubTotal)</span>
+                                    <text class="form-control">@Html.DisplayFor(model => model.SubTotal)</text>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.Impuesto)</span>
+                                    <text class="form-control">@Html.DisplayFor(model => model.Impuesto)</text>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.Precio)</span>
+                                    <text class="form-control">@Html.DisplayFor(model => model.Precio)</text>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+                                <br />
+                                <div class="form-group col-12">
+                                    <button title="Volver" type="button" class="btn btn-outline-dark btn-bor" onclick="location.href = '@Url.Action("Index", new  {})'">
+                                        <i class="bi bi-box-arrow-left" style="font-size: 20px;"></i>
+                                        Volver
+                                    </button>
+
+                                    <a title="Editar" asp-action="Edit" asp-route-id="@Model.PlanId" class="btn btn-outline-primary btn-bor">
+                                        <i class="bi bi-pencil-square" style="font-size: 20px;"></i>
+                                        Editar
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -23,8 +23,29 @@ namespace Tic.Web.Helpers
 
         IEnumerable<SelectListItem> GetComboCity(int idstate);
 
+        IEnumerable<SelectListItem> GetComboZone(int idCity);
+
         IEnumerable<SelectListItem> GetComboCorporate();
 
+        IEnumerable<SelectListItem> GetComboTaxes(int idCorporate);
+
+        IEnumerable<SelectListItem> GetComboIpNetwork(int idCorporate);
+
+        IEnumerable<SelectListItem> GetComboIpNetworkUp(int idCorporate, int idIpNetwork);
+
+        IEnumerable<SelectListItem> GetComboMark(int idCorporate);
+
+        IEnumerable<SelectListItem> GetCombomarkModel(int CorporateId);
+
+        IEnumerable<SelectListItem> GetComboCatPlan(int idCorporate);
+
+        IEnumerable<SelectListItem> GetComboTimeInactive();
+
+        IEnumerable<SelectListItem> GetComboTimeRefresh();
+
+        IEnumerable<SelectListItem> GetComboTimeTicket();
+
+        IEnumerable<SelectListItem> GetComboServerActivos(int idCorporate);
 
         //Sistema para Generacion automatica de Clave
         //Se pasa longitud de la clave y caracteres con la que puede hacer la clave

@@ -1,0 +1,194 @@
+﻿@model Tic.Shared.EntitiesSoft.Plan
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="mb-3">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 130px">@Html.DisplayNameFor(model => model.PlanName)</span>
+                <input asp-for="PlanName" class="form-control" />
+            </div>
+            <span asp-validation-for="PlanName" class="form-text"></span>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" asp-for="Active" /> @Html.DisplayNameFor(model => model.Active)
+            </label>
+        </div>
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="mb-3">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 130px">@Html.DisplayNameFor(model => model.PlanCategoryId)</span>
+                <select asp-for="PlanCategoryId" class="form-control" asp-items="Model.ListCatPlan"></select>
+            </div>
+            <span asp-validation-for="PlanCategoryId" class="form-text"></span>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="mb-1">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 130px">@Html.DisplayNameFor(model => model.ServerId)</span>
+                <select asp-for="ServerId" class="form-control" asp-items="Model.ListServer"></select>
+            </div>
+            <span asp-validation-for="ServerId" class="form-text"></span>
+        </div>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-6 mb-3">
+        <div class="row">
+            <div class="col-md-4 md-3">
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="Proxy" /> @Html.DisplayNameFor(model => model.Proxy)
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-4 md-3">
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="MacCookies" /> @Html.DisplayNameFor(model => model.MacCookies)
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-4 md-3">
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="ContinueTime" /> @Html.DisplayNameFor(model => model.ContinueTime)
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="mb-3">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 130px">@Html.DisplayNameFor(model => model.ShareUser)</span>
+                <input asp-for="ShareUser" class="form-control" />
+            </div>
+            <span asp-validation-for="ShareUser" class="form-text"></span>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="mb-3">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 130px">Upload</span>
+                <input asp-for="SpeedUp" class="form-control" style="width: 60px; text-align:center" />
+                <select asp-for="SpeedUpType" class="form-control" style="width: 20px" asp-items="Model.ListUp"></select>
+            </div>
+            <span asp-validation-for="SpeedUp" class="form-text"></span>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="mb-3">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 130px">Download</span>
+                <input asp-for="SpeedDown" class="form-control" style="width: 60px; text-align:center" />
+                <select asp-for="SpeedDownType" class="form-control" style="width: 20px" asp-items="Model.ListDown"></select>
+            </div>
+            <span asp-validation-for="SpeedDown" class="form-text"></span>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="mb-3">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 130px">@Html.DisplayNameFor(model => model.TicketTimeId)</span>
+                <select asp-for="TicketTimeId" class="form-control" style="width: 20px" asp-items="Model.ListTimeTicket"></select>
+            </div>
+            <span asp-validation-for="TicketTimeId" class="form-text"></span>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="mb-3">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 130px">@Html.DisplayNameFor(model => model.TicketRefreshId)</span>
+                <select asp-for="TicketRefreshId" class="form-control" style="width: 20px" asp-items="Model.ListTimeRefresh"></select>
+            </div>
+            <span asp-validation-for="TicketRefreshId" class="form-text"></span>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="mb-3">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 130px">@Html.DisplayNameFor(model => model.TicketInactiveId)</span>
+                <select asp-for="TicketInactiveId" class="form-control" style="width: 20px" asp-items="Model.ListTimeInactive"></select>
+            </div>
+            <span asp-validation-for="TicketInactiveId" class="form-text"></span>
+        </div>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-4">
+        <div class="mb-3">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 130px">@Html.DisplayNameFor(model => model.TaxId)</span>
+                <select asp-for="TaxId" class="form-control" asp-items="Model.ListTax"></select>
+            </div>
+            <span asp-validation-for="TaxId" class="form-text"></span>
+        </div>
+    </div>
+    <div class="col-md-4">
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-4">
+        <div class="mb-0">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 130px">@Html.DisplayNameFor(model => model.SubTotal)</span>
+                <input asp-for="SubTotal" class="form-control" readonly="readonly" />
+            </div>
+            <span asp-validation-for="SubTotal" class="form-text"></span>
+        </div>
+    </div>
+    <div class="col-md-4">
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-4">
+        <div class="mb-0">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 130px">@Html.DisplayNameFor(model => model.Impuesto)</span>
+                <input asp-for="Impuesto" class="form-control" readonly="readonly" />
+            </div>
+            <span asp-validation-for="Impuesto" class="form-text"></span>
+        </div>
+    </div>
+    <div class="col-md-4">
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-4">
+        <div class="mb-3">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 130px">@Html.DisplayNameFor(model => model.Precio)</span>
+                <input asp-for="Precio" class="form-control" id="Precio" />
+            </div>
+            <span asp-validation-for="Precio" class="form-text"></span>
+        </div>
+    </div>
+    <div class="col-md-4">
+    </div>
+</div>

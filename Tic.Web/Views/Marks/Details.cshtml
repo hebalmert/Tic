@@ -1,0 +1,162 @@
+﻿@model Tic.Shared.EntitiesSoft.Mark
+@{
+    ViewData["Title"] = "Detalle";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-6">
+            <div class="shadow-lg mb-5 card-roud">
+
+                <div class="card card-roud">
+                    <div class="card-body">
+                        <p>
+                            <h2>Estados por Pais</h2>
+                        <p />
+                        <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group ">
+                                    <strong>@Html.DisplayNameFor(model => model.MarkName):</strong>
+                                        @Html.DisplayFor(model => model.MarkName)
+                                    <p></p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group ">
+                                    <strong>@Html.DisplayNameFor(model => model.Active):</strong>
+                                        @Html.DisplayFor(model => model.Active)
+                                    <p></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group ">
+                                    <strong>@Html.DisplayNameFor(model => model.ModelNumber):</strong>
+                                        @Html.DisplayFor(model => model.ModelNumber)
+                                    <p></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+                                <div class="form-group col-12">
+                                    <button title="Volver" type="button" class="btn btn-outline-dark btn-bor" onclick="location.href = '@Url.Action("Index", new  {})'">
+                                        <i class="bi bi-box-arrow-left" style="font-size: 20px;"></i>
+                                        Volver
+                                    </button>
+
+                                    <a title="Editar" asp-action="Edit" asp-route-id="@Model!.MarkId" class="btn btn-outline-primary btn-bor">
+                                        <i class="bi bi-pencil-square" style="font-size: 20px;"></i>
+                                        Editar
+                                    </a>
+
+                                    <a asp-action="CreateModel" asp-route-idMark="@Model.MarkId" class="btn btn-outline-primary btn-bor">
+                                        <i class="bi bi-plus-square" style="font-size: 20px;"></i>
+                                        Nuevo Modelo
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div>
+                                @if (Model.MarkModels == null)
+                                {
+                                <h5>No hay Regitros Para Mostrar</h5>
+                                }
+                                else
+                                {
+                                <table class="table table-responsive table-striped table-hover justify-content-center" id="MyTable">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                    @Html.DisplayNameFor(model => model.MarkModels!.FirstOrDefault()!.MarkModelName)
+                                            </th>
+                                            <th>
+                                                    @Html.DisplayNameFor(model => model.MarkModels!.FirstOrDefault()!.Active)
+                                            </th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="reordenable">
+                                            @foreach (var item in Model.MarkModels)
+                                            {
+                                            <tr>
+                                                <td>
+                                                        @Html.DisplayFor(modelItem => item.MarkModelName)
+                                                </td>
+                                                <td>
+                                                        @Html.DisplayFor(modelItem => item.Active)
+                                                </td>
+                                                <td style="width:1px; padding-left:1px; padding-right:4px">
+                                                    <a title="Editar" asp-action="EditModel" asp-route-id="@item.MarkModelId" class="btn btn-outline-dark btn-bor btn-sm"><i class="bi bi-pencil-square" style="font-size: 17px;"></i></a>
+                                                </td>
+                                                <td style="width:1px; padding-left:1px; padding-right:4px">
+                                                    <button type="button" title="Borrar" data-id="@item.MarkModelId"
+                                                            class="btn btn-outline-danger btn-bor btn-sm" id="deleteItem"
+                                                            data-bs-toggle="modal" data-bs-target="#deleteDialog">
+                                                        <i class="bi bi-trash" style="font-size: 17px;"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            }
+                                    </tbody>
+                                </table>
+                                }
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<partial name="_DeleteDialog" />
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="~/jquerysearch/jquery-ui.js"></script>
+    <script src="~/js/deletedialog.js"></script>
+    <script type="text/javascript">
+        sufijoControl = "Marks";
+        itemdelete = `/${sufijoControl}/DeleteModel/`;
+
+        $("#txt_search").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: `/${sufijoControl}/Search/`,
+                    data: { Prefix: $("#txt_search").val() },
+                    dataType: "json",
+                    type: "POST",
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return item;
+                        }))
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            },
+            select: function (e, i) {
+                $("#item_list").val(i.item.val);
+            },
+            minLength: 1
+        });
+
+    </script>
+}

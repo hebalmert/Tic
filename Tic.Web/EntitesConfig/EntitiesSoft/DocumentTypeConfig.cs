@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Tic.Shared.EntitiesSoft;
 
-namespace Spi.Web.EntitiesConfig.EntitiesSoft
+namespace Tic.Web.EntitesConfig.EntitiesSoft
 {
     public class DocumentTypeConfig : IEntityTypeConfiguration<DocumentType>
     {

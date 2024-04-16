@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Tic.Shared.EntitiesSoft;
 
 namespace Tic.Shared.Entites
 {
@@ -24,6 +25,8 @@ namespace Tic.Shared.Entites
         [DataType(DataType.MultilineText)]
         [Display(Name = "Script Continuo")]
         public string? ScriptContinuo { get; set; }
+
+        public ICollection<Plan>? Plans { get; set; }
 
     }
 }

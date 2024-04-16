@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Tic.Web.Data;
 
@@ -11,9 +12,11 @@ using Tic.Web.Data;
 namespace Tic.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240414152943_MarkIpServer")]
+    partial class MarkIpServer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -747,139 +750,6 @@ namespace Tic.Web.Migrations
                     b.ToTable("MarkModels");
                 });
 
-            modelBuilder.Entity("Tic.Shared.EntitiesSoft.Plan", b =>
-                {
-                    b.Property<int>("PlanId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PlanId"));
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("ContinueTime")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("CorporateId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("DateCreated")
-                        .HasColumnType("date");
-
-                    b.Property<DateTime?>("DateEdit")
-                        .HasColumnType("date");
-
-                    b.Property<decimal>("Impuesto")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<bool>("MacCookies")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("MkContinuoId")
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
-
-                    b.Property<string>("MkId")
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
-
-                    b.Property<int>("PlanCategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PlanName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<decimal>("Precio")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<bool>("Proxy")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("ServerId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ShareUser")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SpeedDown")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SpeedDownType")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SpeedUp")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SpeedUpType")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("SubTotal")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("TaxId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TicketInactiveId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TicketRefreshId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TicketTimeId")
-                        .HasColumnType("int");
-
-                    b.HasKey("PlanId");
-
-                    b.HasIndex("PlanCategoryId");
-
-                    b.HasIndex("ServerId");
-
-                    b.HasIndex("TaxId");
-
-                    b.HasIndex("TicketInactiveId");
-
-                    b.HasIndex("TicketRefreshId");
-
-                    b.HasIndex("TicketTimeId");
-
-                    b.HasIndex("CorporateId", "PlanName", "ServerId")
-                        .IsUnique();
-
-                    b.ToTable("Plans");
-                });
-
-            modelBuilder.Entity("Tic.Shared.EntitiesSoft.PlanCategory", b =>
-                {
-                    b.Property<int>("PlanCategoryId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PlanCategoryId"));
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("CorporateId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PlanCategoryName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("PlanCategoryId");
-
-                    b.HasIndex("CorporateId");
-
-                    b.HasIndex("PlanCategoryName", "CorporateId")
-                        .IsUnique();
-
-                    b.ToTable("PlanCategories");
-                });
-
             modelBuilder.Entity("Tic.Shared.EntitiesSoft.Register", b =>
                 {
                     b.Property<int>("RegisterId")
@@ -1244,76 +1114,6 @@ namespace Tic.Web.Migrations
                     b.Navigation("Mark");
                 });
 
-            modelBuilder.Entity("Tic.Shared.EntitiesSoft.Plan", b =>
-                {
-                    b.HasOne("Tic.Shared.Entites.Corporate", "Corporate")
-                        .WithMany()
-                        .HasForeignKey("CorporateId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Tic.Shared.EntitiesSoft.PlanCategory", "PlanCategory")
-                        .WithMany("Plans")
-                        .HasForeignKey("PlanCategoryId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Tic.Shared.EntitiesSoft.Server", "Server")
-                        .WithMany("Plans")
-                        .HasForeignKey("ServerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Tic.Shared.EntitiesSoft.Tax", "Tax")
-                        .WithMany("Plans")
-                        .HasForeignKey("TaxId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Tic.Shared.Entites.TicketInactive", "TicketInactive")
-                        .WithMany("Plans")
-                        .HasForeignKey("TicketInactiveId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Tic.Shared.Entites.TicketRefresh", "TicketRefresh")
-                        .WithMany("Plans")
-                        .HasForeignKey("TicketRefreshId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Tic.Shared.Entites.TicketTime", "TicketTime")
-                        .WithMany("Plans")
-                        .HasForeignKey("TicketTimeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Corporate");
-
-                    b.Navigation("PlanCategory");
-
-                    b.Navigation("Server");
-
-                    b.Navigation("Tax");
-
-                    b.Navigation("TicketInactive");
-
-                    b.Navigation("TicketRefresh");
-
-                    b.Navigation("TicketTime");
-                });
-
-            modelBuilder.Entity("Tic.Shared.EntitiesSoft.PlanCategory", b =>
-                {
-                    b.HasOne("Tic.Shared.Entites.Corporate", "Corporate")
-                        .WithMany()
-                        .HasForeignKey("CorporateId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Corporate");
-                });
-
             modelBuilder.Entity("Tic.Shared.EntitiesSoft.Register", b =>
                 {
                     b.HasOne("Tic.Shared.Entites.Corporate", "Corporate")
@@ -1439,21 +1239,6 @@ namespace Tic.Web.Migrations
                     b.Navigation("Zones");
                 });
 
-            modelBuilder.Entity("Tic.Shared.Entites.TicketInactive", b =>
-                {
-                    b.Navigation("Plans");
-                });
-
-            modelBuilder.Entity("Tic.Shared.Entites.TicketRefresh", b =>
-                {
-                    b.Navigation("Plans");
-                });
-
-            modelBuilder.Entity("Tic.Shared.Entites.TicketTime", b =>
-                {
-                    b.Navigation("Plans");
-                });
-
             modelBuilder.Entity("Tic.Shared.EntitiesSoft.IpNetwork", b =>
                 {
                     b.Navigation("Servers");
@@ -1469,21 +1254,6 @@ namespace Tic.Web.Migrations
             modelBuilder.Entity("Tic.Shared.EntitiesSoft.MarkModel", b =>
                 {
                     b.Navigation("Servers");
-                });
-
-            modelBuilder.Entity("Tic.Shared.EntitiesSoft.PlanCategory", b =>
-                {
-                    b.Navigation("Plans");
-                });
-
-            modelBuilder.Entity("Tic.Shared.EntitiesSoft.Server", b =>
-                {
-                    b.Navigation("Plans");
-                });
-
-            modelBuilder.Entity("Tic.Shared.EntitiesSoft.Tax", b =>
-                {
-                    b.Navigation("Plans");
                 });
 
             modelBuilder.Entity("Tic.Shared.EntitiesSoft.Zone", b =>

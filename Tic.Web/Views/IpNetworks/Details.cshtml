@@ -1,0 +1,72 @@
+﻿@model Tic.Shared.EntitiesSoft.IpNetwork
+
+@{
+    ViewData["Title"] = "Detalle Ip Network";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-6">
+            <div class="shadow-lg mb-5 card-roud">
+
+                <div class="card card-roud">
+                    <div class="card-body">
+                        <p>
+                            <h2>Detalle  Ip Network</h2>
+                            <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="input-group">
+                                        <span class="input-group-text" style="width: 150px">@Html.DisplayNameFor(model => model.Ip)</span>
+                                        <text class="form-control">@Html.DisplayFor(model => model.Ip)</text>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="input-group">
+                                        <span class="input-group-text" style="width: 150px">@Html.DisplayNameFor(model => model.Active)</span>
+                                        <text class="form-control">@Html.DisplayFor(model => model.Active)</text>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="input-group">
+                                        <span class="input-group-text" style="width: 150px">@Html.DisplayNameFor(model => model.Assigned)</span>
+                                        <text class="form-control">@Html.DisplayFor(model => model.Assigned)</text>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="input-group">
+                                        <span class="input-group-text" style="width: 150px">@Html.DisplayNameFor(model => model.Description)</span>
+                                        <text class="form-control">@Html.DisplayFor(model => model.Description)</text>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+                                    <br />
+                                    <div class="form-group col-12">
+                                        <button title="Volver" type="button" class="btn btn-outline-dark btn-bor" onclick="location.href = '@Url.Action("Index", new  {})'">
+                                            <i class="bi bi-box-arrow-left" style="font-size: 20px;"></i>
+                                            Volver
+                                        </button>
+
+                                        <a title="Editar" asp-action="Edit" asp-route-id="@Model!.IpNetworkId" class="btn btn-outline-primary btn-bor">
+                                            <i class="bi bi-pencil-square" style="font-size: 20px;"></i>
+                                            Editar
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

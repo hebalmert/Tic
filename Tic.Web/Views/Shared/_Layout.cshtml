@@ -73,9 +73,6 @@
                                     <li><a id="Ticket1" class="dropdown-item" asp-action="Index" asp-controller="TicketInactives">Tiempo Inactividad</a></li>
                                     <li><a id="Ticket2" class="dropdown-item" asp-action="Index" asp-controller="TicketRefreshes">Tiempo Refrescar</a></li>
                                     <li><a id="Ticket3" class="dropdown-item" asp-action="Index" asp-controller="TicketTimes">Tiempos Tickets</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a id="_HotSpotType" class="dropdown-item" asp-action="Index" asp-controller="HotSpotTypes">Tipo HotSpot</a></li>
-                                    <li><a id="_ChainType" class="dropdown-item" asp-action="Index" asp-controller="ChainTypes">Tipo Chain</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -90,7 +87,7 @@
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-dark">
                                     <li>
-                                        <h6 class="dropdown-header">
+                                        <h6 class="dropdown-header nav-link">
                                             <i class="bi bi-textarea"></i>
                                             General
                                         </h6>
@@ -99,22 +96,13 @@
                                     <li><a id="_Marks" class="dropdown-item" asp-action="Index" asp-controller="Marks">Marcas/Modelos</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
-                                        <h6 class="dropdown-header mt-3">
+                                        <h6 class="dropdown-header mt-3 nav-link">
                                             <i class="bi bi-textarea"></i>
-                                            Productos
+                                            Network
                                         </h6>
                                     </li>
-                                    <li><a id="_CategoriaProducto" class="dropdown-item" asp-action="Index" asp-controller="ProductCategories">Categoria Productos</a></li>
-                                    <li><a id="_Productos" class="dropdown-item" asp-action="Index" asp-controller="Products">Productos</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li>
-                                        <h6 class="dropdown-header mt-3">
-                                            <i class="bi bi-textarea"></i>
-                                            Servicios
-                                        </h6>
-                                    </li>
-                                    <li><a id="_CategoriaServicio" class="dropdown-item" asp-action="Index" asp-controller="ServiceCategories">Categoria Servicios</a></li>
-                                    <li><a id="_ServicioClientes" class="dropdown-item" asp-action="Index" asp-controller="ServiceClients">Servicios clientes</a></li>
+                                    <li><a id="_Ipnetwork" class="dropdown-item" asp-action="Index" asp-controller="IpNetworks">Ip Network</a></li>
+                                    <li><a id="_Servers" class="dropdown-item" asp-action="Index" asp-controller="Servers">Servidores</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
                                         <h6 class="dropdown-header mt-3">
@@ -437,7 +425,7 @@
 
 <script>
     $(document).ready(function () {
-        $('#SpeedUp').click(function () {
+        $('#Nombredel ID').click(function () {
             $('.spinner').css('display', 'block');
         });
     });

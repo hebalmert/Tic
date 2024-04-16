@@ -1,0 +1,230 @@
+﻿@model Tic.Shared.EntitiesSoft.Server
+
+@{
+    ViewData["Title"] = "Editar Servidor";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-8">
+
+            <div class="shadow-lg mb-5 card-roud">
+                <div class="card card-roud">
+                    <div class="card-body">
+                        <p>
+                            <h2>Editar Servidor</h2>
+                        <p />
+                        <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form asp-action="Edit">
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                    <input type="hidden" asp-for="CorporateId" />
+                                    <input type="hidden" asp-for="ServerId" />
+                                    <input type="hidden" asp-for="CurrentIpNetworkId" />
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.ServerName)</span>
+                                                    <input asp-for="ServerName" class="form-control" />
+                                                </div>
+                                                <span asp-validation-for="ServerName" class="form-text"></span>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.IpNetworkId)</span>
+                                                    <select asp-for="IpNetworkId" class="form-control" asp-items="Model.ListIpNetwork"></select>
+                                                </div>
+                                                <span asp-validation-for="IpNetworkId" class="form-text"></span>
+                                            </div>
+                                            <div class="mb-3">
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.Usuario)</span>
+                                                    <input asp-for="Usuario" class="form-control" />
+                                                </div>
+                                                <span asp-validation-for="Usuario" class="form-text"></span>
+                                            </div>
+                                            <div class="mb-3">
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.Clave)</span>
+                                                    <input asp-for="Clave" class="form-control" />
+                                                </div>
+                                                <span asp-validation-for="Clave" class="form-text"></span>
+                                            </div>
+                                            <div class="mb-3">
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.ClaveConfirm)</span>
+                                                    <input asp-for="ClaveConfirm" class="form-control" />
+                                                </div>
+                                                <span asp-validation-for="ClaveConfirm" class="form-text"></span>
+                                            </div>
+                                            <div class="mb-3">
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.ApiPort)</span>
+                                                    <input asp-for="ApiPort" class="form-control" />
+                                                </div>
+                                                <span asp-validation-for="ApiPort" class="form-text"></span>
+                                            </div>
+                                            <div class="mb-3">
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.WanName)</span>
+                                                    <input asp-for="WanName" class="form-control" />
+                                                </div>
+                                                <span asp-validation-for="WanName" class="form-text"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.MarkId)</span>
+                                                    <select asp-for="MarkId" class="form-control" asp-items="Model.ListMark"></select>
+                                                </div>
+                                                <span asp-validation-for="MarkId" class="form-text"></span>
+                                            </div>
+                                            <div class="mb-3">
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.MarkModelId)</span>
+                                                    <select asp-for="MarkModelId" class="form-control" asp-items="Model.ListMarkModel"></select>
+                                                </div>
+                                                <span asp-validation-for="MarkModelId" class="form-text"></span>
+                                            </div>
+                                            <div class="mb-3">
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.StateId)</span>
+                                                    <select asp-for="StateId" class="form-control" asp-items="Model.ListState"></select>
+                                                </div>
+                                                <span asp-validation-for="StateId" class="form-text"></span>
+                                            </div>
+                                            <div class="mb-3">
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.CityId)</span>
+                                                    <select asp-for="CityId" class="form-control" asp-items="Model.ListCity"></select>
+                                                </div>
+                                                <span asp-validation-for="CityId" class="form-text"></span>
+                                            </div>
+                                            <div class="mb-3">
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.ZoneId)</span>
+                                                    <select asp-for="ZoneId" class="form-control" asp-items="Model.ListZone"></select>
+                                                </div>
+                                                <span asp-validation-for="ZoneId" class="form-text"></span>
+                                            </div>
+                                            <div class="mb-3">
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.Active)</span>
+                                                    <input type="checkbox" asp-for="Active" />
+                                                </div>
+                                                <span asp-validation-for="Active" class="form-text"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+                                    <div class="form-group">
+                                        <br />
+                                        <button title="Volver" type="button" class="btn btn-outline-dark btn-bor" onclick="location.href = '@Url.Action("Index", new  {})'">
+                                            <i class="bi bi-box-arrow-left" style="font-size: 20px;"></i>
+                                            Volver
+                                        </button>
+
+                                        <button title="Guardar" type="submit" class="btn btn-outline-primary btn-bor">
+                                            <i class="bi bi-check2-square" style="font-size: 20px;"></i>
+                                            Guardar
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script type="text/javascript">
+        $(function () {
+            $('#SaveBtn').click(function () {
+                if ($('#Name').val().length > 0 && $('#Ip').val() > 0) {
+                    $('.spinner').css('display', 'block');
+                }
+            });
+
+            $("#MarkId").change(function () {
+                $("#MarkModelId").empty();
+                $("#MarkModelId").append('<option value="0">[Seleccione Modelo...]</option>');
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetMarkModel")',
+                    dataType: 'json',
+                    data: { IdMark: $("#MarkId").val() },
+                    success: function (data) {
+                        $.each(data, function (i, data) {
+                            $("#MarkModelId").append('<option value="'
+                                + data.value + '">'
+                                + data.text + '</option>');
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Falla en Seleccionar Modelos' + ex);
+                    }
+                });
+                return false;
+            })
+
+            $("#CityId").change(function () {
+                $("#ZoneId").empty();
+                $("#ZoneId").append('<option value="0">[Seleccione Zona...]</option>');
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetZone")',
+                    dataType: 'json',
+                    data: { IdCity: $("#CityId").val(), IdState: $("#StateId").val() },
+                    success: function (data) {
+                        $.each(data, function (i, data) {
+                            $("#ZoneId").append('<option value="'
+                                + data.value + '">'
+                                + data.text + '</option>');
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Problemas para Cargar las Ciudades' + ex);
+                    }
+                });
+                return false;
+            });
+
+            $("#StateId").change(function () {
+                $("#CityId").empty();
+                $("#CityId").append('<option value="0">[Seleccione Ciudad...]</option>');
+                $("#ZoneId").empty();
+                $("#ZoneId").append('<option value="0">[Seleccione Zona...]</option>');
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetCity")',
+                    dataType: 'json',
+                    data: { IdState: $("#StateId").val() },
+                    success: function (data) {
+                        $.each(data, function (i, data) {
+                            $("#CityId").append('<option value="'
+                                + data.value + '">'
+                                + data.text + '</option>');
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Problemas para Cargar las Ciudades' + ex);
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
+    }

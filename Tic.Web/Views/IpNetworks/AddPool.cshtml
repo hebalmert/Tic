@@ -1,0 +1,81 @@
+﻿@model Tic.Shared.EntitiesSoft.IpNetDTOs
+
+@{
+    ViewData["Title"] = "Nueva IP Network Pool";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-6">
+
+            <div class="shadow-lg mb-5 card-roud">
+                <div class="card card-roud">
+                    <div class="card-body">
+                        <p>
+                            <h2>Nuevo Ip Network Pool</h2>
+                        <p />
+                        <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form asp-action="AddPool">
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                    <input type="hidden" asp-for="CorporateId" />
+
+                                    <div class="mb-3">
+                                        <div class="input-group">
+                                            <span class="input-group-text" style="width: 120px">@Html.DisplayNameFor(model => model.Ip1)</span>
+                                            <input placeholder="192.168.0" asp-for="Ip1" class="form-control" />
+                                        </div>
+                                        <span asp-validation-for="Ip1" class="form-text"></span>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="width: 120px">@Html.DisplayNameFor(model => model.Desde)</span>
+                                                    <input asp-for="Desde" class="form-control" />
+                                                </div>
+                                                <span asp-validation-for="Desde" class="form-text"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="width: 120px">@Html.DisplayNameFor(model => model.Hasta)</span>
+                                                    <input asp-for="Hasta" class="form-control" />
+                                                </div>
+                                                <span asp-validation-for="Hasta" class="form-text"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+
+                                    <div class="form-group">
+                                        <br />
+                                        <button title="Volver" type="button" class="btn btn-outline-dark btn-bor" onclick="location.href = '@Url.Action("Index", new {})'">
+                                            <i class="bi bi-box-arrow-left" style="font-size: 20px;"></i>
+                                            Volver
+                                        </button>
+
+                                        <button title="Guardar" type="submit" class="btn btn-outline-primary btn-bor">
+                                            <i class="bi bi-check2-square" style="font-size: 20px;"></i>
+                                            Guardar
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

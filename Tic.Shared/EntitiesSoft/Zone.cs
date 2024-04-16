@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using Tic.Shared.Entites;
+using System.Xml.Linq;
 
 namespace Tic.Shared.EntitiesSoft
 {
@@ -49,5 +50,8 @@ namespace Tic.Shared.EntitiesSoft
         public State? State { get; set; }
 
         public City? City { get; set; }
+
+        //Relaciones en Doble direccion
+        public ICollection<Server>? Servers { get; set; }
     }
 }
