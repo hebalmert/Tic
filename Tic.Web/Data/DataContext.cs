@@ -54,8 +54,11 @@ namespace Tic.Web.Data
 
         public DbSet<PlanCategory> PlanCategories => Set<PlanCategory>();
 
-
         public DbSet<Plan> Plans => Set<Plan>();
+
+        public DbSet<OrderTicket> OrderTickets => Set<OrderTicket>();
+
+        public DbSet<OrderTicketDetail> OrderTicketDetails => Set<OrderTicketDetail>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

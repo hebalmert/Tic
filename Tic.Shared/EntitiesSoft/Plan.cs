@@ -108,7 +108,6 @@ namespace Tic.Shared.EntitiesSoft
         [Display(Name = "Impuesto")]
         public decimal Impuesto { get; set; }
 
-
         [Required(ErrorMessage = "El campo {0} es Requerido")]
         [Range(0, double.MaxValue, ErrorMessage = "El Valor del Precio debe ser mayor que {1}")]
         [Column(TypeName = "decimal(18,2)")]
@@ -193,6 +192,8 @@ namespace Tic.Shared.EntitiesSoft
         public TicketRefresh? TicketRefresh { get; set; }
 
         public TicketTime? TicketTime { get; set; }
+
+        public ICollection<OrderTicket>? OrderTickets { get; set; }
 
     }
 }

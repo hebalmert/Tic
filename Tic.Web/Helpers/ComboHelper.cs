@@ -426,9 +426,41 @@ namespace Tic.Web.Helpers
             return list;
         }
 
+        public IEnumerable<SelectListItem> GetComboPlanOrdenes(int idCorporate, int idServer, int idCategory)
+        {
+            List<SelectListItem> list = _context.Plans.Where(c => c.CorporateId == idCorporate && c.Active == true &&
+            c.ServerId == idServer && c.PlanCategoryId == idCategory)
+                .Select(t => new SelectListItem
+                {
+                    Text = t.PlanName,
+                    Value = $"{t.PlanId}"
+                })
+            .OrderBy(t => t.Text)
+            .ToList();
+
+            list.Insert(0, new SelectListItem
+            {
+                Text = "[Seleccione Plan...]",
+                Value = "0"
+            });
+
+            return list;
+        }
+
         //Sistema para Generacion automatica de Clave
         //Se pasa longitud de la clave y caracteres con la que puede hacer la clave
         public string GeneratePass(int longitud, string caracteres)
+        {
+            StringBuilder res = new();
+            Random rnd = new();
+            while (0 < longitud--)
+            {
+                res.Append(caracteres[rnd.Next(caracteres.Length)]);
+            }
+            return res.ToString();
+        }
+
+        public string GenerateTickets(int longitud, string caracteres)
         {
             StringBuilder res = new();
             Random rnd = new();

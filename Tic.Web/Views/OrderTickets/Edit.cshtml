@@ -1,0 +1,304 @@
+﻿@model Tic.Shared.EntitiesSoft.OrderTicket
+
+@{
+    ViewData["Title"] = "Editar";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center align-items-center">
+        <flash dismissable="true" />
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="CorporateId" />
+            <input type="hidden" asp-for="NamePlan" />
+            <input type="hidden" asp-for="OrderTicketId" />
+
+            <div class="row">
+                <div class="col-md-8 md-2">
+                    <div class="shadow-lg mb-5 card-roud">
+                        <div class="card card-roud">
+                            <div class="card-body">
+                                <p>
+                                    <h2>Nueva Creacion Tickets</h2>
+                                <p />
+                                <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+
+                                <div class="row">
+                                    <div class="col-md-12 md-2">
+                                        <div class="row">
+                                            <div class="col-md-6 md-2">
+                                                <div class="mb-0">
+                                                    <div class="input-group">
+                                                        <span class="input-group-text" style="width: 120px">@Html.DisplayNameFor(model => model.OrdenControl)</span>
+                                                        <input asp-for="OrdenControl" class="form-control" readonly="readonly" />
+                                                    </div>
+                                                    <span asp-validation-for="OrdenControl" class="form-text"></span>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-md-6 md-2">
+                                                <div class="mb-0">
+                                                    <div class="input-group">
+                                                        <span class="input-group-text" style="width: 120px">@Html.DisplayNameFor(model => model.Date)</span>
+                                                        <input asp-for="Date" class="form-control" readonly="readonly" />
+                                                    </div>
+                                                    <span asp-validation-for="Date" class="form-text"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+
+                                        <div class="row">
+                                            <div class="col-md-6 md-2">
+                                                <div class="mb-3">
+                                                    <div class="input-group">
+                                                        <span class="input-group-text" style="width: 120px">@Html.DisplayNameFor(model => model.PlanCategoryId)</span>
+                                                        <select asp-for="PlanCategoryId" class="form-control" asp-items="Model.ListCategory"></select>
+                                                    </div>
+                                                    <span asp-validation-for="PlanCategoryId" class="form-text"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 md-2">
+                                                <div class="mb-3">
+                                                    <div class="input-group">
+                                                        <span class="input-group-text" style="width: 120px">@Html.DisplayNameFor(model => model.ServerId)</span>
+                                                        <select asp-for="ServerId" class="form-control" asp-items="Model.ListServer"></select>
+                                                    </div>
+                                                    <span asp-validation-for="ServerId" class="form-text"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6 md-2">
+                                                <div class="mb-3">
+                                                    <div class="input-group">
+                                                        <span class="input-group-text" style="width: 120px">@Html.DisplayNameFor(model => model.PlanId)</span>
+                                                        <select asp-for="PlanId" class="form-control" asp-items="Model.ListPlan"></select>
+                                                    </div>
+                                                    <span asp-validation-for="PlanId" class="form-text"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 md-2">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12 md-2">
+                                                <div class="row">
+                                                    <div class="col-md-4 md-2">
+                                                        <div class="mb-3">
+                                                            <div class="input-group">
+                                                                <span class="input-group-text" style="width: 120px">@Html.DisplayNameFor(model => model.Rate)</span>
+                                                                <input asp-for="Rate" class="form-control" readonly="readonly" />
+                                                            </div>
+                                                            <span asp-validation-for="Rate" class="form-text"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 md-2">
+                                                        <div class="mb-3">
+                                                            <div class="input-group">
+                                                                <span class="input-group-text" style="width: 120px">@Html.DisplayNameFor(model => model.Precio)</span>
+                                                                <input asp-for="Precio" class="form-control" readonly="readonly" />
+                                                            </div>
+                                                            <span asp-validation-for="Precio" class="form-text"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 md-2">
+                                                        <div class="mb-3">
+                                                            <div class="input-group">
+                                                                <span class="input-group-text" style="width: 120px">@Html.DisplayNameFor(model => model.Cantidad)</span>
+                                                                <input asp-for="Cantidad" class="form-control" />
+                                                            </div>
+                                                            <span asp-validation-for="Cantidad" class="form-text"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+
+                                        <div class="form-group">
+                                            <br />
+                                            <button title="Volver" type="button" class="btn btn-outline-dark btn-bor" onclick="location.href = '@Url.Action("Index", new  {})'">
+                                                <i class="fa fa-backspace"></i>
+                                                Listar
+                                            </button>
+
+                                            <button title="Guardar" type="submit" class="btn btn-outline-primary btn-bor">
+                                                <i class="fa fa-save"></i>
+                                                Guardar
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 md-2">
+                    <div class="shadow-lg mb-5 card-roud">
+                        <div class="card card-roud">
+                            <div class="card-body">
+                                <p>
+                                    <h2>Totales</h2>
+                                <p />
+                                <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+
+                                <div class="row">
+                                    <div class="col-md-12" style="text-align:center">
+                                        <div class="row">
+                                            <div class="col-md-12 md-1">
+                                                <div class="form-group">
+                                                    <div class="mb-0">
+                                                        <div class="input-group">
+                                                            <span class="input-group-text" style="width: 130px">@Html.DisplayNameFor(model => model.SubTotal)</span>
+                                                            <input asp-for="SubTotal" class="form-control" readonly="readonly" />
+                                                        </div>
+                                                        <span asp-validation-for="SubTotal" class="form-text"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-0">
+                                                    <div class="input-group">
+                                                        <span class="input-group-text" style="width: 130px">@Html.DisplayNameFor(model => model.Impuesto)</span>
+                                                        <input asp-for="Impuesto" class="form-control" readonly="readonly" />
+                                                    </div>
+                                                    <span asp-validation-for="Impuesto" class="form-text"></span>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <div class="input-group">
+                                                        <span class="input-group-text" style="width: 130px">@Html.DisplayNameFor(model => model.Total)</span>
+                                                        <input asp-for="Total" class="form-control" readonly="readonly" />
+                                                    </div>
+                                                    <span asp-validation-for="Total" class="form-text"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("#ServerId").change(function () {
+                $("#PlanId").empty();
+                $("#PlanId").append('<option value="0">[Seleccione un Plan...]</option>');
+                $("#Rate").val("0");
+                $("#Precio").val("0");
+                $("#Cantidad").val("0");
+                $("#SubTotal").val("0");
+                $("#Impuesto").val("0");
+                $("#Total").val("0");
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetPlan")',
+                    dataType: 'json',
+                    data: { idCategory: $("#CategoryPlanId").val(), idServer: $("#ServerId").val() },
+                    success: function (dato) {
+                        $.each(dato, function (i, dato) {
+                            $("#PlanId").append('<option value="'
+                                + dato.value + '">'
+                                + dato.text + '</option>');
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Falla en Cargar Planes.' + ex);
+                    }
+                });
+                return false;
+            });
+
+            $("#PlanCategoryId").change(function () {
+                $("#PlanId").empty();
+                $("#PlanId").append('<option value="0">[Seleccione un Plan...]</option>');
+                $("#ServerId").empty();
+                $("#ServerId").append('<option value="0">[Seleccione un Plan...]</option>');
+                $("#Rate").val("0");
+                $("#Precio").val("0");
+                $("#Cantidad").val("0");
+                $("#SubTotal").val("0");
+                $("#Impuesto").val("0");
+                $("#Total").val("0");
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetServidores")',
+                    dataType: 'json',
+                    data: {},
+                    success: function (data) {
+                        $.each(data, function (i, data) {
+                            console.log(data);
+                            $("#ServerId").append('<option value="'
+                                + data.value + '">'
+                                + data.text + '</option>');
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Falla en Cargar Planes.' + ex);
+                    }
+                });
+                return false;
+            });
+
+            $("#PlanId").change(function () {
+
+                $("#Rate").val("0");
+                $("#Precio").val("0");
+                $("#Cantidad").val("0");
+                $("#SubTotal").val("0");
+                $("#Impuesto").val("0");
+                $("#Total").val("0");
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetPrecio")',
+                    dataType: 'json',
+                    data: { planId: $("#PlanId").val() },
+                    success: function (data2) {
+                        console.log(data2);
+                        $("#Rate").val(data2.rate);
+                        $("#Precio").val(data2.precio);
+                    },
+                    error: function (ex) {
+                        alert('Falla en Cargar Planes.' + ex);
+                    }
+                });
+
+                var selectPlan = $("#PlanId").find('option:selected').text();
+                $("#NamePlan").val(selectPlan);
+            });
+
+            $("#Cantidad").on("input", function () {
+                var pricePlan = parseFloat($('#Precio').val());
+                var cuant = parseInt($('#Cantidad').val());
+                var tasa = parseFloat($('#Rate').val());
+                var rate = 0;
+                if (!isNaN(pricePlan) && !isNaN(cuant) && !isNaN(tasa)) {
+                    var precio = pricePlan * cuant;
+                    rate = (tasa / 100) + 1;
+                    var subTotalStg = (precio / rate).toFixed(2);
+                    var subTotal = parseFloat(subTotalStg);
+                    var impuestoStg = (precio - subTotal).toFixed(2);
+                    var impuesto = parseFloat(impuestoStg);
+                    $("#SubTotal").val(subTotal);
+                    $("#Impuesto").val(impuesto);
+                    $("#Total").val(precio);
+                }
+            });
+        });
+    </script>
+
+}

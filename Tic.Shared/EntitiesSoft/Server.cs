@@ -117,7 +117,7 @@ namespace Tic.Shared.EntitiesSoft
         [NotMapped]
         public int CityId { get; set; }
 
-
+        public ICollection<OrderTicket>? OrderTickets { get; set; }
 
     }
 }

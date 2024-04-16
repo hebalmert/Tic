@@ -12,8 +12,8 @@ using Tic.Web.Data;
 namespace Tic.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240413023738_DocumentTypeDB")]
-    partial class DocumentTypeDB
+    [Migration("20240416222128_InitialDb")]
+    partial class InitialDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -592,6 +592,32 @@ namespace Tic.Web.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.ChainCode", b =>
+                {
+                    b.Property<int>("ChainCodeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ChainCodeId"));
+
+                    b.Property<string>("Cadena")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
+                    b.Property<int>("CorporateId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Largo")
+                        .HasColumnType("int");
+
+                    b.HasKey("ChainCodeId");
+
+                    b.HasIndex("CorporateId");
+
+                    b.ToTable("ChainCodes");
+                });
+
             modelBuilder.Entity("Tic.Shared.EntitiesSoft.DocumentType", b =>
                 {
                     b.Property<int>("DocumentTypeId")
@@ -623,6 +649,398 @@ namespace Tic.Web.Migrations
                         .IsUnique();
 
                     b.ToTable("DocumentTypes");
+                });
+
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.IpNetwork", b =>
+                {
+                    b.Property<int>("IpNetworkId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IpNetworkId"));
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Assigned")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("CorporateId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("Ip")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("IpNetworkId");
+
+                    b.HasIndex("CorporateId");
+
+                    b.HasIndex("Ip", "CorporateId")
+                        .IsUnique();
+
+                    b.ToTable("IpNetworks");
+                });
+
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.Mark", b =>
+                {
+                    b.Property<int>("MarkId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MarkId"));
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("CorporateId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MarkName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("MarkId");
+
+                    b.HasIndex("CorporateId");
+
+                    b.HasIndex("MarkName", "CorporateId")
+                        .IsUnique();
+
+                    b.ToTable("Marks");
+                });
+
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.MarkModel", b =>
+                {
+                    b.Property<int>("MarkModelId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MarkModelId"));
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("CorporateId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MarkId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MarkModelName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("MarkModelId");
+
+                    b.HasIndex("CorporateId");
+
+                    b.HasIndex("MarkId");
+
+                    b.HasIndex("MarkModelName", "CorporateId", "MarkId")
+                        .IsUnique();
+
+                    b.ToTable("MarkModels");
+                });
+
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.OrderTicket", b =>
+                {
+                    b.Property<int>("OrderTicketId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderTicketId"));
+
+                    b.Property<decimal>("Cantidad")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("CorporateId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<decimal>("Impuesto")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool?>("Mikrotik")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("NamePlan")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("OrdenControl")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PlanCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PlanId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Precio")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Rate")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("ServerId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("SubTotal")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Total")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("OrderTicketId");
+
+                    b.HasIndex("PlanCategoryId");
+
+                    b.HasIndex("PlanId");
+
+                    b.HasIndex("ServerId");
+
+                    b.HasIndex("CorporateId", "OrdenControl")
+                        .IsUnique();
+
+                    b.ToTable("OrderTickets");
+                });
+
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.OrderTicketDetail", b =>
+                {
+                    b.Property<int>("OrderTicketDetailId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderTicketDetailId"));
+
+                    b.Property<bool>("Anulado")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("CachierId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Clave")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<int>("Control")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CorporateId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DateAnulado")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateCreado")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime?>("DateVenta")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("ManagerId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MkId")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<int>("OrderTicketId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("SellOne")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("SellOneCachier")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("SellTotal")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ServerId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("UserCachier")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("UserSystem")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Usuario")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<string>("Velocidad")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<bool>("Vendido")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("VentaId")
+                        .HasColumnType("int");
+
+                    b.HasKey("OrderTicketDetailId");
+
+                    b.HasIndex("OrderTicketId");
+
+                    b.HasIndex("CorporateId", "Control")
+                        .IsUnique();
+
+                    b.ToTable("OrderTicketDetails");
+                });
+
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.Plan", b =>
+                {
+                    b.Property<int>("PlanId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PlanId"));
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("ContinueTime")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("CorporateId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DateCreated")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime?>("DateEdit")
+                        .HasColumnType("date");
+
+                    b.Property<decimal>("Impuesto")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("MacCookies")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("MkContinuoId")
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
+
+                    b.Property<string>("MkId")
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
+
+                    b.Property<int>("PlanCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PlanName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<decimal>("Precio")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("Proxy")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ServerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ShareUser")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SpeedDown")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SpeedDownType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SpeedUp")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SpeedUpType")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("SubTotal")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("TaxId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TicketInactiveId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TicketRefreshId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TicketTimeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PlanId");
+
+                    b.HasIndex("PlanCategoryId");
+
+                    b.HasIndex("ServerId");
+
+                    b.HasIndex("TaxId");
+
+                    b.HasIndex("TicketInactiveId");
+
+                    b.HasIndex("TicketRefreshId");
+
+                    b.HasIndex("TicketTimeId");
+
+                    b.HasIndex("CorporateId", "PlanName", "ServerId")
+                        .IsUnique();
+
+                    b.ToTable("Plans");
+                });
+
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.PlanCategory", b =>
+                {
+                    b.Property<int>("PlanCategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PlanCategoryId"));
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("CorporateId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PlanCategoryName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("PlanCategoryId");
+
+                    b.HasIndex("CorporateId");
+
+                    b.HasIndex("PlanCategoryName", "CorporateId")
+                        .IsUnique();
+
+                    b.ToTable("PlanCategories");
                 });
 
             modelBuilder.Entity("Tic.Shared.EntitiesSoft.Register", b =>
@@ -659,6 +1077,73 @@ namespace Tic.Web.Migrations
                     b.HasIndex("CorporateId");
 
                     b.ToTable("Registers");
+                });
+
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.Server", b =>
+                {
+                    b.Property<int>("ServerId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ServerId"));
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ApiPort")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Clave")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<int>("CorporateId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IpNetworkId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MarkId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MarkModelId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ServerName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Usuario")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<string>("WanName")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<int>("ZoneId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ServerId");
+
+                    b.HasIndex("CorporateId");
+
+                    b.HasIndex("IpNetworkId");
+
+                    b.HasIndex("MarkId");
+
+                    b.HasIndex("MarkModelId");
+
+                    b.HasIndex("ZoneId");
+
+                    b.HasIndex("ServerName", "CorporateId")
+                        .IsUnique();
+
+                    b.ToTable("Servers");
                 });
 
             modelBuilder.Entity("Tic.Shared.EntitiesSoft.Tax", b =>
@@ -859,7 +1344,183 @@ namespace Tic.Web.Migrations
                     b.Navigation("Corporate");
                 });
 
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.ChainCode", b =>
+                {
+                    b.HasOne("Tic.Shared.Entites.Corporate", "Corporate")
+                        .WithMany()
+                        .HasForeignKey("CorporateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Corporate");
+                });
+
             modelBuilder.Entity("Tic.Shared.EntitiesSoft.DocumentType", b =>
+                {
+                    b.HasOne("Tic.Shared.Entites.Corporate", "Corporate")
+                        .WithMany()
+                        .HasForeignKey("CorporateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Corporate");
+                });
+
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.IpNetwork", b =>
+                {
+                    b.HasOne("Tic.Shared.Entites.Corporate", "Corporate")
+                        .WithMany()
+                        .HasForeignKey("CorporateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Corporate");
+                });
+
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.Mark", b =>
+                {
+                    b.HasOne("Tic.Shared.Entites.Corporate", "Corporate")
+                        .WithMany()
+                        .HasForeignKey("CorporateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Corporate");
+                });
+
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.MarkModel", b =>
+                {
+                    b.HasOne("Tic.Shared.Entites.Corporate", "Corporate")
+                        .WithMany()
+                        .HasForeignKey("CorporateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Tic.Shared.EntitiesSoft.Mark", "Mark")
+                        .WithMany("MarkModels")
+                        .HasForeignKey("MarkId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Corporate");
+
+                    b.Navigation("Mark");
+                });
+
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.OrderTicket", b =>
+                {
+                    b.HasOne("Tic.Shared.Entites.Corporate", "Corporate")
+                        .WithMany()
+                        .HasForeignKey("CorporateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Tic.Shared.EntitiesSoft.PlanCategory", "PlanCategory")
+                        .WithMany("OrderTickets")
+                        .HasForeignKey("PlanCategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Tic.Shared.EntitiesSoft.Plan", "Plan")
+                        .WithMany("OrderTickets")
+                        .HasForeignKey("PlanId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Tic.Shared.EntitiesSoft.Server", "Server")
+                        .WithMany("OrderTickets")
+                        .HasForeignKey("ServerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Corporate");
+
+                    b.Navigation("Plan");
+
+                    b.Navigation("PlanCategory");
+
+                    b.Navigation("Server");
+                });
+
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.OrderTicketDetail", b =>
+                {
+                    b.HasOne("Tic.Shared.Entites.Corporate", "Corporate")
+                        .WithMany()
+                        .HasForeignKey("CorporateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Tic.Shared.EntitiesSoft.OrderTicket", "OrderTickets")
+                        .WithMany("OrderTicketDetails")
+                        .HasForeignKey("OrderTicketId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Corporate");
+
+                    b.Navigation("OrderTickets");
+                });
+
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.Plan", b =>
+                {
+                    b.HasOne("Tic.Shared.Entites.Corporate", "Corporate")
+                        .WithMany()
+                        .HasForeignKey("CorporateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Tic.Shared.EntitiesSoft.PlanCategory", "PlanCategory")
+                        .WithMany("Plans")
+                        .HasForeignKey("PlanCategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Tic.Shared.EntitiesSoft.Server", "Server")
+                        .WithMany("Plans")
+                        .HasForeignKey("ServerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Tic.Shared.EntitiesSoft.Tax", "Tax")
+                        .WithMany("Plans")
+                        .HasForeignKey("TaxId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Tic.Shared.Entites.TicketInactive", "TicketInactive")
+                        .WithMany("Plans")
+                        .HasForeignKey("TicketInactiveId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Tic.Shared.Entites.TicketRefresh", "TicketRefresh")
+                        .WithMany("Plans")
+                        .HasForeignKey("TicketRefreshId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Tic.Shared.Entites.TicketTime", "TicketTime")
+                        .WithMany("Plans")
+                        .HasForeignKey("TicketTimeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Corporate");
+
+                    b.Navigation("PlanCategory");
+
+                    b.Navigation("Server");
+
+                    b.Navigation("Tax");
+
+                    b.Navigation("TicketInactive");
+
+                    b.Navigation("TicketRefresh");
+
+                    b.Navigation("TicketTime");
+                });
+
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.PlanCategory", b =>
                 {
                     b.HasOne("Tic.Shared.Entites.Corporate", "Corporate")
                         .WithMany()
@@ -879,6 +1540,49 @@ namespace Tic.Web.Migrations
                         .IsRequired();
 
                     b.Navigation("Corporate");
+                });
+
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.Server", b =>
+                {
+                    b.HasOne("Tic.Shared.Entites.Corporate", "Corporate")
+                        .WithMany()
+                        .HasForeignKey("CorporateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Tic.Shared.EntitiesSoft.IpNetwork", "IpNetwork")
+                        .WithMany("Servers")
+                        .HasForeignKey("IpNetworkId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Tic.Shared.EntitiesSoft.Mark", "Mark")
+                        .WithMany("Servers")
+                        .HasForeignKey("MarkId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Tic.Shared.EntitiesSoft.MarkModel", "MarkModel")
+                        .WithMany("Servers")
+                        .HasForeignKey("MarkModelId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Tic.Shared.EntitiesSoft.Zone", "Zone")
+                        .WithMany("Servers")
+                        .HasForeignKey("ZoneId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Corporate");
+
+                    b.Navigation("IpNetwork");
+
+                    b.Navigation("Mark");
+
+                    b.Navigation("MarkModel");
+
+                    b.Navigation("Zone");
                 });
 
             modelBuilder.Entity("Tic.Shared.EntitiesSoft.Tax", b =>
@@ -950,6 +1654,72 @@ namespace Tic.Web.Migrations
                     b.Navigation("Corporates");
 
                     b.Navigation("Zones");
+                });
+
+            modelBuilder.Entity("Tic.Shared.Entites.TicketInactive", b =>
+                {
+                    b.Navigation("Plans");
+                });
+
+            modelBuilder.Entity("Tic.Shared.Entites.TicketRefresh", b =>
+                {
+                    b.Navigation("Plans");
+                });
+
+            modelBuilder.Entity("Tic.Shared.Entites.TicketTime", b =>
+                {
+                    b.Navigation("Plans");
+                });
+
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.IpNetwork", b =>
+                {
+                    b.Navigation("Servers");
+                });
+
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.Mark", b =>
+                {
+                    b.Navigation("MarkModels");
+
+                    b.Navigation("Servers");
+                });
+
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.MarkModel", b =>
+                {
+                    b.Navigation("Servers");
+                });
+
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.OrderTicket", b =>
+                {
+                    b.Navigation("OrderTicketDetails");
+                });
+
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.Plan", b =>
+                {
+                    b.Navigation("OrderTickets");
+                });
+
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.PlanCategory", b =>
+                {
+                    b.Navigation("OrderTickets");
+
+                    b.Navigation("Plans");
+                });
+
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.Server", b =>
+                {
+                    b.Navigation("OrderTickets");
+
+                    b.Navigation("Plans");
+                });
+
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.Tax", b =>
+                {
+                    b.Navigation("Plans");
+                });
+
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.Zone", b =>
+                {
+                    b.Navigation("Servers");
                 });
 #pragma warning restore 612, 618
         }

@@ -245,8 +245,8 @@ namespace Spi.Web.Controllers.EntitiesSoft
                     modelo.DateCreated = DateTime.Now;
                     _context.Add(modelo);
                     await _context.SaveChangesAsync();
-                    _notyfService.Success("El Regitro se Guardado Con Exito -  Notificacion");
 
+                    _notyfService.Success("El Regitro se Guardado Con Exito -  Notificacion");
                     return RedirectToAction(nameof(Details), new { id = modelo.PlanId });
                 }
                 catch (DbUpdateException dbUpdateException)
