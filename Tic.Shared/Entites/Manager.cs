@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using Tic.Shared.Enum;
+using Tic.Shared.EntitiesSoft;
 
 namespace Tic.Shared.Entites
 {
@@ -86,5 +87,8 @@ namespace Tic.Shared.Entites
 
         [Display(Name = "Compañia")]
         public Corporate? Corporate { get; set; }
+
+        [Display(Name = "Usuario")]
+        public ICollection<SellOne>? SellOnes { get; set; }
     }
 }

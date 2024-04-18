@@ -6,7 +6,7 @@ using Tic.Web.Data;
 
 namespace Tic.Web.Helpers
 {
-    public class ComboHelper :IComboHelper
+    public class ComboHelper : IComboHelper
     {
         private readonly DataContext _context;
 
@@ -352,7 +352,7 @@ namespace Tic.Web.Helpers
 
         public IEnumerable<SelectListItem> GetComboTimeInactive()
         {
-            List<SelectListItem> list = _context.TicketInactives.Where(c => c.Activo == true).OrderBy(x=> x.Orden)
+            List<SelectListItem> list = _context.TicketInactives.Where(c => c.Activo == true).OrderBy(x => x.Orden)
                 .Select(t => new SelectListItem
                 {
                     Text = t.Tiempo,
@@ -441,6 +441,26 @@ namespace Tic.Web.Helpers
             list.Insert(0, new SelectListItem
             {
                 Text = "[Seleccione Plan...]",
+                Value = "0"
+            });
+
+            return list;
+        }
+
+        public IEnumerable<SelectListItem> GetComboDocument(int idCorporate)
+        {
+            List<SelectListItem> list = _context.DocumentTypes.Where(c => c.Active == true && c.CorporateId == idCorporate)
+                .Select(t => new SelectListItem
+                {
+                    Text = t.DocumentName,
+                    Value = $"{t.DocumentTypeId}"
+                })
+            .OrderBy(t => t.Text)
+            .ToList();
+
+            list.Insert(0, new SelectListItem
+            {
+                Text = "[Seleccione Tipo...]",
                 Value = "0"
             });
 

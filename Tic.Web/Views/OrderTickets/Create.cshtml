@@ -206,7 +206,7 @@
                     type: 'POST',
                     url: '@Url.Action("GetPlan")',
                     dataType: 'json',
-                    data: { idCategory: $("#CategoryPlanId").val(), idServer: $("#ServerId").val() },
+                    data: { idCategory: $("#PlanCategoryId").val(), idServer: $("#ServerId").val() },
                     success: function (dato) {
                         $.each(dato, function (i, dato) {
                             $("#PlanId").append('<option value="'
@@ -236,7 +236,7 @@
                     type: 'POST',
                     url: '@Url.Action("GetServidores")',
                     dataType: 'json',
-                    data: { },
+                    data: { idCorporate: $("#CorporateId").val() },
                     success: function (data) {
                         $.each(data, function (i, data) {
                             console.log(data);

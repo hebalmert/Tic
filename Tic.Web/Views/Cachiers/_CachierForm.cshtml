@@ -1,0 +1,132 @@
+﻿@model Tic.Shared.EntitiesSoft.Cachier
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="mb-3">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 130px">@Html.DisplayNameFor(model => model.FirstName)</span>
+                <input asp-for="FirstName" class="form-control" />
+            </div>
+            <span asp-validation-for="FirstName" class="form-text"></span>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="mb-3">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 130px">@Html.DisplayNameFor(model => model.LastName)</span>
+                <input asp-for="LastName" class="form-control" />
+            </div>
+            <span asp-validation-for="LastName" class="form-text"></span>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="mb-3">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 130px">@Html.DisplayNameFor(model => model.Document)</span>
+                <input asp-for="Document" class="form-control" style="width: 60px; text-align:center" />
+                <select asp-for="DocumentTypeId" class="form-control" style="width: 20px" asp-items="Model.ListDocument"></select>
+            </div>
+            <span asp-validation-for="DocumentTypeId" class="form-text"></span>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="mb-3">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 130px">@Html.DisplayNameFor(model => model.PhoneNumber)</span>
+                <input asp-for="PhoneNumber" class="form-control" />
+            </div>
+            <span asp-validation-for="PhoneNumber" class="form-text"></span>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="mb-3">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 130px">@Html.DisplayNameFor(model => model.UserName)</span>
+                <input asp-for="UserName" class="form-control" />
+            </div>
+            <span asp-validation-for="UserName" class="form-text"></span>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <input asp-for="ImageFile" type="file" class="form-control" placeholder="Seleccione Imagen" />
+            <span asp-validation-for="ImageFile" class="text-danger"></span>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="mb-3">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 130px">@Html.DisplayNameFor(model => model.Address)</span>
+                <input asp-for="Address" class="form-control" />
+            </div>
+            <span asp-validation-for="Address" class="form-text"></span>
+        </div>
+    </div>
+</div>
+<hr style="height:2px;border:none;color:#333;background-color:#333;" />
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group form-check">
+                    <div class="mb-3">
+                        <label class="form-check-label">
+                            <input id="MultiServer" class="form-check-input" asp-for="MultiServer" /> @Html.DisplayNameFor(model => model.MultiServer)
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="mb-1">
+                    <div class="input-group">
+                        <span class="input-group-text" style="width: 130px">@Html.DisplayNameFor(model => model.ServerId)</span>
+                        <select asp-for="ServerId" class="form-control" asp-items="Model.ListServer"></select>
+                    </div>
+                    <span asp-validation-for="ServerId" class="form-text"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="mb-3">
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input id="Porcentaje" class="form-check-input" asp-for="Porcentaje" /> @Html.DisplayNameFor(model => model.Porcentaje)
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="mb-3">
+                    <div class="input-group">
+                        <span class="input-group-text" style="width: 130px">@Html.DisplayNameFor(model => model.RateCachier)</span>
+                        <input asp-for="RateCachier" class="form-control" />
+                    </div>
+                    <span asp-validation-for="RateCachier" class="form-text"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" asp-for="Activo" /> @Html.DisplayNameFor(model => model.Activo)
+            </label>
+        </div>
+    </div>
+    <div class="col-md-6">
+
+    </div>
+</div>

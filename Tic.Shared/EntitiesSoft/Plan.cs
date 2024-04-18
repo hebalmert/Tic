@@ -162,8 +162,6 @@ namespace Tic.Shared.EntitiesSoft
         [NotMapped]
         public decimal RateTax => Tax == null ? 0 : Tax!.Rate;
 
-
-
         [NotMapped]
         public string VelocidadDown => Convert.ToString(SpeedDown) + SpeedDownType;
 
@@ -194,6 +192,8 @@ namespace Tic.Shared.EntitiesSoft
         public TicketTime? TicketTime { get; set; }
 
         public ICollection<OrderTicket>? OrderTickets { get; set; }
+
+        public ICollection<SellOne>? SellOnes { get; set; }
 
     }
 }

@@ -1,0 +1,335 @@
+﻿@model Tic.Shared.EntitiesSoft.SellOne
+
+@{
+    ViewData["Title"] = "Venta Tickets";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-7">
+            <div class="shadow-lg mb-5 card-roud">
+                <div class="card card-roud">
+                    <div class="card-body">
+                        <p>
+                            <h2>Venta Tickets</h2>
+                        <p />
+                        <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+                        <br />
+
+                        <flash dismissable="true" />
+                        <form asp-action="Create">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="CorporateId" />
+                            <input type="hidden" asp-for="OrderTicketDetailId" />
+                            <input type="hidden" asp-for="NamePlan" />
+                            <input type="hidden" asp-for="ManagerId" />
+
+                            <div class="row">
+                                <div class="col-md-12 md-2">
+                                    <div class="shadow-lg mb-3 card-roud">
+                                        <div class="card card-roud">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-6 md-2">
+                                                        <div class="form-group">
+                                                            <label asp-for="SellControl" class="control-label"></label>
+                                                            <input asp-for="SellControl" class="form-control" readonly="readonly" />
+                                                            <span asp-validation-for="SellControl" class="text-danger"></span>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-md-6 md-2">
+                                                        <div class="form-group">
+                                                            <label asp-for="Date" class="control-label"></label>
+                                                            <input asp-for="Date" class="form-control" readonly="readonly" />
+                                                            <span asp-validation-for="Date" class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12 md-2">
+                                    <div class="shadow-lg mb-3 card-roud">
+                                        <div class="card card-roud">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-6 md-2">
+                                                        <div class="form-group">
+                                                            <label asp-for="PlanCategoryId" class="control-label"></label>
+                                                            <select asp-for="PlanCategoryId" class="form-control" asp-items="Model.ListCategory"></select>
+                                                            <span asp-validation-for="PlanCategoryId" class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 md-2">
+                                                        <div class="form-group">
+                                                            <label asp-for="ServerId" class="control-label"></label>
+                                                            <select asp-for="ServerId" class="form-control" asp-items="Model.ListServer"></select>
+                                                            <span asp-validation-for="ServerId" class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 md-2">
+                                                        <div class="form-group">
+                                                            <label asp-for="PlanId" class="control-label"></label>
+                                                            <select asp-for="PlanId" class="form-control" asp-items="Model.ListPlan"></select>
+                                                            <span asp-validation-for="PlanId" class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 md-2">
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 md-2">
+                                                        <div class="form-group">
+                                                            <label asp-for="Rate" class="control-label"></label>
+                                                            <input asp-for="Rate" class="form-control" readonly="readonly" />
+                                                            <span asp-validation-for="Rate" class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 md-2">
+                                                        <div class="form-group">
+                                                            <label asp-for="Precio" class="control-label"></label>
+                                                            <input asp-for="Precio" class="form-control" readonly="readonly" />
+                                                            <span asp-validation-for="Precio" class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 md-2">
+                                    <div class="shadow-lg mb-3 card-roud">
+                                        <div class="card card-roud  align-items-center">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-6 md 2">
+                                                        <div class="form-group">
+                                                            <label asp-for="Stock" class="control-label"></label>
+                                                            <input asp-for="Stock" class="form-control" readonly="readonly" />
+                                                            <span asp-validation-for="Stock" class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 md 2">
+                                                        <div class="form-group">
+                                                            <label asp-for="Usuario" class="control-label"></label>
+                                                            <input asp-for="Usuario" class="form-control" readonly="readonly" />
+                                                            <span asp-validation-for="Usuario" class="text-danger"></span>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 md-2">
+                                    <div class="shadow-lg mb-3 card-roud">
+                                        <div class="card card-roud align-items-center">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+
+                                                            <strong>@Html.DisplayNameFor(model => model.SubTotal):</strong>
+                                                            <input asp-for="SubTotal" class="form-control" readonly="readonly" />
+                                                            <span asp-validation-for="SubTotal" class="text-danger"></span>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label asp-for="Impuesto" class="control-label"></label>
+                                                            <input asp-for="Impuesto" class="form-control" readonly="readonly" />
+                                                            <span asp-validation-for="Impuesto" class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label asp-for="Total" class="control-label"></label>
+                                                            <input asp-for="Total" class="form-control" readonly="readonly" />
+                                                            <span asp-validation-for="Total" class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 md-2">
+                                    <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+
+
+                                    <div class="form-group">
+                                        <br />
+                                        <button title="Volver" type="button" class="btn btn-outline-dark btn-bor" onclick="location.href = '@Url.Action("Index", new  {})'">
+                                            <i class="fa fa-backspace"></i>
+                                            Volver
+                                        </button>
+
+                                        <button title="Guardar" type="submit" class="btn btn-outline-primary btn-bor">
+                                            <i class="fa fa-save"></i>
+                                            Guardar
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script type="text/javascript">
+        $(function () {
+
+            $("#ServerId").change(function () {
+                $("#PlanId").empty();
+                $("#PlanId").append('<option value="0">[Seleccione un Plan...]</option>');
+                $("#Rate").val("0");
+                $("#Precio").val("0");
+                $("#Cantidad").val("0");
+                $("#SubTotal").val("0");
+                $("#Impuesto").val("0");
+                $("#Total").val("0");
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetPlan")',
+                    dataType: 'json',
+                    data: { idCategory: $("#PlanCategoryId").val(), idServer: $("#ServerId").val() },
+                    success: function (dato) {
+                        $.each(dato, function (i, dato) {
+                            $("#PlanId").append('<option value="'
+                                + dato.value + '">'
+                                + dato.text + '</option>');
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Falla en Cargar Planes.' + ex);
+                    }
+                });
+                return false;
+            });
+
+            $("#PlanCategoryId").change(function () {
+                $("#PlanId").empty();
+                $("#PlanId").append('<option value="0">[Seleccione un Plan...]</option>');
+                $("#ServerId").empty();
+                $("#ServerId").append('<option value="0">[Seleccione un Plan...]</option>');
+                $("#Rate").val("0");
+                $("#Precio").val("0");
+                $("#Cantidad").val("0");
+                $("#SubTotal").val("0");
+                $("#Impuesto").val("0");
+                $("#Total").val("0");
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetServidores")',
+                    dataType: 'json',
+                    data: { idCorporate: $("#CorporateId").val() },
+                    success: function (data) {
+                        $.each(data, function (i, data) {
+                            $("#ServerId").append('<option value="'
+                                + data.value + '">'
+                                + data.text + '</option>');
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Falla en Cargar Planes.' + ex);
+                    }
+                });
+                return false;
+            });
+
+            $("#PlanId").change(function () {
+
+                $("#Rate").val("0");
+                $("#Precio").val("0");
+                $("#Cantidad").val("0");
+                $("#SubTotal").val("0");
+                $("#Impuesto").val("0");
+                $("#Total").val("0");
+                $("#Stock").val(0);
+                $("#Usuario").val("");
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetPrecio")',
+                    dataType: 'json',
+                    data: { planId: $("#PlanId").val() },
+                    success: function (data2) {
+                        $("#Rate").val(data2.rate);
+                        $("#Precio").val(data2.precio);
+                        var pricePlan = parseFloat(data2.precio);
+                        var cuant = 1;
+                        var tasa = parseFloat(data2.rate);
+                        var rate = 0;
+                        if (!isNaN(pricePlan) && !isNaN(cuant) && !isNaN(tasa)) {
+                            var precio = pricePlan * cuant;
+                            rate = (tasa / 100) + 1;
+                            var subTotalStg = (precio / rate).toFixed(2);
+                            var subTotal = parseFloat(subTotalStg);
+                            var impuestoStg = (precio - subTotal).toFixed(2);
+                            var impuesto = parseFloat(impuestoStg);
+                            $("#SubTotal").val(subTotal);
+                            $("#Impuesto").val(impuesto);
+                            $("#Total").val(precio);
+                            console.log(pricePlan);
+                        }
+                    },
+                    error: function (ex) {
+                        alert('Falla en Cargar Planes.' + ex);
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetPin")',
+                    dataType: 'json',
+                    data: { IdPlan: $("#PlanId").val(), IdServer: $("#ServerId").val() },
+                    success: function (data3) {
+                        $("#Usuario").val(data3.pin);
+                        $("#OrderTicketDetailId").val(data3.ordid);
+                        $("#Stock").val(data3.stock);
+                    },
+                    error: function (ex) {
+                        alert('No hay Ticket Disponibles' + ex);
+                        $("#Usuario").val("");
+                        $("#Stock").val(0);
+                    }
+                });
+
+                var selectPlan = $("#PlanId").find('option:selected').text();
+                $("#NamePlan").val(selectPlan);
+            });
+        });
+    </script>
+
+}

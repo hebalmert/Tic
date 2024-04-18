@@ -1,0 +1,257 @@
+﻿@model Tic.Shared.EntitiesSoft.Cachier
+
+@{
+    ViewData["Title"] = "Editar";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center align-items-center">
+
+        <div class="col-md-10">
+            <div class="shadow-lg mb-5 card-roud">
+                <div class="card card-roud">
+                    <div class="card-body">
+                        <p>
+                            <h2>Editar Usuario</h2>
+                        <p />
+                        <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+
+                        <flash dismissable="true" />
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form asp-action="Edit" enctype="multipart/form-data">
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                    <input type="hidden" asp-for="CorporateId" />
+                                    <input type="hidden" asp-for="CachierId" />
+                                    <input type="hidden" asp-for="Photo" />
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="width: 130px">@Html.DisplayNameFor(model => model.FirstName)</span>
+                                                    <input asp-for="FirstName" class="form-control" />
+                                                </div>
+                                                <span asp-validation-for="FirstName" class="form-text"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="width: 130px">@Html.DisplayNameFor(model => model.LastName)</span>
+                                                    <input asp-for="LastName" class="form-control" />
+                                                </div>
+                                                <span asp-validation-for="LastName" class="form-text"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="width: 130px">@Html.DisplayNameFor(model => model.Document)</span>
+                                                    <input asp-for="Document" class="form-control" style="width: 60px; text-align:center" />
+                                                    <select asp-for="DocumentTypeId" class="form-control" style="width: 20px" asp-items="Model.ListDocument"></select>
+                                                </div>
+                                                <span asp-validation-for="DocumentTypeId" class="form-text"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="width: 130px">@Html.DisplayNameFor(model => model.PhoneNumber)</span>
+                                                    <input asp-for="PhoneNumber" class="form-control" />
+                                                </div>
+                                                <span asp-validation-for="PhoneNumber" class="form-text"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="width: 130px">@Html.DisplayNameFor(model => model.UserName)</span>
+                                                    <input asp-for="UserName" class="form-control" readonly="readonly"/>
+                                                </div>
+                                                <span asp-validation-for="UserName" class="form-text"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input asp-for="ImageFile" type="file" class="form-control" placeholder="Seleccione Imagen" />
+                                                <span asp-validation-for="ImageFile" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="mb-3">
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="width: 130px">@Html.DisplayNameFor(model => model.Address)</span>
+                                                    <input asp-for="Address" class="form-control" />
+                                                </div>
+                                                <span asp-validation-for="Address" class="form-text"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group form-check">
+                                                        <div class="mb-3">
+                                                            <label class="form-check-label">
+                                                                <input id="MultiServer" class="form-check-input" asp-for="MultiServer" /> @Html.DisplayNameFor(model => model.MultiServer)
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <div class="mb-1">
+                                                        <div class="input-group">
+                                                            <span class="input-group-text" style="width: 130px">@Html.DisplayNameFor(model => model.ServerId)</span>
+                                                            <select asp-for="ServerId" class="form-control" asp-items="Model.ListServer"></select>
+                                                        </div>
+                                                        <span asp-validation-for="ServerId" class="form-text"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <div class="form-group form-check">
+                                                            <label class="form-check-label">
+                                                                <input id="Porcentaje" class="form-check-input" asp-for="Porcentaje" /> @Html.DisplayNameFor(model => model.Porcentaje)
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <div class="mb-3">
+                                                        <div class="input-group">
+                                                            <span class="input-group-text" style="width: 130px">@Html.DisplayNameFor(model => model.RateCachier)</span>
+                                                            <input asp-for="RateCachier" class="form-control" />
+                                                        </div>
+                                                        <span asp-validation-for="RateCachier" class="form-text"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group form-check">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input" asp-for="Activo" /> @Html.DisplayNameFor(model => model.Activo)
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                        </div>
+                                    </div>
+
+                                    <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+
+                                    <div class="form-group">
+                                        <br />
+                                        <button title="Volver" type="button" class="btn btn-outline-dark btn-bor" onclick="location.href = '@Url.Action("Index", new  {})'">
+                                            <i class="bi bi-box-arrow-left" style="font-size: 20px;"></i>
+                                            Volver
+                                        </button>
+
+                                        <button title="Guardar" type="submit" class="btn btn-outline-primary btn-bor">
+                                            <i class="bi bi-check2-square" style="font-size: 20px;"></i>
+                                            Guardar
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script type="text/javascript">
+        $(document).ready(function () {
+            let tt = $("#MultiServer:checked").val();
+            console.log(tt);
+            if (tt == "true") {
+                $("#ServerId").attr("disabled", true);
+            } else {
+                $("#ServerId").attr("disabled", false);
+            }
+
+            let tt3 = $("#Porcentaje:checked").val();
+            console.log(tt3);
+            if (tt3 == "true") {
+                $("#RateCachier").attr("readonly", true);
+                $("#RateCachier").val(0);
+            } else {
+                $("#RateCachier").attr("readonly", false);
+            }
+
+
+
+            $('#SaveBtn').click(function () {
+                if ($('#Name').val().length > 0 && $('#Document').val().length > 0 && $('#UserName').val().length > 0 && $('#Address').val().length > 0) {
+                    $('.spinner').css('display', 'block');
+                }
+            });
+
+            $("#CityId").change(function () {
+                $("#CityZoneId").empty();
+                $("#CityZoneId").append('<option value="0">[Seleccione una Zona...]</option>');
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetZones")',
+                    dataType: 'json',
+                    data: { Idcity: $("#CityId").val() },
+                    success: function (data) {
+                        $.each(data, function (i, data) {
+                            $("#CityZoneId").append('<option value="'
+                                + data.cityZoneId + '">'
+                                + data.name + '</option>');
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Failed to retrieve departments.' + ex);
+                    }
+                });
+                return false;
+            })
+            $("#MultiServer").change(function () {
+                let tt = $("#MultiServer:checked").val();
+                console.log(tt);
+                if (tt == "true") {
+                    $("#ServerId").attr("disabled", true);
+                } else {
+                    $("#ServerId").attr("disabled", false);
+                }
+            });
+            $("#Porcentaje").change(function () {
+                let tt2 = $("#Porcentaje:checked").val();
+                console.log(tt2);
+                if (tt2 == "true") {
+                    $("#RateCachier").attr("readonly", true);
+                    $("#RateCachier").val(0);
+                } else {
+                    $("#RateCachier").attr("readonly", false);
+                    $("#RateCachier").val(0);
+                }
+            });
+        });
+    </script>
+}

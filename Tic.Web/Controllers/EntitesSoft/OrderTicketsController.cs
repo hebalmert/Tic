@@ -1,10 +1,8 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
-using Tic.Shared.Entites;
 using Tic.Shared.EntitiesSoft;
 using Tic.Web.Data;
 using Tic.Web.Helpers;
@@ -12,6 +10,7 @@ using X.PagedList;
 
 namespace Tic.Web.Controllers.EntitesSoft
 {
+    [Authorize(Roles = "User")]
     public class OrderTicketsController : Controller
     {
         private readonly DataContext _context;
@@ -58,6 +57,7 @@ namespace Tic.Web.Controllers.EntitesSoft
                     .Include(z => z.PlanCategory)
                     .Include(z => z.Server)
                     .Include(z => z.Plan)
+                    .Include(z => z.OrderTicketDetails)
                     .Where(c => c.OrderTicketId == buscarId && c.CorporateId == user.CorporateId).OrderByDescending(o => o.Date)
                     .ThenBy(o => o.NamePlan)
                     .ToPagedListAsync(page ?? 1, 25));
@@ -68,6 +68,7 @@ namespace Tic.Web.Controllers.EntitesSoft
                     .Include(z => z.PlanCategory)
                     .Include(z => z.Server)
                     .Include(z => z.Plan)
+                    .Include(z => z.OrderTicketDetails)
                     .Where(c => c.CorporateId == user.CorporateId).OrderByDescending(o => o.Date)
                     .ThenBy(o => o.NamePlan)
                     .ToPagedListAsync(page ?? 1, 25));
@@ -248,9 +249,9 @@ namespace Tic.Web.Controllers.EntitesSoft
         {
             var ordenTickets = await _context.OrderTickets
                 .Include(x => x.Server)
-                .ThenInclude(x=> x!.IpNetwork)
+                .ThenInclude(x => x!.IpNetwork)
                 .Include(x => x.Plan)
-                .ThenInclude(x=> x!.TicketTime)
+                .ThenInclude(x => x!.TicketTime)
                 .FirstOrDefaultAsync(x => x.OrderTicketId == idOrderTicket);
 
             OrderTicketDataViewModel modelo = new()
@@ -449,10 +450,10 @@ namespace Tic.Web.Controllers.EntitesSoft
             return Json(data.Select(x => new SelectListItem(x.PlanName, x.PlanId.ToString())));
         }
 
-        public JsonResult GetServidores()
+        public JsonResult GetServidores(int idCorporate)
         {
             var servidor = _context.Servers
-                .Where(c => c.Active == true).ToList();
+                .Where(c => c.Active == true && c.CorporateId == idCorporate).ToList();
 
             return Json(servidor.Select(x => new SelectListItem(x.ServerName, x.ServerId.ToString())));
         }

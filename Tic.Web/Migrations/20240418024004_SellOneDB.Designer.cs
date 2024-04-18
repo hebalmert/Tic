@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Tic.Web.Data;
 
@@ -11,9 +12,11 @@ using Tic.Web.Data;
 namespace Tic.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240418024004_SellOneDB")]
+    partial class SellOneDB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1167,81 +1170,6 @@ namespace Tic.Web.Migrations
                     b.ToTable("Registers");
                 });
 
-            modelBuilder.Entity("Tic.Shared.EntitiesSoft.SellOne", b =>
-                {
-                    b.Property<int>("SellOneId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SellOneId"));
-
-                    b.Property<int>("CorporateId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("date");
-
-                    b.Property<decimal>("Impuesto")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(15,2)");
-
-                    b.Property<int>("ManagerId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("NamePlan")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("OrderTicketDetailId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PlanCategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PlanId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Rate")
-                        .HasPrecision(15, 2)
-                        .HasColumnType("decimal(15,2)");
-
-                    b.Property<int>("SellControl")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ServerId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("SubTotal")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(15,2)");
-
-                    b.Property<decimal>("Total")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(15,2)");
-
-                    b.HasKey("SellOneId");
-
-                    b.HasIndex("CorporateId");
-
-                    b.HasIndex("ManagerId");
-
-                    b.HasIndex("OrderTicketDetailId");
-
-                    b.HasIndex("PlanCategoryId");
-
-                    b.HasIndex("PlanId");
-
-                    b.HasIndex("ServerId");
-
-                    b.HasIndex("SellControl", "CorporateId")
-                        .IsUnique();
-
-                    b.HasIndex("SellOneId", "OrderTicketDetailId", "CorporateId")
-                        .IsUnique();
-
-                    b.ToTable("SellOnes");
-                });
-
             modelBuilder.Entity("Tic.Shared.EntitiesSoft.Server", b =>
                 {
                     b.Property<int>("ServerId")
@@ -1377,6 +1305,76 @@ namespace Tic.Web.Migrations
                         .IsUnique();
 
                     b.ToTable("Zones");
+                });
+
+            modelBuilder.Entity("ic.Shared.EntitiesSoft.SellOne", b =>
+                {
+                    b.Property<int>("SellOneId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SellOneId"));
+
+                    b.Property<int>("CorporateId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<decimal>("Impuesto")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(15,2)");
+
+                    b.Property<string>("NamePlan")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("OrderTicketDetailId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PlanCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PlanId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Rate")
+                        .HasPrecision(15, 2)
+                        .HasColumnType("decimal(15,2)");
+
+                    b.Property<int>("SellControl")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ServerId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("SubTotal")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(15,2)");
+
+                    b.Property<decimal>("Total")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(15,2)");
+
+                    b.HasKey("SellOneId");
+
+                    b.HasIndex("CorporateId");
+
+                    b.HasIndex("OrderTicketDetailId");
+
+                    b.HasIndex("PlanCategoryId");
+
+                    b.HasIndex("PlanId");
+
+                    b.HasIndex("ServerId");
+
+                    b.HasIndex("SellControl", "CorporateId")
+                        .IsUnique();
+
+                    b.HasIndex("SellOneId", "OrderTicketDetailId", "CorporateId")
+                        .IsUnique();
+
+                    b.ToTable("SellOnes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -1731,57 +1729,6 @@ namespace Tic.Web.Migrations
                     b.Navigation("Corporate");
                 });
 
-            modelBuilder.Entity("Tic.Shared.EntitiesSoft.SellOne", b =>
-                {
-                    b.HasOne("Tic.Shared.Entites.Corporate", "Corporate")
-                        .WithMany()
-                        .HasForeignKey("CorporateId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Tic.Shared.Entites.Manager", "Manager")
-                        .WithMany("SellOnes")
-                        .HasForeignKey("ManagerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Tic.Shared.EntitiesSoft.OrderTicketDetail", "OrderTicketDetail")
-                        .WithMany("SellOnes")
-                        .HasForeignKey("OrderTicketDetailId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Tic.Shared.EntitiesSoft.PlanCategory", "PlanCategory")
-                        .WithMany("SellOnes")
-                        .HasForeignKey("PlanCategoryId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Tic.Shared.EntitiesSoft.Plan", "Plan")
-                        .WithMany("SellOnes")
-                        .HasForeignKey("PlanId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Tic.Shared.EntitiesSoft.Server", "Server")
-                        .WithMany("SellOnes")
-                        .HasForeignKey("ServerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Corporate");
-
-                    b.Navigation("Manager");
-
-                    b.Navigation("OrderTicketDetail");
-
-                    b.Navigation("Plan");
-
-                    b.Navigation("PlanCategory");
-
-                    b.Navigation("Server");
-                });
-
             modelBuilder.Entity("Tic.Shared.EntitiesSoft.Server", b =>
                 {
                     b.HasOne("Tic.Shared.Entites.Corporate", "Corporate")
@@ -1863,6 +1810,49 @@ namespace Tic.Web.Migrations
                     b.Navigation("State");
                 });
 
+            modelBuilder.Entity("ic.Shared.EntitiesSoft.SellOne", b =>
+                {
+                    b.HasOne("Tic.Shared.Entites.Corporate", "Corporate")
+                        .WithMany()
+                        .HasForeignKey("CorporateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Tic.Shared.EntitiesSoft.OrderTicketDetail", "OrderTicketDetail")
+                        .WithMany("SellOnes")
+                        .HasForeignKey("OrderTicketDetailId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Tic.Shared.EntitiesSoft.PlanCategory", "PlanCategory")
+                        .WithMany("SellOnes")
+                        .HasForeignKey("PlanCategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Tic.Shared.EntitiesSoft.Plan", "Plan")
+                        .WithMany("SellOnes")
+                        .HasForeignKey("PlanId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Tic.Shared.EntitiesSoft.Server", "Server")
+                        .WithMany("SellOnes")
+                        .HasForeignKey("ServerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Corporate");
+
+                    b.Navigation("OrderTicketDetail");
+
+                    b.Navigation("Plan");
+
+                    b.Navigation("PlanCategory");
+
+                    b.Navigation("Server");
+                });
+
             modelBuilder.Entity("Tic.Shared.Entites.City", b =>
                 {
                     b.Navigation("Corporates");
@@ -1880,11 +1870,6 @@ namespace Tic.Web.Migrations
                     b.Navigation("Corporates");
 
                     b.Navigation("States");
-                });
-
-            modelBuilder.Entity("Tic.Shared.Entites.Manager", b =>
-                {
-                    b.Navigation("SellOnes");
                 });
 
             modelBuilder.Entity("Tic.Shared.Entites.SoftPlan", b =>

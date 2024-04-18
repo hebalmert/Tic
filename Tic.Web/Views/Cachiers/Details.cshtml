@@ -1,0 +1,145 @@
+﻿@model Tic.Shared.EntitiesSoft.Cachier
+
+@{
+    ViewData["Title"] = "Detalle";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center align-items-center">
+
+        <div class="col-md-10">
+            <div class="shadow-lg mb-5 card-roud">
+                <div class="card card-roud">
+                    <div class="card-body">
+                        <p>
+                            <h2>Detalle Cajero</h2>
+                        <p />
+                        <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+
+                        <flash dismissable="true" />
+
+                        <div class="row">
+                            <div class="col-md-12 md-1" style="text-align:center">
+                                <div class="form-group ">
+                                    <img src="@Model.ImageFullPath" alt="image" style="width:100px;height:100px;max-width: 100%; height: auto;" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <span class="input-group-text" style="width: 120px">@Html.DisplayNameFor(model => model.FirstName)</span>
+                                    <text class="form-control">@Html.DisplayFor(model => model.FirstName)</text>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <span class="input-group-text" style="width: 120px">@Html.DisplayNameFor(model => model.LastName)</span>
+                                    <text class="form-control">@Html.DisplayFor(model => model.LastName)</text>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <span class="input-group-text" style="width: 120px">@Html.DisplayNameFor(model => model.Document)</span>
+                                    <text class="form-control">@Html.DisplayFor(model => model.Document)</text>
+                                    <text class="form-control">@Html.DisplayFor(model => model.DocumentType!.DocumentName)</text>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <span class="input-group-text" style="width: 120px">@Html.DisplayNameFor(model => model.PhoneNumber)</span>
+                                    <text class="form-control">@Html.DisplayFor(model => model.PhoneNumber)</text>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <span class="input-group-text" style="width: 120px">@Html.DisplayNameFor(model => model.UserName)</span>
+                                    <text class="form-control">@Html.DisplayFor(model => model.UserName)</text>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="input-group">
+                                    <span class="input-group-text" style="width: 120px">@Html.DisplayNameFor(model => model.Address)</span>
+                                    <text class="form-control">@Html.DisplayFor(model => model.Address)</text>
+                                </div>
+                            </div>
+                        </div>
+                        <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="input-group">
+                                            <span class="input-group-text" style="width: 120px">@Html.DisplayNameFor(model => model.MultiServer)</span>
+                                            <text class="form-control">@Html.DisplayFor(model => model.MultiServer)</text>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="input-group">
+                                            <span class="input-group-text" style="width: 120px">@Html.DisplayNameFor(model => model.Server!.ServerName)</span>
+                                            <text class="form-control">@Html.DisplayFor(model => model.Server!.ServerName)</text>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="input-group">
+                                            <span class="input-group-text" style="width: 120px">@Html.DisplayNameFor(model => model.Porcentaje)</span>
+                                            <text class="form-control">@Html.DisplayFor(model => model.Porcentaje)</text>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="input-group">
+                                            <span class="input-group-text" style="width: 120px">@Html.DisplayNameFor(model => model.RateCachier)</span>
+                                            <text class="form-control">@Html.DisplayFor(model => model.RateCachier)</text>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <span class="input-group-text" style="width: 120px">@Html.DisplayNameFor(model => model.Activo)</span>
+                                    <text class="form-control">@Html.DisplayFor(model => model.Activo)</text>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                            </div>
+                        </div>
+
+                        <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+
+                        <div class="form-group col-12">
+                            <button title="Volver" type="button" class="btn btn-outline-dark btn-bor" onclick="location.href = '@Url.Action("Index", new  {})'">
+                                <i class="fa fa-backspace"></i>
+                                Volver
+                            </button>
+
+                            <a title="Editar" asp-action="Edit" asp-route-id="@Model.CachierId" class="btn btn-outline-primary btn-bor">
+                                <i class="fa fa-pencil-alt"></i>
+                                Editar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

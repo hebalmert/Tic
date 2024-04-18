@@ -27,5 +27,7 @@ namespace Tic.Shared.EntitiesSoft
 
         public Corporate? Corporate { get; set; }
 
+        public ICollection<Cachier>? Cachiers { get; set; }
+
     }
 }

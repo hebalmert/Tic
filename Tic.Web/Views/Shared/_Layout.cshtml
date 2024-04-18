@@ -127,85 +127,28 @@
                                 <ul class="dropdown-menu dropdown-menu-dark">
                                     <li>
                                         <h6 class="dropdown-header">
-                                            <i class="bi bi-ethernet"></i>
-                                            Operaciones
+                                            <i class="bi bi-cone-striped"></i>
+                                            Crear Tickets
                                         </h6>
                                     </li>
                                     <li><a id="Registros" class="dropdown-item" asp-action="Index" asp-controller="OrderTickets">Ordenes Tickets</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
-                                        <h6 class="dropdown-header mt-3">
-                                            <i class="bi bi-hdd-network"></i>
-                                            Equipos Red
+                                        <h6 class="dropdown-header">
+                                            <i class="bi bi-cone-striped"></i>
+                                            Venta Tickets
                                         </h6>
                                     </li>
-                                    <li><a id="_Nodes" class="dropdown-item" asp-action="Index" asp-controller="Nodes">Equipo Nodes</a></li>
-                                    <li><a id="_Servers" class="dropdown-item" asp-action="Index" asp-controller="Servers">Servidores</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    }
-                    @if (User.Identity!.IsAuthenticated && User.IsInRole("User") | User.IsInRole("Cachier"))
-                    {
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item dropdown">
-
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="bi bi-cone-striped"></i>
-                                    Operaciones
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-dark">
-                                    @if (User.IsInRole("User"))
-                                    {
-                                        <li>
-                                            <h6 class="dropdown-header">
-                                                <i class="bi bi-person"></i>
-                                                Personas
-                                            </h6>
-                                        </li>
-                                        <li><a id="_Clientes" class="dropdown-item" asp-action="Index" asp-controller="Clients">Clientes</a></li>
-                                        <li><a id="_Contract" class="dropdown-item" asp-action="Index" asp-controller="Contracts">Contratos</a></li>
-                                        <li><a id="_ServiceRequest" class="dropdown-item" asp-action="Index" asp-controller="ServiceRequests">Solicitud Soporte</a></li>
-                                    }
+                                    <li><a id="TicketUno" class="dropdown-item" asp-action="Create" asp-controller="SellOnes">Venta Ticket</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
                                         <h6 class="dropdown-header mt-3">
-                                            <i class="bi bi-cash-coin"></i>
-                                            Contables
+                                            <i class="bi bi-cone-striped"></i>
+                                            Venta Tickets
                                         </h6>
                                     </li>
-                                    @if (User.IsInRole("User") | User.IsInRole("Cachier"))
-                                    {
-                                        <li><a id="_CxCBill" class="dropdown-item" asp-action="Index" asp-controller="CxCBills">Cuentas por Cobrar</a></li>
-                                        <li><a id="_PrePayment" class="dropdown-item" asp-action="Index" asp-controller="PrePayments">Pago Adelantado</a></li>
-                                    }
-                                    @if (User.IsInRole("User"))
-                                    {
-                                        <li><a id="_PreExonerated" class="dropdown-item" asp-action="Index" asp-controller="PreExonerateds">Pago Exonerado</a></li>
-                                        <li><a id="_Outcomes" class="dropdown-item" asp-action="Index" asp-controller="Outcomes">Egresos Generales</a></li>
-
-                                        <li><hr class="dropdown-divider"></li>
-                                        <li>
-                                            <h6 class="dropdown-header mt-3">
-                                                <i class="bi bi-sort-numeric-up"></i>
-                                                Seriales
-                                            </h6>
-                                        </li>
-                                        <li><a id="_Cargue" class="dropdown-item" asp-action="Index" asp-controller="Cargues">Cargue Seriales</a></li>
-                                        <li><a id="_BusSeriales" class="dropdown-item" asp-action="IndexSerial" asp-controller="Cargues">Ver Seriales</a></li>
-                                        <li><hr class="dropdown-divider"></li>
-                                        <li>
-                                            <h6 class="dropdown-header mt-3">
-                                                <i class="bi bi-cash-coin"></i>
-                                                Notas y Corte
-                                            </h6>
-                                        </li>
-                                        <li><a id="_BillingNoteOne" class="dropdown-item" asp-action="Index" asp-controller="BillingNoteOnes">Nota por Cliente</a></li>
-                                        <li><a id="_BillingNotes" class="dropdown-item" asp-action="Index" asp-controller="BillingNotes">Nota General</a></li>
-                                        <li><hr class="dropdown-divider"></li>
-                                        <li><a id="_ContractCuts" class="dropdown-item" asp-action="Index" asp-controller="ContractCuts">Suspension General</a></li>
-                                        <li><a id="_ContractSuspendeds" class="dropdown-item" asp-action="Index" asp-controller="ContractSuspendeds">Contratos Suspendidos</a></li>
-                                    }
+                                    <li><a id="TicketMuchos" class="dropdown-item" asp-action="Create" asp-controller="SellPacks">Venta Cantidad</a></li>
+                                    <li><a id="TicketMuchos" class="dropdown-item" asp-action="Index" asp-controller="SellPacks">Detalles Venta</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -351,9 +294,6 @@
                                             Personal
                                         </h6>
                                     </li>
-                                    <li><a id="_Contractor" class="dropdown-item" asp-action="Index" asp-controller="Contractors">Contratistas</a></li>
-                                    <li><a id="_AuxUsers" class="dropdown-item" asp-action="Index" asp-controller="AuxUsers">Usuario Auxiliar</a></li>
-                                    <li><a id="_Tecnicos" class="dropdown-item" asp-action="Index" asp-controller="Technicals">Tecnicos</a></li>
                                     <li><a id="_Cajeros" class="dropdown-item" asp-action="Index" asp-controller="Cachiers">Cajeros</a></li>
                                 </ul>
                             </li>

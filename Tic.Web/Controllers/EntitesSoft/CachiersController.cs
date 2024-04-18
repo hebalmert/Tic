@@ -1,146 +1,184 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using SendGrid.Helpers.Mail;
 using Tic.Shared.Entites;
+using Tic.Shared.EntitiesSoft;
 using Tic.Shared.Enum;
 using Tic.Shared.Responses;
 using Tic.Web.Data;
 using Tic.Web.Helpers;
 using X.PagedList;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace Tic.Web.Controllers.Entities
+namespace Tic.Web.Controllers.EntitesSoft
 {
-    public class ManagersController : Controller
+    [Authorize(Roles = "User")]
+    public class CachiersController : Controller
     {
         private readonly DataContext _context;
-        private readonly IUserHelper _userHelper;
-        private readonly IFileStorage _fileStorage;
-        private readonly IComboHelper _comboHelper;
-        private readonly IEmailHelper _mailHelper;
         private readonly INotyfService _notyfService;
+        private readonly IComboHelper _comboHelper;
+        private readonly IFileStorage _fileStorage;
+        private readonly IUserHelper _userHelper;
+        private readonly IEmailHelper _emailHelper;
         private readonly string _container;
 
-        public ManagersController(DataContext context,
-            IUserHelper userHelper, IFileStorage fileStorage,
-            IComboHelper comboHelper, IEmailHelper mailHelper, INotyfService notyfService)
+        public CachiersController(DataContext context, INotyfService notyfService,
+            IComboHelper comboHelper, IFileStorage fileStorage, IUserHelper userHelper,
+            IEmailHelper emailHelper)
         {
             _context = context;
-            _userHelper = userHelper;
-            _fileStorage = fileStorage;
-            _comboHelper = comboHelper;
-            _mailHelper = mailHelper;
             _notyfService = notyfService;
-            _container = "wwwroot\\Images\\ImgUser";
+            _comboHelper = comboHelper;
+            _fileStorage = fileStorage;
+            _userHelper = userHelper;
+            _emailHelper = emailHelper;
+            _container = "wwwroot\\Images\\ImgCachier";
         }
 
         [HttpPost]
         public JsonResult Search(string Prefix)
         {
-            var datoMag = (from manager in _context.Managers
-                           where manager.FullName!.ToLower().Contains(Prefix.ToLower())
+            var user = _context.Users.FirstOrDefault(u => u.UserName == User.Identity!.Name);
+            var datoMag = (from modelo in _context.Cachiers
+                           where modelo.FullName!.ToLower().Contains(Prefix.ToLower()) && modelo.CorporateId == user!.CorporateId
                            select new
                            {
-                               label = manager.FullName,
-                               val = manager.ManagerId
+                               label = modelo.FullName,
+                               val = modelo.CachierId
                            }).ToList();
 
             return Json(datoMag);
 
         }
 
-
-        // GET: Managers
+        // GET: Cachiers
         public async Task<IActionResult> Index(int? buscarId, int? page)
         {
+            var user = _context.Users.FirstOrDefault(u => u.UserName == User.Identity!.Name);
+            if (user == null)
+            {
+                _notyfService.Custom("Problemas de Autenticacion debe comprobar credenciales -  Notificacion", 5, "#D90000", "fa fa-trash");
+                return RedirectToAction("Login", "Account");
+            }
+
             if (buscarId != null)
             {
-                var dataContext = _context.Managers
-                    .Include(c => c.Corporate)
-                    .Where(c => c.ManagerId == buscarId);
-                return View(await dataContext.OrderBy(c => c.Corporate!.Name).ThenBy(c => c.FullName).ToPagedListAsync(page ?? 1, 25));
+                return View(await _context.Cachiers
+                    .Include(z => z.DocumentType)
+                    .Where(c => c.CachierId == buscarId && c.CorporateId == user.CorporateId).OrderBy(o => o.FullName)
+                    .ToPagedListAsync(page ?? 1, 25));
             }
             else
             {
-
-                var dataContext = _context.Managers
-                    .Include(c => c.Corporate);
-                return View(await dataContext.OrderBy(c => c.Corporate!.Name).ThenBy(c => c.FullName).ToPagedListAsync(page ?? 1, 25));
+                return View(await _context.Cachiers
+                    .Include(z => z.DocumentType)
+                    .Where(c => c.CorporateId == user.CorporateId)
+                    .OrderBy(o => o.FullName).ToPagedListAsync(page ?? 1, 25));
             }
         }
 
-        // GET: Managers/Details/5
+        // GET: Cachiers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Managers == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var manager = await _context.Managers
-                .Include(m => m.Corporate)
-                .FirstOrDefaultAsync(m => m.ManagerId == id);
-            if (manager == null)
+            var cachier = await _context.Cachiers
+                .Include(c => c.Corporate)
+                .Include(c => c.DocumentType)
+                .Include(c => c.Server)
+                .FirstOrDefaultAsync(m => m.CachierId == id);
+            if (cachier == null)
             {
                 return NotFound();
             }
 
-            return View(manager);
+            return View(cachier);
         }
 
-        // GET: Managers/Create
+        // GET: Cachiers/Create
         public IActionResult Create()
         {
-            Manager modelo = new()
+            var user = _context.Users.Include(u => u.Corporate).FirstOrDefault(u => u.UserName == User.Identity!.Name);
+            if (user == null)
             {
-                UserType = UserType.User,
+                _notyfService.Custom("Problemas de Autenticacion debe comprobar credenciales -  Notificacion", 5, "#D90000", "fa fa-trash");
+                return RedirectToAction("Login", "Account");
+            }
+
+            Cachier datos = new()
+            {
+                CorporateId = Convert.ToInt32(user.CorporateId),
                 Activo = true
             };
 
-            modelo.ListCorporate = _comboHelper.GetComboCorporate();
-            return View(modelo);
+            datos.ListDocument = _comboHelper.GetComboDocument(datos.CorporateId);
+            datos.ListServer = _comboHelper.GetComboServerActivos(datos.CorporateId);
+
+            return View(datos);
         }
 
+        // POST: Cachiers/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Manager manager)
+        public async Task<IActionResult> Create(Cachier modelo)
         {
+            modelo.UserType = UserType.Cachier;
+            modelo.DateCreated = DateTime.Now;
             if (ModelState.IsValid)
             {
                 try
                 {
-                    User ChaeckUser = await _userHelper.GetUserAsync(manager.UserName);
+                    if (modelo.MultiServer == false && modelo.ServerId == 0)
+                    {
+                        _notyfService.Custom("Debe Seleccionar Un Servidor o Multi Servidor -  Notificacion", 5, "#D90000", "fa fa-trash");
+                        modelo.ListDocument = _comboHelper.GetComboDocument(modelo.CorporateId);
+                        modelo.ListServer = _comboHelper.GetComboServerActivos(modelo.CorporateId);
+                        return View(modelo);
+                    }
+
+
+                    User ChaeckUser = await _userHelper.GetUserAsync(modelo.UserName!);
                     if (ChaeckUser != null)
                     {
                         _notyfService.Error("Este Correo ya se encuentra usado - Notificacion");
-                        manager.ListCorporate = _comboHelper.GetComboCorporate();
-                        return View(manager);
+                        modelo.ListDocument = _comboHelper.GetComboDocument(modelo.CorporateId);
+                        modelo.ListServer = _comboHelper.GetComboServerActivos(modelo.CorporateId);
+                        return View(modelo);
                     }
 
                     //Se realiza el proceso de auto RollBack para algun fallo de Guardadoplanes de internet
                     using var transaction = _context.Database.BeginTransaction();
 
                     //Guardamos el registro y si guarda sin errores seguimso con la imagen
-                    manager.FullName = $"{manager.FirstName} {manager.LastName}";
-                    _context.Add(manager);
+                    modelo.FullName = $"{modelo.FirstName} {modelo.LastName}";
+                    _context.Add(modelo);
                     await _context.SaveChangesAsync();
 
                     //Seguimos con imagen, de esta manera si hubo error en el guardado, la imagen no
-                    if (manager.ImageFile != null)
+                    if (modelo.ImageFile != null)
                     {
-                        manager.Photo = await _fileStorage.UploadImage(manager.ImageFile, ".jpg", _container, manager.Photo);
+                        modelo.Photo = await _fileStorage.UploadImage(modelo.ImageFile, ".jpg", _container, modelo.Photo);
                     }
-                    _context.Update(manager);
+                    _context.Update(modelo);
                     await _context.SaveChangesAsync();
 
-                    if (manager.Activo == true)
+                    if (modelo.Activo == true)
                     {
-                        Response response = await AcivateUser(manager);
+                        Response response = await AcivateUser(modelo);
                         if (response.IsSuccess == false)
                         {
                             string ruta = "wwwroot\\Images\\ImgUser";
-                            var guid = manager.Photo;
+                            var guid = modelo.Photo;
                             _fileStorage.DeleteImage(ruta, guid!);
 
                             ModelState.AddModelError(string.Empty, "Vuelva a Intentarlo, el Usuario no ha sido Creado");
@@ -152,7 +190,7 @@ namespace Tic.Web.Controllers.Entities
                     //Se guardan todos los datos si todo esta successed.
 
                     _notyfService.Success("El Regitro se Guardado Con Exito -  Notificacion");
-                    return RedirectToAction(nameof(Details), new { id = manager.ManagerId });
+                    return RedirectToAction(nameof(Details), new { id = modelo.CachierId });
                 }
                 catch (DbUpdateException dbUpdateException)
                 {
@@ -171,11 +209,12 @@ namespace Tic.Web.Controllers.Entities
                 }
             }
 
-            manager.ListCorporate = _comboHelper.GetComboCorporate();
-            return View(manager);
+            modelo.ListDocument = _comboHelper.GetComboDocument(modelo.CorporateId);
+            modelo.ListServer = _comboHelper.GetComboServerActivos(modelo.CorporateId);
+            return View(modelo);
         }
 
-        // GET: Managers/Edit/5
+        // GET: Cachiers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Managers == null)
@@ -183,24 +222,25 @@ namespace Tic.Web.Controllers.Entities
                 return NotFound();
             }
 
-            var manager = await _context.Managers.FindAsync(id);
-            if (manager == null)
+            var modelo = await _context.Cachiers.FindAsync(id);
+            if (modelo == null)
             {
                 return NotFound();
             }
 
-            manager.ListCorporate = _comboHelper.GetComboCorporate();
-            return View(manager);
+            modelo.ListDocument = _comboHelper.GetComboDocument(modelo.CorporateId);
+            modelo.ListServer = _comboHelper.GetComboServerActivos(modelo.CorporateId);
+            return View(modelo);
         }
 
-        // POST: Managers/Edit/5
+        // POST: Cachiers/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Manager manager)
+        public async Task<IActionResult> Edit(int id, Cachier modelo)
         {
-            if (id != manager.ManagerId)
+            if (id != modelo.CachierId)
             {
                 return NotFound();
             }
@@ -212,37 +252,39 @@ namespace Tic.Web.Controllers.Entities
                     //Se realiza el proceso de auto RollBack para algun fallo de Guardadoplanes de internet
                     using var transaction = _context.Database.BeginTransaction();
 
-                    manager.FullName = $"{manager.FirstName} {manager.LastName}";
+                    modelo.FullName = $"{modelo.FirstName} {modelo.LastName}";
 
-                    if (manager.ImageFile != null)
+                    if (modelo.ImageFile != null)
                     {
-                        if (manager.ImageFile != null)
+                        if (modelo.ImageFile != null)
                         {
-                            manager.Photo = await _fileStorage.UploadImage(manager.ImageFile, ".jpg", _container, manager.Photo);
+                            modelo.Photo = await _fileStorage.UploadImage(modelo.ImageFile, ".jpg", _container, modelo.Photo);
                         }
                     }
 
-                    _context.Update(manager);
+                    _context.Update(modelo);
                     await _context.SaveChangesAsync();
 
-                    var user = await _userHelper.GetUserAsync(manager.UserName);
-                    user.Activo = manager.Activo;
-                    if (manager.ImageFile != null)
+                    var user = await _userHelper.GetUserAsync(modelo.UserName!);
+                    user.Activo = modelo.Activo;
+                    if (modelo.ImageFile != null)
                     {
-                        user.Photo = manager.Photo;
+                        user.Photo = modelo.Photo;
                     }
                     IdentityResult response = await _userHelper.UpdateUserAsync(user);
                     if (!response.Succeeded)
                     {
                         ModelState.AddModelError(string.Empty, "Vuelva a Intentarlo, el Usuario no ha sido Creado");
-                        return View(manager);
+                        modelo.ListDocument = _comboHelper.GetComboDocument(modelo.CorporateId);
+                        modelo.ListServer = _comboHelper.GetComboServerActivos(modelo.CorporateId);
+                        return View(modelo);
                     }
 
                     transaction.Commit();
                     //Se guardan todos los datos si todo esta successed.
 
                     _notyfService.Success("El Regitro se ha Actualizado con Exito -  Notificacion");
-                    return RedirectToAction("Details", new { id = manager.ManagerId });
+                    return RedirectToAction("Details", new { id = modelo.CachierId });
                 }
                 catch (DbUpdateException dbUpdateException)
                 {
@@ -260,8 +302,9 @@ namespace Tic.Web.Controllers.Entities
                     _notyfService.Error(exception.Message);
                 }
             }
-            manager.ListCorporate = _comboHelper.GetComboCorporate();
-            return View(manager);
+            modelo.ListDocument = _comboHelper.GetComboDocument(modelo.CorporateId);
+            modelo.ListServer = _comboHelper.GetComboServerActivos(modelo.CorporateId);
+            return View(modelo);
         }
 
         // Post: Managers/Delete/5
@@ -274,7 +317,7 @@ namespace Tic.Web.Controllers.Entities
 
             try
             {
-                var DataRemove = await _context.Managers.FindAsync(id);
+                var DataRemove = await _context.Cachiers.FindAsync(id);
                 if (DataRemove == null)
                 {
                     return NotFound();
@@ -289,9 +332,9 @@ namespace Tic.Web.Controllers.Entities
                     }
                 }
 
-                await _userHelper.DeleteUser(DataRemove.UserName);
+                await _userHelper.DeleteUser(DataRemove.UserName!);
 
-                _context.Managers.Remove(DataRemove);
+                _context.Remove(DataRemove);
                 await _context.SaveChangesAsync();
 
                 _notyfService.Custom("El Regitro se ha Eliminado Con Exito -  Notificacion", 5, "#D90000", "fa fa-trash");
@@ -316,12 +359,11 @@ namespace Tic.Web.Controllers.Entities
             return RedirectToAction("Index");
         }
 
-
-        private async Task<Response> AcivateUser(Manager manager)
+        private async Task<Response> AcivateUser(Cachier modelo)
         {
-            User user = await _userHelper.AddUserSystemAsync(manager.FirstName, manager.LastName,
-            manager.UserName, manager.PhoneNumber, manager.UserType,
-            manager.Address, manager.Job, manager.CorporateId, manager.Photo!, "Manager", manager.Activo);
+            User user = await _userHelper.AddUserSystemAsync(modelo.FirstName!, modelo.LastName!,
+            modelo.UserName!, modelo.PhoneNumber!, modelo.UserType,
+            modelo.Address!, "Cachier", modelo.CorporateId, modelo.Photo!, "Cachier", modelo.Activo);
 
 
             //Envio de Correo con Token de seguridad para Verificar el correo
@@ -341,7 +383,7 @@ namespace Tic.Web.Controllers.Entities
                 $"Para Activar su vuenta, " +
                 $"Has Click en el siguiente Link:</br></br><strong><a href = \"{tokenLink}\">Confirmar Correo</a></strong>");
 
-            Response response = await _mailHelper.ConfirmarCuenta(user.UserName!, user.FullName!, subject, body);
+            Response response = await _emailHelper.ConfirmarCuenta(user.UserName!, user.FullName!, subject, body);
             if (response.IsSuccess == false)
             {
                 _notyfService.Custom("Vuelva a Intentarlo, el Usuario no ha sido Creado -  Notificacion", 5, "#D90000", "fa fa-trash");
@@ -350,23 +392,9 @@ namespace Tic.Web.Controllers.Entities
 
             return response;
         }
-
-
-        [HttpGet]
-        public async Task<IActionResult> CheckEmail(string UserName)
+        private bool CachierExists(int id)
         {
-            var usuario = await _userHelper.GetUserAsync(UserName);
-            if (usuario != null)
-            {
-                return Json($"Este Correo ya se encuentra Ocupado");
-            }
-
-            return Json(true);
-        }
-
-        private bool ManagerExists(int id)
-        {
-            return _context.Managers.Any(e => e.ManagerId == id);
+            return _context.Cachiers.Any(e => e.CachierId == id);
         }
     }
 }

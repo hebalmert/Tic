@@ -1,6 +1,4 @@
-﻿using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
-using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
 using Tic.Shared.Entites;
 
 namespace Tic.Shared.EntitiesSoft
@@ -99,7 +97,7 @@ namespace Tic.Shared.EntitiesSoft
         [MaxLength(25, ErrorMessage = "El Maximo de caracteres es {1}")]
         [Required(ErrorMessage = "El campo {0} es Requerido")]
         [Display(Name = "Mk Id")]
-        public string MkId { get; set; }
+        public string? MkId { get; set; }
 
         //Relacion de datos
 
@@ -111,9 +109,7 @@ namespace Tic.Shared.EntitiesSoft
 
         public OrderTicket? OrderTickets { get; set; }
 
-        ////..
-        //[Display(Name = "Usuario")]
-        //public ICollection<SellOne> SellOnes { get; set; }
+        public ICollection<SellOne>? SellOnes { get; set; }
 
         ////..
         //[Display(Name = "Venta Pack")]

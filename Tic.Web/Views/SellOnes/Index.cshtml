@@ -1,0 +1,144 @@
+﻿@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@model IEnumerable<Tic.Shared.EntitiesSoft.SellOne>
+
+@{
+    ViewData["Title"] = "Venta Ticket";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center align-items-center">
+
+        <div class="col-md-12">
+            <div class="shadow-lg mb-5 card-roud">
+                <div class="card card-roud">
+
+                    <div class="card-body">
+                        <p>
+                            <h2>Venta de Ticket</h2>
+                        <p />
+
+                        <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+
+                        <flash dismissable="true" />
+
+                        <p>
+                            <a asp-action="Create" class="btn btn-outline-primary btn-bor">
+                                <i class="fa fa-plus"></i>
+                                Nuevo
+                            </a>
+                        </p>
+                        <br />
+
+                        <table class="table table-responsive table-striped table-hover justify-content-center" id="MyTable">
+                            <thead>
+                                <tr>
+                                    <th>
+                                            @Html.DisplayNameFor(model => model.Date)
+                                    </th>
+                                    <th>
+                                            @Html.DisplayNameFor(model => model.SellControl)
+                                    </th>
+                                    <th>
+                                            @Html.DisplayNameFor(model => model.NamePlan)
+                                    </th>
+                                    <th>
+                                            @Html.DisplayNameFor(model => model.Server!.ServerName)
+                                    </th>
+                                    <th>
+                                            @Html.DisplayNameFor(model => model.Rate)
+                                    </th>
+                                    <th>
+                                            @Html.DisplayNameFor(model => model.SubTotal)
+                                    </th>
+                                    <th>
+                                            @Html.DisplayNameFor(model => model.Impuesto)
+                                    </th>
+                                    <th>
+                                            @Html.DisplayNameFor(model => model.Total)
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                    <tr>
+                                        <td>
+                                                @Html.DisplayFor(modelItem => item.Date)
+                                        </td>
+                                        <td>
+                                                @Html.DisplayFor(modelItem => item.SellControl)
+                                        </td>
+                                        <td>
+                                                @Html.DisplayFor(modelItem => item.NamePlan)
+                                        </td>
+                                        <td>
+                                                @Html.DisplayFor(modelItem => item.Server!.ServerName)
+                                        </td>
+                                        <td>
+                                                @Html.DisplayFor(modelItem => item.Rate)
+                                        </td>
+                                        <td>
+                                                @Html.DisplayFor(modelItem => item.SubTotal)
+                                        </td>
+                                        <td>
+                                                @Html.DisplayFor(modelItem => item.Impuesto)
+                                        </td>
+                                        <td>
+                                                @Html.DisplayFor(modelItem => item.Total)
+                                        </td>
+
+@*                                         <td style="width:1px; padding-left:1px; padding-right:4px">
+                                            <a title="Editar" asp-action="Edit" asp-route-id="@item.PlanId" class="btn btn-outline-dark btn-bor btn-sm"><i class="bi bi-pencil-square" style="font-size: 17px;"></i></a>
+                                        </td> *@
+                                        <td style="width:1px; padding-left:1px; padding-right:4px">
+                                            <a title="Detalle" asp-action="Details" asp-route-id="@item.PlanId" class="btn btn-outline-dark btn-bor btn-sm"><i class="bi bi-card-text" style="font-size: 17px;"></i></a>
+                                        </td>
+@*                                         <td style="width:1px; padding-left:1px; padding-right:4px">
+                                            <button type="button" title="Borrar" data-id="@item.PlanId"
+                                                    class="btn btn-outline-danger btn-bor btn-sm" id="deleteItem"
+                                                    data-bs-toggle="modal" data-bs-target="#deleteDialog">
+                                                <i class="bi bi-trash" style="font-size: 17px;"></i>
+                                            </button>
+                                        </td> *@
+                                    </tr>
+                                    }
+                            </tbody>
+                        </table>
+
+                            @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page = page }),
+                                     new PagedListRenderOptions
+                        {
+                            DisplayPageCountAndCurrentLocation = true,
+                            ContainerDivClasses = new string[] { "navigation" },
+                            LiElementClasses = new string[] { "page-item" },
+                            PageClasses = new[] { "page-link" },
+                            UlElementClasses = new[] { "pagination justify-content-center" }
+                        })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<partial name="_DeleteDialog" />
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script src="/js/deleteDialog.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Delete item
+            sc_deleteDialog.openModal('deleteItem', true, 'btnYesDelete', '/OrderTickets/Delete/', false);
+
+            $('ul.pagination > li.disabled > a').addClass('page-link');
+        });
+    </script>
+}

@@ -30,5 +30,7 @@ namespace Tic.Shared.EntitiesSoft
         public ICollection<Plan>? Plans { get; set; }
 
         public ICollection<OrderTicket>? OrderTickets { get; set; }
+
+        public ICollection<SellOne>? SellOnes { get; set; }
     }
 }

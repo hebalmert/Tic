@@ -60,6 +60,10 @@ namespace Tic.Web.Data
 
         public DbSet<OrderTicketDetail> OrderTicketDetails => Set<OrderTicketDetail>();
 
+        public DbSet<Cachier> Cachiers => Set<Cachier>();
+
+        public DbSet<SellOne> SellOnes => Set<SellOne>();
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

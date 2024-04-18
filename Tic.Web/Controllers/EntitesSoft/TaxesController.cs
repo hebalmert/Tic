@@ -1,7 +1,6 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Tic.Shared.EntitiesSoft;
 using Tic.Web.Data;
@@ -104,7 +103,7 @@ namespace Tic.Web.Controllers.EntitesSoft
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create( Tax modelo)
+        public async Task<IActionResult> Create(Tax modelo)
         {
             if (ModelState.IsValid)
             {

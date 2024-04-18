@@ -119,5 +119,9 @@ namespace Tic.Shared.EntitiesSoft
 
         public ICollection<OrderTicket>? OrderTickets { get; set; }
 
+        public ICollection<Cachier>? Cachiers { get; set; }
+
+        public ICollection<SellOne>? SellOnes { get; set; }
+
     }
 }
