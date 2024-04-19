@@ -88,7 +88,9 @@ namespace Tic.Shared.Entites
         [Display(Name = "Compañia")]
         public Corporate? Corporate { get; set; }
 
-        [Display(Name = "Usuario")]
+
         public ICollection<SellOne>? SellOnes { get; set; }
+
+        public ICollection<SellPack>? SellPacks { get; set; }
     }
 }

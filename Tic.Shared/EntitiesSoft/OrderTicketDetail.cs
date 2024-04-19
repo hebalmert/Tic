@@ -112,8 +112,7 @@ namespace Tic.Shared.EntitiesSoft
         public ICollection<SellOne>? SellOnes { get; set; }
 
         ////..
-        //[Display(Name = "Venta Pack")]
-        //public ICollection<SellPackDetail> SellPackDetails { get; set; }
+        public ICollection<SellPackDetail>? SellPackDetails { get; set; }
 
         ////..
         //[Display(Name = "Cajero")]

@@ -314,7 +314,7 @@ namespace Tic.Web.Controllers.EntitesSoft
                 && c.Vendido == false && c.Anulado == false).FirstOrDefault();
             if (data3 == null)
             {
-                return null;
+                return null!;
             }
             var data4 = _context.OrderTicketDetails
                 .Include(c => c.OrderTickets)

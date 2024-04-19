@@ -64,6 +64,10 @@ namespace Tic.Web.Data
 
         public DbSet<SellOne> SellOnes => Set<SellOne>();
 
+        public DbSet<SellPack> SellPacks => Set<SellPack>();
+
+        public DbSet<SellPackDetail> SellPackDetails => Set<SellPackDetail>();
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

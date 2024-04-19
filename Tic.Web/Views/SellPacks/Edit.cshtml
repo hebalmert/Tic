@@ -1,7 +1,7 @@
-﻿@model Tic.Shared.EntitiesSoft.SellOne
+﻿@model Tic.Shared.EntitiesSoft.SellPack
 
 @{
-    ViewData["Title"] = "Venta Tickets";
+    ViewData["Title"] = "Editar";
 }
 
 <div class="container mt-5">
@@ -11,18 +11,19 @@
                 <div class="card card-roud">
                     <div class="card-body">
                         <p>
-                            <h2>Venta Tickets</h2>
+                            <h2>Editar Creacion Tickets</h2>
                         <p />
                         <hr style="height:2px;border:none;color:#333;background-color:#333;" />
                         <br />
 
                         <flash dismissable="true" />
-                        <form asp-action="Create">
+                        <form asp-action="Edit">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="SellPackId" />
                             <input type="hidden" asp-for="CorporateId" />
-                            <input type="hidden" asp-for="OrderTicketDetailId" />
                             <input type="hidden" asp-for="NamePlan" />
                             <input type="hidden" asp-for="ManagerId" />
+                            <input type="hidden" asp-for="Precio" />
 
                             <div class="row">
                                 <div class="col-md-12 md-2">
@@ -57,6 +58,7 @@
                                     <div class="shadow-lg mb-3 card-roud">
                                         <div class="card card-roud">
                                             <div class="card-body">
+
                                                 <div class="row">
                                                     <div class="col-md-6 md-2">
                                                         <div class="form-group">
@@ -120,9 +122,9 @@
                                                     </div>
                                                     <div class="col-md-6 md 2">
                                                         <div class="form-group">
-                                                            <label asp-for="Usuario" class="control-label"></label>
-                                                            <input asp-for="Usuario" class="form-control" readonly="readonly" />
-                                                            <span asp-validation-for="Usuario" class="text-danger"></span>
+                                                            <label asp-for="Cantidad" class="control-label"></label>
+                                                            <input asp-for="Cantidad" class="form-control" />
+                                                            <span asp-validation-for="Cantidad" class="text-danger"></span>
                                                         </div>
 
                                                     </div>
@@ -140,6 +142,7 @@
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="form-group">
+
                                                             <strong>@Html.DisplayNameFor(model => model.SubTotal):</strong>
                                                             <input asp-for="SubTotal" class="form-control" readonly="readonly" />
                                                             <span asp-validation-for="SubTotal" class="text-danger"></span>
@@ -206,7 +209,6 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-
     <script type="text/javascript">
         $(function () {
 
@@ -269,7 +271,6 @@
             });
 
             $("#PlanId").change(function () {
-
                 $("#Rate").val("0");
                 $("#Precio").val("0");
                 $("#Cantidad").val("0");
@@ -286,22 +287,6 @@
                     success: function (data2) {
                         $("#Rate").val(data2.rate);
                         $("#Precio").val(data2.precio);
-                        var pricePlan = parseFloat(data2.precio);
-                        var cuant = 1;
-                        var tasa = parseFloat(data2.rate);
-                        var rate = 0;
-                        if (!isNaN(pricePlan) && !isNaN(cuant) && !isNaN(tasa)) {
-                            var precio = pricePlan * cuant;
-                            rate = (tasa / 100) + 1;
-                            var subTotalStg = (precio / rate).toFixed(2);
-                            var subTotal = parseFloat(subTotalStg);
-                            var impuestoStg = (precio - subTotal).toFixed(2);
-                            var impuesto = parseFloat(impuestoStg);
-                            $("#SubTotal").val(subTotal);
-                            $("#Impuesto").val(impuesto);
-                            $("#Total").val(precio);
-                            console.log(pricePlan);
-                        }
                     },
                     error: function (ex) {
                         alert('Falla en Cargar Planes.' + ex);
@@ -314,13 +299,10 @@
                     dataType: 'json',
                     data: { IdPlan: $("#PlanId").val(), IdServer: $("#ServerId").val() },
                     success: function (data3) {
-                        $("#Usuario").val(data3.pin);
-                        $("#OrderTicketDetailId").val(data3.ordid);
                         $("#Stock").val(data3.stock);
                     },
                     error: function (ex) {
                         alert('No hay Ticket Disponibles' + ex);
-                        $("#Usuario").val("");
                         $("#Stock").val(0);
                     }
                 });
@@ -328,7 +310,28 @@
                 var selectPlan = $("#PlanId").find('option:selected').text();
                 $("#NamePlan").val(selectPlan);
             });
+
+            $("#Cantidad").on("input", function () {
+                var pricePlan = parseFloat($('#Precio').val());
+                var cuant = parseFloat($('#Cantidad').val());
+                var tasa = parseFloat(data2.rate);
+                var rate = 0;
+                if (!isNaN(pricePlan) && !isNaN(cuant) && !isNaN(tasa)) {
+                    var precio = pricePlan * cuant;
+                    rate = (tasa / 100) + 1;
+                    var subTotalStg = (precio / rate).toFixed(2);
+                    var subTotal = parseFloat(subTotalStg);
+                    var impuestoStg = (precio - subTotal).toFixed(2);
+                    var impuesto = parseFloat(impuestoStg);
+                    $("#SubTotal").val(subTotal);
+                    $("#Impuesto").val(impuesto);
+                    $("#Total").val(precio);
+                    console.log(pricePlan);
+                }
+
+            });
+
         });
     </script>
 
-}
+    }

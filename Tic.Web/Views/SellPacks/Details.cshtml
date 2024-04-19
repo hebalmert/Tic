@@ -1,0 +1,267 @@
+﻿@model Tic.Shared.EntitiesSoft.SellPack
+
+@{
+    ViewData["Title"] = "Detalle Venta";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4 md-2">
+            <div class="col-md-12">
+                <div class="shadow-lg mb-5 card-roud">
+                    <div class="card card-roud">
+                        <div class="card-body">
+                            <p>
+                                <h2>Detalle Orden Tickets</h2>
+                            <p />
+                            <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+
+                            <flash dismissable="true" />
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group ">
+                                        <div class="input-group">
+                                            <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.Date)</span>
+                                            <text class="form-control">@Convert.ToDateTime(Model.Date).ToString("dd/MM/yyyy")</text>
+                                        </div>
+                                    </div>
+                                    <div class="form-group ">
+                                        <div class="input-group">
+                                            <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.SellControl)</span>
+                                            <text class="form-control">@Html.DisplayFor(model => model.SellControl)</text>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12 md-0">
+                                            <div class="form-group ">
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.NamePlan)</span>
+                                                    <text class="form-control">@Html.DisplayFor(model => model.NamePlan)</text>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 md-0">
+                                            <div class="form-group ">
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.Rate)</span>
+                                                    <text class="form-control">@Html.DisplayFor(model => model.Rate)</text>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 md-0">
+                                            <div class="form-group ">
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.Precio)</span>
+                                                    <text class="form-control">@Html.DisplayFor(model => model.Precio)</text>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 md-3">
+                                            <div class="form-group ">
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.Cantidad)</span>
+                                                    <text class="form-control">@Html.DisplayFor(model => model.Cantidad)</text>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12 md-0">
+                                            <div class="form-group ">
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.SubTotal)</span>
+                                                    <text class="form-control">@Html.DisplayFor(model => model.SubTotal)</text>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 md-0">
+                                            <div class="form-group ">
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.Impuesto)</span>
+                                                    <text class="form-control">@Html.DisplayFor(model => model.Impuesto)</text>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 md-3">
+                                            <div class="form-group ">
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.Total)</span>
+                                                    <text class="form-control">@Html.DisplayFor(model => model.Total)</text>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12 md-1">
+                                            <div class="form-group ">
+
+                                                <div class="form-group ">
+                                                    <div class="input-group">
+                                                        <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.Server!.ServerName)</span>
+                                                        <text class="form-control"><strong style="color:forestgreen;font-size:20px">@Html.DisplayFor(model => model.Server!.ServerName)</strong></text>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 md-1">
+                                            <div class="form-group ">
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="width: 100px">@Html.DisplayNameFor(model => model.TotalTickets)</span>
+                                                    <text class="form-control"><strong style="color:forestgreen;font-size:20px">@Html.DisplayFor(model => model.TotalTickets)</strong></text>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 md-1">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+                                    <br />
+                                    <div class="form-group col-12">
+                                        <button title="Volver" type="button" class="btn btn-outline-dark btn-bor" onclick="location.href = '@Url.Action("Index", new  {})'">
+                                            <i class="fa fa-backspace"></i>
+                                            Lista
+                                        </button>
+                                            @if (Model.Cantidad != Model.TotalTickets)
+                                            {
+                                            <a title="Editar" asp-action="Edit" asp-route-id="@Model.SellPackId" class="btn btn-outline-primary btn-bor">
+                                                <i class="fa fa-pencil-alt"></i>
+                                                Editar
+                                            </a>
+                                            }
+                                            @if (Model.TotalTickets != Model.Cantidad)
+                                            {
+                                            <button id="SaveBtn" title="Tickets" type="button" class="btn btn-outline-success btn-bor" onclick="location.href = '@Url.Action("AddTickets", new  { idSellPack = Model.SellPackId, tt = Model.Cantidad})'">
+                                                <i class="fa fa-ticket"></i>
+                                                Crear
+                                            </button>
+                                            }
+                                            @if (Model.Cantidad == Model.TotalTickets)
+                                            {
+                                            <button id="ExcelBtn" title="Excel" type="button" class="btn btn-outline-success btn-bor" onclick="location.href = '@Url.Action("ExportExcel", new  { idSellPack = Model.SellPackId, tt = Model.TotalTickets, Sc = Model.SellControl})'">
+                                                <i class="bi-file-spreadsheet"></i>
+                                                Excel
+                                            </button>
+                                            }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-7 md-2">
+            <div class="col-md-12">
+                <div class="shadow-lg mb-5 card-roud">
+                    <div class="card card-roud">
+                        <div class="card-body">
+                            <p>
+                                <h2>Ticket por Orden</h2>
+                            <p />
+                            <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+
+                            <flash dismissable="true" />
+
+                                @if (Model.SellPackDetails!.Count == 0)
+                                {
+                                <h5>No Hay Tickets Actualmente</h5>
+                                }
+                                else
+                                {
+                                <table class="table table-responsive table-striped" id="MyTable">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                    @Html.DisplayNameFor(model => model.SellPackDetails!.FirstOrDefault()!.OrderTicketDetail!.Control)
+                                            </th>
+                                            <th>
+                                                    @Html.DisplayNameFor(model => model.SellPackDetails!.FirstOrDefault()!.OrderTicketDetail!.Usuario)
+                                            </th>
+                                            <th>
+                                                    @Html.DisplayNameFor(model => model.SellPackDetails!.FirstOrDefault()!.OrderTicketDetail!.MkId)
+                                            </th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                            @{
+                                                int registros = 0;
+                                            }
+                                    </thead>
+                                    <tbody>
+                                            @foreach (var item in Model.SellPackDetails)
+                                            {
+                                            <tr>
+                                                <td>
+                                                        @Html.DisplayFor(modelItem => item.OrderTicketDetail!.Control)
+                                                </td>
+                                                <td>
+                                                        @Html.DisplayFor(modelItem => item.OrderTicketDetail!.Usuario)
+                                                </td>
+                                                <td>
+                                                        @Html.DisplayFor(modelItem => item.OrderTicketDetail!.MkId)
+                                                </td>
+                                                <td>
+                                                        @{
+                                                            registros += +1;
+                                                        }
+                                            </tr>
+                                            }
+                                        <tr>
+                                            <td align="center">
+                                                <strong>Total</strong>
+                                            </td>
+                                            <td align="right">
+                                                <strong>Tickets: @registros</strong>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
