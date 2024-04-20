@@ -197,5 +197,6 @@ namespace Tic.Shared.EntitiesSoft
 
         public ICollection<SellPack>? SellPacks { get; set; }
 
+        public ICollection<SellOneCachier>? SellOneCachiers { get; set; }
     }
 }

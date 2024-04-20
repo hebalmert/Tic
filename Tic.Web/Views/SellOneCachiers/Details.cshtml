@@ -1,0 +1,157 @@
+﻿@model Tic.Shared.EntitiesSoft.SellOneCachier
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="row">
+    <div class="col-md-3 mt-4">
+        <div class="shadow-lg mb-3 card-roud">
+            <div class="card card-roud">
+
+                <div class="card-body">
+
+                    <h4>Tickets Cliente</h4>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="dvmismatch">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card shadow border-secondary mb-3">
+                <div class="card-body">
+                    <div class="form-row" style="text-align:center">
+                        <div class="col-md-12 mb-2">
+                            <img src="@Model.ImageFullPath" alt="Image" style="width:80px;height:80px;max-width: 100%; height: auto;" />
+                        </div>
+                    </div>
+                    <table class="table table-borderless">
+                        <tr>
+                            <td align="right">
+                                <div class="form-row" style="text-align:center">
+
+                                    <div class="col-md-12 mb-2">
+                                        <small>  @Html.DisplayFor(model => model.TextoHead)</small>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="form-row">
+                        <div class="col-md-12 mb-1">
+                            <small> <strong> @Html.DisplayNameFor(model => model.Date)</strong> </small>
+                            <small> @Convert.ToDateTime(Model.Date).ToString("dd/MM/yyyy") </small>
+                        </div>
+                    </div>
+                    <div class="form-row">
+
+                        <div class="col-md-12 mb-1">
+                            <small> <strong>@Html.DisplayNameFor(model => model.SellControl)</strong> </small>
+                            <small> @Html.DisplayFor(model => model.SellControl) </small>
+                        </div>
+                    </div>
+                    <hr style="border-color:black;" />
+
+                    <div class="form-row">
+                        <div class="col-md-12 md-2" style="text-align:center">
+                            <h2><strong>@Html.DisplayFor(model => model.OrderTicketDetail!.Usuario)</strong></h2>
+                        </div>
+                    </div>
+
+                    <hr style="border-color:black;" />
+
+
+                    <table class="table table-borderless">
+                        <tr>
+                            <td align="right">
+                                <div class="form-row">
+
+                                    <div class="col-md-12 mb-2">
+                                        <small> <strong>@Html.DisplayNameFor(model => model.SubTotal)</strong> </small>
+                                        <small> @string.Format("{0:C2}", Model.SubTotal) </small>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+
+                                    <div class="col-md-12 mb-2">
+                                        <small><strong>@Html.DisplayNameFor(model => model.Impuesto)</strong> </small>
+                                        <small> @string.Format("{0:C2}", Model.Impuesto)</small>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+
+                                    <div class="col-md-12 mb-2">
+                                        <small><strong>@Html.DisplayNameFor(model => model.Total)</strong></small>
+                                        <small> @string.Format("{0:C2}", Model.Total)</small>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <hr style="border-color:black;" />
+                    <p></p>
+
+                    <div class="form-row">
+                        <div class="col-md-12 mb-1">
+                            <small> <strong>Cajero:</strong></small>
+                            <small>@Html.DisplayFor(model => model.Cachier!.FullName)</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="shadow-lg mb-3 card-roud">
+            <div class="card card-roud">
+
+                <div class="card-body">
+
+                    <div class="form-group">
+
+                        <button title="Volver" type="button" class="btn btn-outline-dark btn-bor" onclick="location.href = '@Url.Action("Index", new  {})'">
+                            <i class="fa fa-backspace"></i>
+                            Volver
+                        </button>
+
+                        <button title="Guardar" type="button" class="btn btn-outline-warning btn-bor" onclick="printContent()">
+                            <i class="fa fa-print"></i>
+                            Ticket
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script type="text/javascript">
+        function printContent() {
+            var divContents = $("#dvmismatch").html();
+            var printWindow = window.open('', '', 'height=400,width=300');
+            printWindow.document.write('<html><head><title>DIV Contents</title>');
+            printWindow.document.write('</head><body>');
+            printWindow.document.write('<body>');
+            printWindow.document.write(divContents);
+            printWindow.document.write('</body>');
+            printWindow.document.write('</html>');
+            printWindow.print();
+            printWindow.close();          
+        }
+    </script>
+}

@@ -1,0 +1,91 @@
+﻿@model IEnumerable<Tic.Shared.EntitiesSoft.OrderTicketDetail>
+
+@{
+    ViewData["Title"] = "Venta Cajero";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center align-items-center">
+
+        <div class="col-md-6">
+            <div class="shadow-lg mb-5 card-roud">
+                <div class="card card-roud">
+
+                    <div class="card-body">
+                        <p>
+                            <h2>Inventario de Tikets por Plan</h2>
+                        <p />
+
+                        <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+
+                        <flash dismissable="true" />
+
+                        <br />
+                            @{
+                                var tt = Model.Count();
+                            }
+                        <table class="table table-responsive table-striped table-hover justify-content-center" id="MyTable">
+                            <thead>
+                                <tr>
+                                    <th>
+                                            @Html.DisplayNameFor(model => model.OrderTickets!.Plan!.PlanName):
+                                            @Html.DisplayFor(modelItem => modelItem.FirstOrDefault()!.OrderTickets!.Plan!.PlanName)
+                                    </th>
+                                    <th>
+                                        Total Registros: @tt
+                                    </th>
+                                    <th>
+                                        <p></p>
+                                    </th>
+                                    <th>
+                                        <button title="Volver" type="button" class="btn btn-outline-dark btn-bor" onclick="location.href = '@Url.Action("TicketsPlan", new  {})'">
+                                            <i class="fa fa-backspace"></i>
+                                            Volver
+                                        </button>
+                                    </th>
+                                </tr>
+                            </thead>
+                                @*                             <thead>
+                            <tr>
+                            <th>
+                            @Html.DisplayNameFor(model => model.DateCreado)
+                            </th>
+                            <th>
+                            @Html.DisplayNameFor(model => model.OrderTicket.Plan.Name)
+                            </th>
+                            <th>
+                            @Html.DisplayNameFor(model => model.Usuario)
+                            </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var item in Model)
+                            {
+                            <tr>
+                            <td>
+                            @Html.DisplayFor(modelItem => item.DateCreado)
+                            </td>
+                            <td>
+                            @Html.DisplayFor(modelItem => item.OrderTicket.Plan.Name)
+                            </td>
+                            <td>
+                            @Html.DisplayFor(modelItem => item.Usuario)
+                            </td>
+                            </tr>
+                            }
+                            </tbody> *@
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+

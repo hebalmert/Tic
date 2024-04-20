@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Text;
 using Tic.Shared.Entites;
+using Tic.Shared.EntitiesSoft;
 using Tic.Shared.Enum;
 using Tic.Web.Data;
 
@@ -465,6 +466,22 @@ namespace Tic.Web.Helpers
             });
 
             return list;
+        }
+
+
+        //... Combo Cajeros
+        //...
+        public List<Cachier> GetComboCachier(int idCorporate)
+        {
+            var datos = _context.Cachiers
+                .Where(c => c.Activo == true && c.CorporateId == idCorporate)
+                .ToList();
+            datos.Add(new Cachier
+            {
+                CachierId = 0,
+                FullName = "[Debe Seleccionar un Cajero...]"
+            });
+            return datos.OrderBy(o => o.FullName).ToList();
         }
 
         //Sistema para Generacion automatica de Clave

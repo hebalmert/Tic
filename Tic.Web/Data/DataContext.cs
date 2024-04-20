@@ -62,11 +62,17 @@ namespace Tic.Web.Data
 
         public DbSet<Cachier> Cachiers => Set<Cachier>();
 
+        public DbSet<HeadText> HeadTexts => Set<HeadText>();
+
         public DbSet<SellOne> SellOnes => Set<SellOne>();
 
         public DbSet<SellPack> SellPacks => Set<SellPack>();
 
         public DbSet<SellPackDetail> SellPackDetails => Set<SellPackDetail>();
+
+        public DbSet<SellOneCachier> SellOneCachiers => Set<SellOneCachier>();
+
+        public DbSet<CachierPorcent> CachierPorcents => Set<CachierPorcent>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

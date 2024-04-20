@@ -115,11 +115,9 @@ namespace Tic.Shared.EntitiesSoft
         public ICollection<SellPackDetail>? SellPackDetails { get; set; }
 
         ////..
-        //[Display(Name = "Cajero")]
-        //public ICollection<SellOneCachier> SellOneCachiers { get; set; }
+        public ICollection<SellOneCachier>? SellOneCachiers { get; set; }
 
         ////..
-        //[Display(Name = "Comisiones Cajero")]
-        //public ICollection<CachierPorcent> CachierPorcents { get; set; }
+        public ICollection<CachierPorcent>? CachierPorcents { get; set; }
     }
 }

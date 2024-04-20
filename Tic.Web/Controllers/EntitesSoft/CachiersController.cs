@@ -2,9 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using SendGrid.Helpers.Mail;
 using Tic.Shared.Entites;
 using Tic.Shared.EntitiesSoft;
 using Tic.Shared.Enum;
@@ -12,7 +10,6 @@ using Tic.Shared.Responses;
 using Tic.Web.Data;
 using Tic.Web.Helpers;
 using X.PagedList;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Tic.Web.Controllers.EntitesSoft
 {

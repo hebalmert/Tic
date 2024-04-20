@@ -5,9 +5,9 @@ using Tic.Shared.Entites;
 
 namespace Tic.Shared.EntitiesSoft
 {
-    public class SellOne
+    public class SellOneCachier
     {
-        public int SellOneId { get; set; }
+        public int SellOneCachierId { get; set; }
 
         [Range(0, double.MaxValue, ErrorMessage = "Debe Seleccionar un {0}")]
         [Display(Name = "Venta #")]
@@ -21,13 +21,13 @@ namespace Tic.Shared.EntitiesSoft
 
         [Required(ErrorMessage = "La {0} es Obligatorio")]
         [Range(1, double.MaxValue, ErrorMessage = "Debe Seleccionar un {0}")]
-        [Display(Name = "Categoria")]
-        public int PlanCategoryId { get; set; }
+        [Display(Name = "Usuario")]
+        public int CachierId { get; set; }
 
         [Required(ErrorMessage = "La {0} es Obligatorio")]
         [Range(1, double.MaxValue, ErrorMessage = "Debe Seleccionar un {0}")]
-        [Display(Name = "Servidor")]
-        public int ServerId { get; set; }
+        [Display(Name = "Categoria")]
+        public int PlanCategoryId { get; set; }
 
         [Required(ErrorMessage = "La {0} es Obligatorio")]
         [Range(1, double.MaxValue, ErrorMessage = "Debe Seleccionar un {0}")]
@@ -41,8 +41,12 @@ namespace Tic.Shared.EntitiesSoft
         [Required(ErrorMessage = "La {0} es Obligatorio")]
         [Range(1, double.MaxValue, ErrorMessage = "Debe Seleccionar un {0}")]
         [Display(Name = "Servidor")]
-        public int OrderTicketDetailId { get; set; }
+        public int ServerId { get; set; }
 
+        [Required(ErrorMessage = "La {0} es Obligatorio")]
+        [Range(1, double.MaxValue, ErrorMessage = "Debe Seleccionar un {0}")]
+        [Display(Name = "Servidor")]
+        public int OrderTicketDetailId { get; set; }
 
         //Propiedades No Mapeadas para manejo de Datos
         [NotMapped]
@@ -70,25 +74,19 @@ namespace Tic.Shared.EntitiesSoft
 
         [Required(ErrorMessage = "El campo {0} es Requerido")]
         [Range(1, double.MaxValue, ErrorMessage = "El Valor del Precio debe ser mayor que {1}")]
-        [Column(TypeName = "decimal(15,2)")]
-        [Display(Name = "Sub Total")]
+        [Display(Name = "Precio")]
         public decimal SubTotal { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es Requerido")]
         [Range(0, double.MaxValue, ErrorMessage = "El Valor del Precio debe ser mayor que {1}")]
-        [Column(TypeName = "decimal(15,2)")]
         [Display(Name = "Impuesto")]
         public decimal Impuesto { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es Requerido")]
         [Range(1, double.MaxValue, ErrorMessage = "El Valor del Precio debe ser mayor que {1}")]
-        [Column(TypeName = "decimal(15,2)")]
         [Display(Name = "Total")]
         public decimal Total { get; set; }
 
-
-        [Display(Name = "Usuario")]
-        public int ManagerId { get; set; }
 
         //Manejo de Imagen de la empresa
         //para incrustar el logo el ticket
@@ -105,14 +103,21 @@ namespace Tic.Shared.EntitiesSoft
         //: $"http://tickets.nexxtplanet.net/Images/ImgCorporate/{ImageId}";
         //Fin del manejo del logo de la empresa
 
+        //En Caso que la venta se anule
+        //.................................................
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Fecha Cerrada")]
+        public DateTime? DateAnulado { get; set; }
+
+        [Display(Name = "Cerrada")]
+        public bool Anulada { get; set; }
+
+
         //Solo Para armar Combos, para crear el Grupo de Servidor y filtrar los planes.
         [NotMapped]
         [Display(Name = "Grupo Servidor")]
         public int ServerGroupId { get; set; }
-
-        [NotMapped]
-        [Range(1, double.MaxValue, ErrorMessage = "Debe Seleccionar un {0}")]
-        public IEnumerable<SelectListItem>? ListServer { get; set; }
 
         [NotMapped]
         [Range(1, double.MaxValue, ErrorMessage = "Debe Seleccionar un {0}")]
@@ -122,13 +127,17 @@ namespace Tic.Shared.EntitiesSoft
         [Range(1, double.MaxValue, ErrorMessage = "Debe Seleccionar un {0}")]
         public IEnumerable<SelectListItem>? ListPlan { get; set; }
 
+        [NotMapped]
+        [Range(1, double.MaxValue, ErrorMessage = "Debe Seleccionar un {0}")]
+        public IEnumerable<SelectListItem>? ListServer { get; set; }
+
         //Relacion de datos
         //...
         public int CorporateId { get; set; }
 
         public Corporate? Corporate { get; set; }
 
-        public Manager? Manager { get; set; }
+        public Cachier? Cachier { get; set; }
 
         public PlanCategory? PlanCategory { get; set; }
 
@@ -137,5 +146,8 @@ namespace Tic.Shared.EntitiesSoft
         public Server? Server { get; set; }
 
         public OrderTicketDetail? OrderTicketDetail { get; set; }
+
+        ////..
+        public ICollection<CachierPorcent>? CachierPorcents { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Tic.Shared.EntitiesSoft;
 
 namespace Tic.Web.Helpers
 {
@@ -50,6 +51,15 @@ namespace Tic.Web.Helpers
         IEnumerable<SelectListItem> GetComboPlanOrdenes(int idCorporate, int idServer, int idCategory);
 
         IEnumerable<SelectListItem> GetComboDocument(int idCorporate);
+
+        //... Combo Cajeros
+        //...
+        List<Cachier> GetComboCachier(int idCorporate);
+
+
+
+
+
 
         //Sistema para Generacion automatica de Clave
         //Se pasa longitud de la clave y caracteres con la que puede hacer la clave

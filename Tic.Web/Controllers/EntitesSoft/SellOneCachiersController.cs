@@ -1,30 +1,30 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
-using Tic.Shared.EntitiesSoft;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Tic.Shared.EntitiesSoft;
 using Tic.Web.Data;
 using Tic.Web.Helpers;
 using X.PagedList;
 
 namespace Tic.Web.Controllers.EntitesSoft
 {
-    [Authorize(Roles = "User")]
-    public class SellOnesController : Controller
+    [Authorize(Roles = "Cachier")]
+    public class SellOneCachiersController : Controller
     {
         private readonly DataContext _context;
         private readonly INotyfService _notyfService;
         private readonly IComboHelper _comboHelper;
 
-        public SellOnesController(DataContext context, INotyfService notyfService, IComboHelper comboHelper)
+        public SellOneCachiersController(DataContext context, INotyfService notyfService, IComboHelper comboHelper)
         {
             _context = context;
             _notyfService = notyfService;
             _comboHelper = comboHelper;
         }
 
-        // GET: SellOnes
+        // GET: SellOneCachiers
         public async Task<IActionResult> Index(int? page)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity!.Name);
@@ -33,21 +33,27 @@ namespace Tic.Web.Controllers.EntitesSoft
                 return RedirectToAction("Index", "Home");
             }
 
-            var dataContext = _context.SellOnes.Include(s => s.Corporate).Include(s => s.OrderTicketDetail).Include(s => s.Plan)
-                .Include(s => s.PlanCategory).Include(s => s.Server).Where(x => x.CorporateId == user.CorporateId)
-                .OrderByDescending(x => x.Date).ThenByDescending(x => x.SellControl)
-                .ToPagedListAsync(page ?? 1, 25);
+            var dataContext = _context.SellOneCachiers
+                .Include(s => s.Cachier)
+                .Include(s => s.PlanCategory)
+                .Include(s => s.Corporate)
+                .Include(s => s.OrderTicketDetail)
+                .Include(s => s.Plan)
+                .Include(s => s.Server)
+                .Where(c => c.CorporateId == user.CorporateId);
 
-            return View(await dataContext);
+
+            return View(await dataContext.OrderBy(o => o.SellControl).ToPagedListAsync(page ?? 1, 10));
         }
 
-        // GET: SellOnes/Details/5
+        // GET: SellOneCachiers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
+
             var user = _context.Users.FirstOrDefault(u => u.UserName == User.Identity!.Name);
             if (user == null)
             {
@@ -68,38 +74,48 @@ namespace Tic.Web.Controllers.EntitesSoft
                 return RedirectToAction("Index", "Home");
             }
 
-            var sellOne = await _context.SellOnes
+
+            var sellOneCachier = await _context.SellOneCachiers
+                .Include(s => s.Cachier)
+                .Include(s => s.PlanCategory)
                 .Include(s => s.Corporate)
                 .Include(s => s.OrderTicketDetail)
                 .Include(s => s.Plan)
-                .Include(s => s.PlanCategory)
                 .Include(s => s.Server)
-                .Include(s=> s.Manager)
-                .FirstOrDefaultAsync(m => m.SellOneId == id);
-            if (sellOne == null)
+                .FirstOrDefaultAsync(m => m.SellOneCachierId == id);
+            if (sellOneCachier == null)
             {
                 return NotFound();
             }
-            sellOne.ImageId = companyPic.ImageId;
-            sellOne.TextoHead = texto.TextoEncabezado;
+            sellOneCachier.ImageId = companyPic.ImageId;
+            sellOneCachier.TextoHead = texto.TextoEncabezado;
 
-            return View(sellOne);
+            return View(sellOneCachier);
         }
 
-        // GET: SellOnes/Create
+        // GET: SellOneCachiers/Create
         public IActionResult Create()
         {
-            var user = _context.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+            var user = _context.Users.FirstOrDefault(u => u.UserName == User.Identity!.Name);
             if (user == null)
             {
                 return RedirectToAction("Index", "Home");
             }
-            var usuario = _context.Managers.FirstOrDefault(m => m.UserName == user.UserName);
-            SellOne modelo = new()
+
+            var texto = _context.HeadTexts.FirstOrDefault(c => c.CorporateId == user.CorporateId);
+            if (texto == null)
+            {
+                _notyfService.Custom("No Existe Un Embezado de Texto -  Notificacion", 5, "#D90000", "fa fa-trash");
+                return RedirectToAction("Index", "Home");
+            }
+
+            var usuario = _context.Cachiers.FirstOrDefault(m => m.UserName == user.UserName && m.Activo == true);
+            SellOneCachier modelo = new()
             {
                 CorporateId = Convert.ToInt32(user.CorporateId),
                 Date = DateTime.Today,
-                SellControl = 0
+                SellControl = 0,
+                CachierId = usuario!.CachierId
             };
 
             modelo.ListCategory = _comboHelper.GetComboCatPlan(modelo.CorporateId);
@@ -107,12 +123,12 @@ namespace Tic.Web.Controllers.EntitesSoft
             return View(modelo);
         }
 
-        // POST: SellOnes/Create
+        // POST: SellOneCachiers/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(SellOne modelo)
+        public async Task<IActionResult> Create(SellOneCachier modelo)
         {
             if (ModelState.IsValid)
             {
@@ -131,32 +147,21 @@ namespace Tic.Web.Controllers.EntitesSoft
                         modelo.ListPlan = _comboHelper.GetComboPlanOrdenes(modelo.CorporateId, modelo.ServerId, modelo.PlanCategoryId);
                         return View(modelo);
                     }
-                    var SumReg = NewReg.Sells + 1;
-                    NewReg.Sells = SumReg;
+                    var SumReg = NewReg.SellCachier + 1;
+                    NewReg.SellCachier = SumReg;
                     _context.Registers.Update(NewReg);
                     await _context.SaveChangesAsync();
                     //actualizamos el valor en Register
 
                     modelo.SellControl = SumReg;
 
-                    var usuario = _context.Managers.FirstOrDefault(m => m.UserName == User.Identity!.Name);
-                    if (usuario == null)
-                    {
-                        _notyfService.Custom("Error con el Tipo de Usuario -  Notificacion", 5, "#D90000", "fa fa-trash");
-                        modelo.ListCategory = _comboHelper.GetComboCatPlan(modelo.CorporateId);
-                        modelo.ListServer = _comboHelper.GetComboServerActivos(modelo.CorporateId);
-                        modelo.ListPlan = _comboHelper.GetComboPlanOrdenes(modelo.CorporateId, modelo.ServerId, modelo.PlanCategoryId);
-                        return View(modelo);
-                    }
-                    modelo.ManagerId = usuario.ManagerId;
-
                     //actualizamos informacion del OrderDetail, para que el Ticket quede vendido
                     var ticket = await _context.OrderTicketDetails.FindAsync(modelo.OrderTicketDetailId);
                     ticket!.Vendido = true;
                     ticket.DateVenta = DateTime.Now;
-                    ticket.SellOne = true;
-                    ticket.UserSystem = true;
-                    ticket.ManagerId = usuario.ManagerId;
+                    ticket.SellOneCachier = true;
+                    ticket.UserCachier = true;
+                    ticket.CachierId = modelo.CachierId;
                     _context.OrderTicketDetails.Update(ticket);
                     await _context.SaveChangesAsync();
                     //fin
@@ -164,11 +169,44 @@ namespace Tic.Web.Controllers.EntitesSoft
                     _context.Add(modelo);
                     await _context.SaveChangesAsync();
 
+                    var ratecomision = await _context.Cachiers.FindAsync(modelo.CachierId);
+                    //Porcentaje = false quiere decir que se le paga porcentaje y hay que guardar la operacion
+                    //por en Falso se coloca el valos en Chachier.
+                    if (ratecomision!.Porcentaje == false)
+                    {
+                        decimal comisionCajero = 0;
+                        if (ratecomision.RateCachier != 0)
+                        {
+                            comisionCajero = Math.Round(((modelo.Total * ratecomision.RateCachier) / 100), 2);
+                        }
+                        else
+                        {
+                            comisionCajero = 0;
+                        }
+
+
+                        CachierPorcent comisiones = new()
+                        {
+                            Date = DateTime.Now,
+                            CachierId = modelo.CachierId,
+                            SellOneCachierId = modelo.SellOneCachierId,
+                            OrderTicketDetailId = modelo.OrderTicketDetailId,
+                            Porcentaje = ratecomision.RateCachier,
+                            NamePlan = modelo.NamePlan,
+                            Precio = modelo.Total,
+                            Comision = comisionCajero,
+                            CorporateId = modelo.CorporateId
+                        };
+                        _context.CachierPorcents.Add(comisiones);
+                        await _context.SaveChangesAsync();
+                    }
+
+
                     transaction.Commit();
                     //Se guardan todos los datos si todo esta successed.
 
                     _notyfService.Success("El Regitro se Guardado Con Exito -  Notificacion");
-                    return RedirectToAction(nameof(Details), new { id = modelo.SellOneId });
+                    return RedirectToAction(nameof(Details), new { id = modelo.SellOneCachierId });
                 }
                 catch (DbUpdateException dbUpdateException)
                 {
@@ -186,14 +224,13 @@ namespace Tic.Web.Controllers.EntitesSoft
                     _notyfService.Error(exception.Message);
                 }
             }
-
             modelo.ListCategory = _comboHelper.GetComboCatPlan(modelo.CorporateId);
             modelo.ListServer = _comboHelper.GetComboServerActivos(modelo.CorporateId);
             modelo.ListPlan = _comboHelper.GetComboPlanOrdenes(modelo.CorporateId, modelo.ServerId, modelo.PlanCategoryId);
             return View(modelo);
         }
 
-        // GET: SellOnes/Edit/5
+        // GET: SellOneCachiers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -201,27 +238,28 @@ namespace Tic.Web.Controllers.EntitesSoft
                 return NotFound();
             }
 
-            var sellOne = await _context.SellOnes.FindAsync(id);
-            if (sellOne == null)
+            var sellOneCachier = await _context.SellOneCachiers.FindAsync(id);
+            if (sellOneCachier == null)
             {
                 return NotFound();
             }
-            ViewData["CorporateId"] = new SelectList(_context.Corporates, "CorporateId", "Address", sellOne.CorporateId);
-            ViewData["OrderTicketDetailId"] = new SelectList(_context.OrderTicketDetails, "OrderTicketDetailId", "Clave", sellOne.OrderTicketDetailId);
-            ViewData["PlanId"] = new SelectList(_context.Plans, "PlanId", "PlanName", sellOne.PlanId);
-            ViewData["PlanCategoryId"] = new SelectList(_context.PlanCategories, "PlanCategoryId", "PlanCategoryName", sellOne.PlanCategoryId);
-            ViewData["ServerId"] = new SelectList(_context.Servers, "ServerId", "Clave", sellOne.ServerId);
-            return View(sellOne);
+            ViewData["CachierId"] = new SelectList(_context.Cachiers, "CachierId", "Address", sellOneCachier.CachierId);
+            ViewData["CorporateId"] = new SelectList(_context.Corporates, "CorporateId", "Address", sellOneCachier.CorporateId);
+            ViewData["OrderTicketDetailId"] = new SelectList(_context.OrderTicketDetails, "OrderTicketDetailId", "Clave", sellOneCachier.OrderTicketDetailId);
+            ViewData["PlanId"] = new SelectList(_context.Plans, "PlanId", "PlanName", sellOneCachier.PlanId);
+            ViewData["PlanCategoryId"] = new SelectList(_context.PlanCategories, "PlanCategoryId", "PlanCategoryName", sellOneCachier.PlanCategoryId);
+            ViewData["ServerId"] = new SelectList(_context.Servers, "ServerId", "Clave", sellOneCachier.ServerId);
+            return View(sellOneCachier);
         }
 
-        // POST: SellOnes/Edit/5
+        // POST: SellOneCachiers/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, SellOne sellOne)
+        public async Task<IActionResult> Edit(int id, [Bind("SellOneCachierId,SellControl,Date,CachierId,PlanCategoryId,PlanId,NamePlan,ServerId,OrderTicketDetailId,Rate,SubTotal,Impuesto,Total,DateAnulado,Anulada,CorporateId")] SellOneCachier sellOneCachier)
         {
-            if (id != sellOne.SellOneId)
+            if (id != sellOneCachier.SellOneCachierId)
             {
                 return NotFound();
             }
@@ -230,12 +268,12 @@ namespace Tic.Web.Controllers.EntitesSoft
             {
                 try
                 {
-                    _context.Update(sellOne);
+                    _context.Update(sellOneCachier);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SellOneExists(sellOne.SellOneId))
+                    if (!SellOneCachierExists(sellOneCachier.SellOneCachierId))
                     {
                         return NotFound();
                     }
@@ -246,15 +284,16 @@ namespace Tic.Web.Controllers.EntitesSoft
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CorporateId"] = new SelectList(_context.Corporates, "CorporateId", "Address", sellOne.CorporateId);
-            ViewData["OrderTicketDetailId"] = new SelectList(_context.OrderTicketDetails, "OrderTicketDetailId", "Clave", sellOne.OrderTicketDetailId);
-            ViewData["PlanId"] = new SelectList(_context.Plans, "PlanId", "PlanName", sellOne.PlanId);
-            ViewData["PlanCategoryId"] = new SelectList(_context.PlanCategories, "PlanCategoryId", "PlanCategoryName", sellOne.PlanCategoryId);
-            ViewData["ServerId"] = new SelectList(_context.Servers, "ServerId", "Clave", sellOne.ServerId);
-            return View(sellOne);
+            ViewData["CachierId"] = new SelectList(_context.Cachiers, "CachierId", "Address", sellOneCachier.CachierId);
+            ViewData["CorporateId"] = new SelectList(_context.Corporates, "CorporateId", "Address", sellOneCachier.CorporateId);
+            ViewData["OrderTicketDetailId"] = new SelectList(_context.OrderTicketDetails, "OrderTicketDetailId", "Clave", sellOneCachier.OrderTicketDetailId);
+            ViewData["PlanId"] = new SelectList(_context.Plans, "PlanId", "PlanName", sellOneCachier.PlanId);
+            ViewData["PlanCategoryId"] = new SelectList(_context.PlanCategories, "PlanCategoryId", "PlanCategoryName", sellOneCachier.PlanCategoryId);
+            ViewData["ServerId"] = new SelectList(_context.Servers, "ServerId", "Clave", sellOneCachier.ServerId);
+            return View(sellOneCachier);
         }
 
-        // GET: SellOnes/Delete/5
+        // GET: SellOneCachiers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -262,34 +301,44 @@ namespace Tic.Web.Controllers.EntitesSoft
                 return NotFound();
             }
 
-            var sellOne = await _context.SellOnes
+            var sellOneCachier = await _context.SellOneCachiers
+                .Include(s => s.Cachier)
                 .Include(s => s.Corporate)
                 .Include(s => s.OrderTicketDetail)
                 .Include(s => s.Plan)
                 .Include(s => s.PlanCategory)
                 .Include(s => s.Server)
-                .FirstOrDefaultAsync(m => m.SellOneId == id);
-            if (sellOne == null)
+                .FirstOrDefaultAsync(m => m.SellOneCachierId == id);
+            if (sellOneCachier == null)
             {
                 return NotFound();
             }
 
-            return View(sellOne);
+            return View(sellOneCachier);
         }
 
-        // POST: SellOnes/Delete/5
+        // POST: SellOneCachiers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var sellOne = await _context.SellOnes.FindAsync(id);
-            if (sellOne != null)
+            var sellOneCachier = await _context.SellOneCachiers.FindAsync(id);
+            if (sellOneCachier != null)
             {
-                _context.SellOnes.Remove(sellOne);
+                _context.SellOneCachiers.Remove(sellOneCachier);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        public JsonResult GetPlan(int idCategory, int idServer)
+        {
+            var data = _context.Plans
+                .Where(c => c.PlanCategoryId == idCategory && c.Active == true && c.ServerId == idServer)
+                .ToList();
+
+            return Json(data.Select(x => new SelectListItem(x.PlanName, x.PlanId.ToString())));
         }
 
         public JsonResult GetPrecio(int planId, int IdServer)
@@ -309,23 +358,6 @@ namespace Tic.Web.Controllers.EntitesSoft
                 && c.Vendido == false && c.Anulado == false).FirstOrDefault();
 
             return Json(dato);
-        }
-
-        public JsonResult GetPlan(int idCategory, int idServer)
-        {
-            var data = _context.Plans
-                .Where(c => c.PlanCategoryId == idCategory && c.Active == true && c.ServerId == idServer)
-                .ToList();
-
-            return Json(data.Select(x => new SelectListItem(x.PlanName, x.PlanId.ToString())));
-        }
-
-        public JsonResult GetServidores(int idCorporate)
-        {
-            var servidor = _context.Servers
-                .Where(c => c.Active == true && c.CorporateId == idCorporate).ToList();
-
-            return Json(servidor.Select(x => new SelectListItem(x.ServerName, x.ServerId.ToString())));
         }
 
         public JsonResult GetPin(int IdPlan, int IdServer)
@@ -354,9 +386,37 @@ namespace Tic.Web.Controllers.EntitesSoft
             return Json(new { pin, ordid, stock });
         }
 
-        private bool SellOneExists(int id)
+        public JsonResult GetServidores(int idCorporate)
         {
-            return _context.SellOnes.Any(e => e.SellOneId == id);
+            var user = _context.Users.FirstOrDefault(u => u.UserName == User.Identity!.Name);
+            var vendedor = _context.Cachiers.FirstOrDefault(x => x.UserName == user!.UserName);
+            if (vendedor!.MultiServer == false)
+            {
+                var servidor = _context.Servers
+                .Where(c => c.Active == true && c.CorporateId == idCorporate && c.ServerId == vendedor.ServerId).ToList();
+                if (servidor == null)
+                {
+                    return null!;
+                }
+
+                return Json(servidor.Select(x=> new SelectListItem( x.ServerName, x.ServerId.ToString())));
+            }
+            else
+            {
+                var servidor = _context.Servers
+                .Where(c => c.Active == true && c.CorporateId == idCorporate).ToList();
+                if (servidor == null)
+                {
+                    return null!;
+                }
+
+                return Json(servidor.Select(x => new SelectListItem(x.ServerName, x.ServerId.ToString())));
+            }
+        }
+
+        private bool SellOneCachierExists(int id)
+        {
+            return _context.SellOneCachiers.Any(e => e.SellOneCachierId == id);
         }
     }
 }

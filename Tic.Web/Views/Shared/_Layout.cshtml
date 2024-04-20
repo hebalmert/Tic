@@ -152,7 +152,7 @@
                             </li>
                         </ul>
                     }
-                    @if (User.Identity!.IsAuthenticated && User.IsInRole("UserAux"))
+                    @if (User.Identity!.IsAuthenticated && User.IsInRole("Cachier"))
                     {
                         <ul class="navbar-nav flex-grow-1">
                             <li class="nav-item dropdown">
@@ -165,37 +165,23 @@
                                     <li>
                                         <h6 class="dropdown-header">
                                             <i class="bi bi-person"></i>
-                                            Personas
+                                            Ventas
                                         </h6>
                                     </li>
-                                    <li><a id="_Clientes" class="dropdown-item" asp-action="Index" asp-controller="Clients">Clientes</a></li>
-                                    <li><a id="_Contract" class="dropdown-item" asp-action="Index" asp-controller="Contracts">Contratos</a></li>
-                                    <li><a id="_ServiceRequest" class="dropdown-item" asp-action="Index" asp-controller="ServiceRequests">Solicitud Soporte</a></li>
+                                    <li><a id="VentaCachier" class="dropdown-item" asp-action="Create" asp-controller="SellOneCachiers">Venta Ticket</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
                                         <h6 class="dropdown-header mt-3">
                                             <i class="bi bi-cash-coin"></i>
-                                            Contables
+                                            Reportes
                                         </h6>
                                     </li>
-                                    <li><a id="_CxCBill" class="dropdown-item" asp-action="Index" asp-controller="CxCBills">Cuentas por Cobrar</a></li>
-                                    <li><a id="_PrePayment" class="dropdown-item" asp-action="Index" asp-controller="PrePayments">Pago Adelantado</a></li>
-
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li>
-                                        <h6 class="dropdown-header mt-3">
-                                            <i class="bi bi-sort-numeric-up"></i>
-                                            Seriales
-                                        </h6>
-                                    </li>
-                                    <li><a id="_Cargue" class="dropdown-item" asp-action="Index" asp-controller="Cargues">Cargue Seriales</a></li>
-                                    <li><a id="_BusSeriales" class="dropdown-item" asp-action="IndexSerial" asp-controller="Cargues">Ver Seriales</a></li>
-
+                                    <li><a id="ReportCajero" class="dropdown-item" asp-action="RepCajero" asp-controller="Reports">Venta Cajero Dia</a></li>
                                 </ul>
                             </li>
                         </ul>
                     }
-                    @if (User.Identity!.IsAuthenticated && User.IsInRole("User") | User.IsInRole("Cachier") | User.IsInRole("UserAux"))
+                    @if (User.Identity!.IsAuthenticated && User.IsInRole("User"))
                     {
                         <ul class="navbar-nav flex-grow-1">
                             <li class="nav-item dropdown">
@@ -209,52 +195,20 @@
                                         <li>
                                             <h6 class="dropdown-header">
                                                 <i class="bi bi-archive"></i>
-                                                Status Clientes
+                                               Ventas
                                             </h6>
                                         </li>
-                                        <li><a id="_RepNode" class="dropdown-item" asp-action="RepClientsActives" asp-controller="Reports">Clientes Activos</a></li>
-                                        <li><a id="_RepNode" class="dropdown-item" asp-action="ActivoNodos" asp-controller="Reports">Clientes Activos por Nodo</a></li>
-                                        <li><a id="_RepNode" class="dropdown-item" asp-action="ActivoServer" asp-controller="Reports">Clientes Activos por Servidor</a></li>
-                                        <li><a id="_RepNode" class="dropdown-item" asp-action="ActivoZone" asp-controller="Reports">Clientes Activos por Zona</a></li>
-                                        <li><a id="_RepSelectDayNotas" class="dropdown-item" asp-action="SelectDaySuspended" asp-controller="Reports">Suspendidos por Fecha</a></li>
+                                        <li><a id="ReportCachier" class="dropdown-item" asp-action="RepCachier" asp-controller="Reports">Venta Cajero Dia</a></li>
+                                        <li><a id="ReportCachier" class="dropdown-item" asp-action="RepCachierT" asp-controller="Reports">Venta Cajero Tickets</a></li>
                                         <li><hr class="dropdown-divider"></li>
                                         <li>
                                             <h6 class="dropdown-header">
                                                 <i class="bi bi-bank"></i>
-                                                General Ingresos
+                                                Inventrio Tickets
                                             </h6>
                                         </li>
-                                        <li><a id="_RepSelectDayNotas" class="dropdown-item" asp-action="SelectDayNotas" asp-controller="Reports">Nota Cobro por Fecha</a></li>
-                                        <li><a id="_RepSelectDayNotas" class="dropdown-item" asp-action="ExtracDateNotas" asp-controller="Reports">Nota Cobro Extracto por Fecha</a></li>
-                                        <li><hr class="dropdown-divider"></li>
-                                        <li><a id="_RepNode" class="dropdown-item" asp-action="RepClientsPrePayment" asp-controller="Reports">Clientes por Adelantado</a></li>
-                                        <li><a id="_RepNode" class="dropdown-item" asp-action="ClientPrePayDate" asp-controller="Reports">Clientes Adelantado Facturado por Mes</a></li>
-                                        <li><hr class="dropdown-divider"></li>
-                                        <li><a id="_RepNode" class="dropdown-item" asp-action="RepClientsExonerate" asp-controller="Reports">Clientes por Exonerar</a></li>
-                                        <li><a id="_RepNode" class="dropdown-item" asp-action="ClientExonDate" asp-controller="Reports">Clientes Exonerados por Mes</a></li>
-                                        <li><hr class="dropdown-divider"></li>
-                                        <li>
-                                            <h6 class="dropdown-header">
-                                                <i class="bi bi-bank"></i>
-                                                Contratistas
-                                            </h6>
-                                        </li>
-                                        <li><a id="_RepContractorPay" class="dropdown-item" asp-action="ContractorPayDate" asp-controller="Reports">Pago Contratistas por Fecha</a></li>
-                                        <li><a id="_RepContractorActiveClient" class="dropdown-item" asp-action="ContractorsSelect" asp-controller="Reports">Clientes Activos por Contratista</a></li>
-                                        <li><a id="_RepContractorActiveClient" class="dropdown-item" asp-action="ContractorCtSuspenDate" asp-controller="Reports">Clientes Suspendidos por Contratista</a></li>
-                                        <li><hr class="dropdown-divider"></li>
-                                    }
-                                    @if (User.IsInRole("User") | User.IsInRole("Cachier") | User.IsInRole("UserAux"))
-                                    {
-                                        <li>
-                                            <h6 class="dropdown-header">
-                                                <i class="bi bi-archive"></i>
-                                                Operaciones
-                                            </h6>
-                                        </li>
-                                        <li><a id="_RepCachierDate" class="dropdown-item" asp-action="ReporteCajerosDate" asp-controller="Reports">Reporte Pagos Cajeros</a></li>
-                                        <li><a id="_RepCachierDate" class="dropdown-item" asp-action="ReportePrePayCajerosDate" asp-controller="Reports">Reporte Pagos Adelantados Cajeros</a></li>
-                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a id="_InventarioTickets" class="dropdown-item" asp-action="TicketsPlan" asp-controller="StockTickets">Tickets por Plan</a></li>
+                                        <li><a id="_InventarioTickets" class="dropdown-item" asp-action="TicketsPlanServer" asp-controller="StockTickets">Tickets por Plan y Servidor</a></li>
                                     }
                                 </ul>
                             </li>
@@ -276,6 +230,7 @@
                                         </h6>
                                     </li>
                                     <li><a id="_DocumentType" class="dropdown-item" asp-action="Index" asp-controller="DocumentTypes">Tipo Documento</a></li>
+                                    <li><a id="Encabezado" class="dropdown-item" asp-action="Index" asp-controller="HeadTexts">Texto Encabezado</a></li>
                                     <li><a id="_Taxes" class="dropdown-item" asp-action="Index" asp-controller="Taxes">Impuestos</a></li>
                                     <li><a id="_Consecutivos" class="dropdown-item" asp-action="Details" asp-controller="Registers">Consecutivos</a></li>
                                     <li><hr class="dropdown-divider"></li>
