@@ -40,8 +40,8 @@ namespace Tic.Shared.Entites
         public string ImageFullPath => Photo == string.Empty || Photo == null
         //? $"https://localhost:7160/Images/NoImage.png"
         //: $"https://localhost:7160/Images/ImgUser/{Photo}";
-        ? $"https://spi.nexxtplanet.net/Images/NoImage.png"
-        : $"https://spi.nexxtplanet.net/Images/ImgUser/{Photo}";
+        ? $"http://tic.nexxtplanet.net/Images/NoImage.png"
+        : $"http://tic.nexxtplanet.net/Images/ImgUser/{Photo}";
 
         //...
         public int? CorporateId { get; set; }

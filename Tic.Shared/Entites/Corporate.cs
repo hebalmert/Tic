@@ -95,10 +95,10 @@ namespace Tic.Shared.Entites
         //TODO: Pending to put the correct paths
         [Display(Name = "Imagen")]
         public string ImageFullPath => ImageId == string.Empty || ImageId == null
-        ? $"https://localhost:7045/Images/NoImage.png"
-        : $"https://localhost:7045/Images/ImgCorporate/{ImageId}";
-        //? $"https://spi.nexxtplanet.net/Images/NoImage.png"
-        //: $"https://spi.nexxtplanet.net/Images/ImgCorporate/{ImageId}";
+        //? $"https://localhost:7045/Images/NoImage.png"
+        //: $"https://localhost:7045/Images/ImgCorporate/{ImageId}";
+        ? $"http://tic.nexxtplanet.net/Images/NoImage.png"
+        : $"http://tic.nexxtplanet.net/Images/ImgCorporate/{ImageId}";
 
 
         //Armado de Combos

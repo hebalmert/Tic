@@ -74,10 +74,10 @@ namespace Tic.Shared.Entites
         //TODO: Pending to put the correct paths
         [Display(Name = "Imagen")]
         public string ImageFullPath => Photo == string.Empty || Photo == null
-        ? $"https://localhost:7045/images/NoImage.png"
-        : $"https://localhost:7045/images/ImgUser/{Photo}";
-        //? $"https://spi.nexxtplanet.net/images/NoImage.png"
-        //: $"https://spi.nexxtplanet.net/images/ImgUser/{Photo}";
+        //? $"https://localhost:7045/images/NoImage.png"
+        //: $"https://localhost:7045/images/ImgUser/{Photo}";
+        ? $"http://tic.nexxtplanet.net/images/NoImage.png"
+        : $"http://tic.nexxtplanet.net/images/ImgUser/{Photo}";
 
         [Display(Name = "Full Name")]
         public string FullNameWithDocument => $"{FirstName} {LastName} - {Document}";        //Armado de Combos

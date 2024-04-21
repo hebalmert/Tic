@@ -73,10 +73,10 @@ namespace Tic.Shared.EntitiesSoft
         //TODO: Pending to put the correct paths
         [Display(Name = "Imagen")]
         public string ImageFullPath => Photo == string.Empty || Photo == null
-        ? $"https://localhost:7045/Images/NoImage.png"
-        : $"https://localhost:7045/Images/ImgCachier/{Photo}";
-        //? $"http://tickets.nexxtplanet.net/Images/NoImage.png"
-        //: $"http://tickets.nexxtplanet.net/Images/ImgCachier/{ImageId}";
+        //? $"https://localhost:7045/Images/NoImage.png"
+        //: $"https://localhost:7045/Images/ImgCachier/{Photo}";
+        ? $"http://tic.nexxtplanet.net/Images/NoImage.png"
+        : $"http://tic.nexxtplanet.net/Images/ImgCachier/{Photo}";
 
 
         //Manejo del Cajero en Asignacion de Servidores

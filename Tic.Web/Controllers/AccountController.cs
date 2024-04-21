@@ -90,15 +90,15 @@ namespace Tic.Web.Controllers
                         if (user.UserType.ToString() == "User")
                         {
                             //TODO: Cambiar la URL de la Imagen en el Hosting
-                            imgUsuario = user.UserType.ToString() == "User" ? $"https://spi.nexxtplanet.net/images/ImgUser/{user.Photo}" : $"https://spi.nexxtplanet.net/images/NoImage.png";
+                            imgUsuario = user.UserType.ToString() == "User" ? $"http://tic.nexxtplanet.net/images/ImgUser/{user.Photo}" : $"http://tic.nexxtplanet.net/images/NoImage.png";
                         }
                         if (user.UserType.ToString() == "Cachier")
                         {
-                            imgUsuario = user.UserType.ToString() == "Cachier" ? $"https://spi.nexxtplanet.net/images/ImgCachier/{user.Photo}" : $"https://spi.nexxtplanet.net/images/NoImage.png";
+                            imgUsuario = user.UserType.ToString() == "Cachier" ? $"http://tic.nexxtplanet.net/images/ImgCachier/{user.Photo}" : $"http://tic.nexxtplanet.net/images/NoImage.png";
                         }
                         if (user.UserType.ToString() == "UserAux")
                         {
-                            imgUsuario = user.UserType.ToString() == "UserAux" ? $"https://spi.nexxtplanet.net/images/ImgAuxUser/{user.Photo}" : $"https://spi.nexxtplanet.net/images/NoImage.png";
+                            imgUsuario = user.UserType.ToString() == "UserAux" ? $"http://tic.nexxtplanet.net/images/ImgAuxUser/{user.Photo}" : $"http://tic.nexxtplanet.net/images/NoImage.png";
                         }
                         if (TipoRole != "Admin")
                         {
