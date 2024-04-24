@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Tic.Shared.Entites;
 using Tic.Shared.Enum;
+using Tic.Shared.SystemDTOs;
 using Tic.Web.Models;
 
 namespace Tic.Web.Helpers
@@ -34,6 +35,8 @@ namespace Tic.Web.Helpers
         Task LogoutAsync();
 
 
+        //Sistema de Logueo para AccountController API
+        Task<SignInResult> LoginAsync(LoginDTO model);
 
 
         //Se pasa el Usuario y el Pass, para ver si es Valido el Usuario, nos da un Result

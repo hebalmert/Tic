@@ -93,7 +93,8 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin", builder =>
     {
-        builder.WithOrigins("https://localhost:7105") // dominio de tu aplicación Blazor
+        /*builder.WithOrigins("https://localhost:7105")*/ // dominio de tu aplicación Blazor
+        builder.AllowAnyOrigin()
                .AllowAnyHeader()
                .AllowAnyMethod()
                .WithExposedHeaders(new string[] { "Totalpages", "conteo" }); //Variables que se enviaran por le Headers

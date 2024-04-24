@@ -36,6 +36,11 @@ namespace Tic.Shared.Entites
         [Display(Name = "Imagen")]
         public string? Photo { get; set; }
 
+        //Para el envio de la Ruta Completa de la Imagen por API
+        [NotMapped]
+        [Display(Name = "FullPath")]
+        public string? PhotoPath { get; set; }
+
         //TODO:Change Addres to Image
         public string ImageFullPath => Photo == string.Empty || Photo == null
         //? $"https://localhost:7160/Images/NoImage.png"

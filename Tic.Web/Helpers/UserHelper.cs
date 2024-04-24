@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using Tic.Shared.Entites;
 using Tic.Shared.Enum;
+using Tic.Shared.SystemDTOs;
 using Tic.Web.Data;
 using Tic.Web.Models;
 
@@ -177,6 +178,12 @@ namespace Tic.Web.Helpers
                 model.Password,
                 model.RememberMe,
                 false);
+        }
+
+        //Sistema de Login
+        public async Task<SignInResult> LoginAsync(LoginDTO model)
+        {
+            return await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
         }
 
         public async Task LogoutAsync()
