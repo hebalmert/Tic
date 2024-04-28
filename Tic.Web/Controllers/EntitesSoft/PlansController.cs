@@ -138,109 +138,112 @@ namespace Spi.Web.Controllers.EntitiesSoft
             {
                 try
                 {
-                    var ServDato = await _context.Servers.Include(x => x.IpNetwork).FirstOrDefaultAsync(x => x.ServerId == modelo.ServerId);
+                    //var ServDato = await _context.Servers.Include(x => x.IpNetwork).FirstOrDefaultAsync(x => x.ServerId == modelo.ServerId);
 
-                    var ping = new Ping();
-                    PingReply reply = ping.Send(ServDato!.IpNetwork!.Ip!, 3000);
-                    if (reply == null)
-                    {
-                        _notyfService.Custom("Error en la Conexion al Servidor Mikrotik -  Notificacion", 5, "#D90000", "fa fa-trash");
-                        return View(modelo);
-                    }
+                    ////Para hacer pruebas de solo agregar planes primero al sistema
+                    //var ping = new Ping();
+                    //PingReply reply = ping.Send(ServDato!.IpNetwork!.Ip!, 3000);
+                    //if (reply == null)
+                    //{
+                    //    _notyfService.Custom("Error en la Conexion al Servidor Mikrotik -  Notificacion", 5, "#D90000", "fa fa-trash");
+                    //    return View(modelo);
+                    //}
 
-                    var Iproxy = modelo.Proxy == true ? "yes" : "no";
-                    var ImacCookies = modelo.MacCookies == true ? "yes" : "no";
-                    var tiempoTicket = _context.TicketTimes.Where(x => x.TicketTimeId == modelo.TicketTimeId).Select(x => new
-                    {
-                        tiempo = x.Tiempo,
-                        SContinuo = x.ScriptContinuo,
-                        SConsumo = x.ScriptConsumo
-                    }).FirstOrDefault();
-                    var inactivo = _context.TicketInactives.Where(x => x.TicketInactiveId == modelo.TicketInactiveId)
-                        .Select(x => x.Tiempo).FirstOrDefault();
-                    var refrescar = _context.TicketRefreshes.Where(x => x.TicketRefreshId == modelo.TicketRefreshId)
-                        .Select(x => x.Tiempo).FirstOrDefault();
+                    //var Iproxy = modelo.Proxy == true ? "yes" : "no";
+                    //var ImacCookies = modelo.MacCookies == true ? "yes" : "no";
+                    //var tiempoTicket = _context.TicketTimes.Where(x => x.TicketTimeId == modelo.TicketTimeId).Select(x => new
+                    //{
+                    //    tiempo = x.Tiempo,
+                    //    SContinuo = x.ScriptContinuo,
+                    //    SConsumo = x.ScriptConsumo
+                    //}).FirstOrDefault();
+                    //var inactivo = _context.TicketInactives.Where(x => x.TicketInactiveId == modelo.TicketInactiveId)
+                    //    .Select(x => x.Tiempo).FirstOrDefault();
+                    //var refrescar = _context.TicketRefreshes.Where(x => x.TicketRefreshId == modelo.TicketRefreshId)
+                    //    .Select(x => x.Tiempo).FirstOrDefault();
 
-                    string MkContinuo = "";
-                    string MikrotikId = "";
-                    string IScriptConsumo = tiempoTicket!.SContinuo!;
+                    //string MkContinuo = "";
+                    //string MikrotikId = "";
+                    //string IScriptConsumo = tiempoTicket!.SContinuo!;
 
-                    ////////////////////////////////////////////////////////////
-                    MK mikrotik = new MK(ServDato.IpNetwork.Ip!, ServDato.ApiPort);
-                    if (!mikrotik.Login(ServDato.Usuario, ServDato.Clave))
-                    {
-                        _notyfService.Custom("Error en la Conexion al Servidor Mikrotik -  Notificacion", 5, "#D90000", "fa fa-trash");
-                        return View(modelo);
-                    }
-                    else
-                    {
-                        if (modelo.ContinueTime == false)
-                        {
-                            IScriptConsumo = "";
-                            mikrotik.Send("/system/scheduler/add");
-                            mikrotik.Send("=name=" + modelo.PlanName);
-                            mikrotik.Send("=interval=" + "45s");
-                            mikrotik.Send("=policy=" + "ftp,reboot,read,write,policy,test,password,sniff,sensitive,romo");
-                            mikrotik.Send("=start-time=" + "startup");
-                            mikrotik.Send("=on-event=" + tiempoTicket.SConsumo);
-                            mikrotik.Send("/system/scheduler/print", true);
+                    //////////////////////////////////////////////////////////////
+                    //MK mikrotik = new MK(ServDato.IpNetwork.Ip!, ServDato.ApiPort);
+                    //if (!mikrotik.Login(ServDato.Usuario, ServDato.Clave))
+                    //{
+                    //    _notyfService.Custom("Error en la Conexion al Servidor Mikrotik -  Notificacion", 5, "#D90000", "fa fa-trash");
+                    //    return View(modelo);
+                    //}
+                    //else
+                    //{
+                    //    if (modelo.ContinueTime == false)
+                    //    {
+                    //        IScriptConsumo = "";
+                    //        mikrotik.Send("/system/scheduler/add");
+                    //        mikrotik.Send("=name=" + modelo.PlanName);
+                    //        mikrotik.Send("=interval=" + "45s");
+                    //        mikrotik.Send("=policy=" + "ftp,reboot,read,write,policy,test,password,sniff,sensitive,romo");
+                    //        mikrotik.Send("=start-time=" + "startup");
+                    //        mikrotik.Send("=on-event=" + tiempoTicket.SConsumo);
+                    //        mikrotik.Send("/system/scheduler/print", true);
 
-                            int total = 0;
-                            int rest = 0;
-                            string IdMk;
-                            string MkIndex;
-                            foreach (var item2 in mikrotik.Read())
-                            {
-                                IdMk = item2;
-                                total = IdMk.Length;
-                                rest = total - 10;
-                                MkIndex = IdMk.Substring(10, rest);
+                    //        int total = 0;
+                    //        int rest = 0;
+                    //        string IdMk;
+                    //        string MkIndex;
+                    //        foreach (var item2 in mikrotik.Read())
+                    //        {
+                    //            IdMk = item2;
+                    //            total = IdMk.Length;
+                    //            rest = total - 10;
+                    //            MkIndex = IdMk.Substring(10, rest);
 
-                                MkContinuo = MkIndex;
-                            }
-                        }
+                    //            MkContinuo = MkIndex;
+                    //        }
+                    //    }
 
-                        mikrotik.Send("/ip/hotspot/user/profile/add");
-                        mikrotik.Send("=name=" + modelo.PlanName);
-                        mikrotik.Send("=session-timeout=" + tiempoTicket.tiempo);
-                        mikrotik.Send("=keepalive-timeout=" + tiempoTicket.tiempo);
-                        mikrotik.Send("=rate-limit=" + modelo.VelocidadUp + "/" + modelo.VelocidadDown);
-                        mikrotik.Send("=shared-users=" + modelo.ShareUser);
-                        mikrotik.Send("=idle-timeout=" + inactivo);
-                        mikrotik.Send("=status-autorefresh=" + refrescar);
-                        mikrotik.Send("=add-mac-cookie=" + ImacCookies);
-                        if (modelo.MacCookies == false)
-                        {
-                            mikrotik.Send("=!mac-cookie-timeout=");
-                        }
-                        else
-                        {
-                            mikrotik.Send("=mac-cookie-timeout=" + tiempoTicket.tiempo);
-                        }
-                        mikrotik.Send("=transparent-proxy=" + Iproxy);
-                        mikrotik.Send("=on-login=" + IScriptConsumo);
-                        mikrotik.Send("/ip/hotspot/user/profile/print", true);
+                    //    mikrotik.Send("/ip/hotspot/user/profile/add");
+                    //    mikrotik.Send("=name=" + modelo.PlanName);
+                    //    mikrotik.Send("=session-timeout=" + tiempoTicket.tiempo);
+                    //    mikrotik.Send("=keepalive-timeout=" + tiempoTicket.tiempo);
+                    //    mikrotik.Send("=rate-limit=" + modelo.VelocidadUp + "/" + modelo.VelocidadDown);
+                    //    mikrotik.Send("=shared-users=" + modelo.ShareUser);
+                    //    mikrotik.Send("=idle-timeout=" + inactivo);
+                    //    mikrotik.Send("=status-autorefresh=" + refrescar);
+                    //    mikrotik.Send("=add-mac-cookie=" + ImacCookies);
+                    //    if (modelo.MacCookies == false)
+                    //    {
+                    //        mikrotik.Send("=!mac-cookie-timeout=");
+                    //    }
+                    //    else
+                    //    {
+                    //        mikrotik.Send("=mac-cookie-timeout=" + tiempoTicket.tiempo);
+                    //    }
+                    //    mikrotik.Send("=transparent-proxy=" + Iproxy);
+                    //    mikrotik.Send("=on-login=" + IScriptConsumo);
+                    //    mikrotik.Send("/ip/hotspot/user/profile/print", true);
 
-                        int total2 = 0;
-                        int rest2 = 0;
-                        string IdMk2;
-                        string MkIndex2;
-                        foreach (var item3 in mikrotik.Read())
-                        {
-                            IdMk2 = item3;
-                            total2 = IdMk2.Length;
-                            rest2 = total2 - 10;
-                            MkIndex2 = IdMk2.Substring(10, rest2);
+                    //    int total2 = 0;
+                    //    int rest2 = 0;
+                    //    string IdMk2;
+                    //    string MkIndex2;
+                    //    foreach (var item3 in mikrotik.Read())
+                    //    {
+                    //        IdMk2 = item3;
+                    //        total2 = IdMk2.Length;
+                    //        rest2 = total2 - 10;
+                    //        MkIndex2 = IdMk2.Substring(10, rest2);
 
-                            MikrotikId = MkIndex2;
-                        }
+                    //        MikrotikId = MkIndex2;
+                    //    }
 
-                    }
+                    //}
 
-                    mikrotik.Close();
-                    modelo.MkId = MikrotikId;
-                    modelo.MkContinuoId = MkContinuo;
+                    //mikrotik.Close();
+                    //modelo.MkId = MikrotikId;
+                    //modelo.MkContinuoId = MkContinuo;
                     modelo.DateCreated = DateTime.Now;
+                    //para poder ingresar datos si usar Mikrotik
+
                     _context.Add(modelo);
                     await _context.SaveChangesAsync();
 

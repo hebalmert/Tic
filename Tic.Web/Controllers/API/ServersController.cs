@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using Tic.Shared.ApiDTOs;
 using Tic.Shared.Entites;
@@ -12,7 +13,7 @@ using Tic.Web.Helpers;
 namespace Tic.Web.Controllers.API
 {
     [Route("api/servers")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles ="User")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
     [ApiController]
     public class ServersController : ControllerBase
     {
@@ -60,7 +61,7 @@ namespace Tic.Web.Controllers.API
         }
 
         // GET: api/Servers/5
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<ServerDTOs>> GetServer(int id)
         {
             //Validando con el mismo toquen de seguridad para saber quien es el User
