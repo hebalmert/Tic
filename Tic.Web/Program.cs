@@ -103,6 +103,8 @@ builder.Services.AddCors(options =>
 
 //Inyeccion de Dependencias
 builder.Services.AddTransient<SeedDb>();
+//Inyeccion de AutoMapper
+builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<IApiService, ApiService>();
 builder.Services.AddScoped<IComboHelper, ComboHelper>();
 builder.Services.AddScoped<IEmailHelper, EmailHelper>();

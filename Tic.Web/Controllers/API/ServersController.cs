@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using Tic.Shared.ApiDTOs;
-using Tic.Shared.Entites;
 using Tic.Shared.EntitiesSoft;
 using Tic.Web.Data;
 using Tic.Web.Helpers;
@@ -19,16 +18,36 @@ namespace Tic.Web.Controllers.API
     {
         private readonly DataContext _context;
         private readonly IUserHelper _userHelper;
+        private readonly IMapper _mapper;
 
-        public ServersController(DataContext context, IUserHelper userHelper)
+        public ServersController(DataContext context, IUserHelper userHelper, IMapper mapper)
         {
             _context = context;
             _userHelper = userHelper;
+            _mapper = mapper;
+        }
+
+        [HttpGet("servidor")]
+        public async Task<ActionResult<List<ServerPicketDTOs>>> GetListServer()
+        {
+            //Validando con el mismo toquen de seguridad para saber quien es el User
+            string email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)!.Value;
+            var user = await _userHelper.GetUserAsync(email);
+            if (user == null)
+            {
+                return NotFound("Error001");
+            }
+
+            var listaServer = await _context.Servers.Where(x => x.CorporateId == user.CorporateId && x.Active == true)
+                .OrderBy(x => x.ServerName)
+                .ToListAsync();
+
+            return Ok(listaServer);
         }
 
         // GET: api/Servers
-        [HttpGet]
-        public async Task<ActionResult<List<ServerIndexDTOs>>> GetServers()
+        [HttpGet("listaservidores")]
+        public async Task<ActionResult<List<ServerIndexDTOs>>> GetServersIndex()
         {
             //Validando con el mismo toquen de seguridad para saber quien es el User
             string email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)!.Value;
@@ -73,28 +92,28 @@ namespace Tic.Web.Controllers.API
             }
 
             var Server = (from sv in _context.Servers
-                              join ip in _context.IpNetworks on sv.IpNetworkId equals ip.IpNetworkId
-                              join mk in _context.Marks on sv.MarkId equals mk.MarkId
-                              join md in _context.MarkModels on sv.MarkModelId equals md.MarkModelId
-                              join zn in _context.Zones on sv.ZoneId equals zn.ZoneId
-                              where sv.CorporateId == user.CorporateId && sv.ServerId == id
-                              select new ServerDTOs
-                              {
-                                  ServerId = sv.ServerId,
-                                  ServerName = sv.ServerName,
-                                  IpNetwork = ip.Ip!,
-                                  Usuario = sv.Usuario,
-                                  Clave = sv.Clave,
-                                  ApiPort = sv.ApiPort,
-                                  WanName = sv.WanName,
-                                  Marka = mk.MarkName,
-                                  MarkModelo = md.MarkModelName,
-                                  Estado = zn.State!.Name,
-                                  Ciudad = zn.City!.Name,
-                                  Zona = zn.ZoneName,
-                                  Activo = sv.Active == true ? "On" : "Off",
-                                  CorporateId = sv.CorporateId
-                              }).First();
+                          join ip in _context.IpNetworks on sv.IpNetworkId equals ip.IpNetworkId
+                          join mk in _context.Marks on sv.MarkId equals mk.MarkId
+                          join md in _context.MarkModels on sv.MarkModelId equals md.MarkModelId
+                          join zn in _context.Zones on sv.ZoneId equals zn.ZoneId
+                          where sv.CorporateId == user.CorporateId && sv.ServerId == id
+                          select new ServerDTOs
+                          {
+                              ServerId = sv.ServerId,
+                              ServerName = sv.ServerName,
+                              IpNetwork = ip.Ip!,
+                              Usuario = sv.Usuario,
+                              Clave = sv.Clave,
+                              ApiPort = sv.ApiPort,
+                              WanName = sv.WanName,
+                              Marka = mk.MarkName,
+                              MarkModelo = md.MarkModelName,
+                              Estado = zn.State!.Name,
+                              Ciudad = zn.City!.Name,
+                              Zona = zn.ZoneName,
+                              Activo = sv.Active == true ? "On" : "Off",
+                              CorporateId = sv.CorporateId
+                          }).First();
 
             return Server!;
         }
@@ -134,12 +153,22 @@ namespace Tic.Web.Controllers.API
         // POST: api/Servers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Server>> PostServer(Server server)
+        public async Task<ActionResult<ServerSaveDTOs>> PostServer(ServerSaveDTOs serverSave)
         {
-            _context.Servers.Add(server);
+            string email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)!.Value;
+            var user = await _userHelper.GetUserAsync(email);
+            if (user == null)
+            {
+                return NotFound("Error001");
+            }
+
+            Server modelo = _mapper.Map<Server>(serverSave);
+            modelo.CorporateId =Convert.ToInt32(user.CorporateId);
+
+            _context.Servers.Add(modelo);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetServer", new { id = server.ServerId }, server);
+            return Created();
         }
 
         // DELETE: api/Servers/5

@@ -23,6 +23,78 @@ namespace Tic.Web.Controllers.API
             _userHelper = userHelper;
         }
 
+        [HttpGet("Categoria")]
+        public async Task<ActionResult<List<PlanCategoryDTOs>>> GetCategory()
+        {
+            //Validando con el mismo toquen de seguridad para saber quien es el User
+            string email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)!.Value;
+            var user = await _userHelper.GetUserAsync(email);
+            if (user == null)
+            {
+                return NotFound("Error001");
+            }
+
+            var listState = await _context.PlanCategories.Where(x => x.CorporateId == user.CorporateId)
+                .OrderBy(x => x.PlanCategoryName)
+                .ToListAsync();
+
+            return Ok(listState);
+        }
+
+        [HttpGet("inactivo")]
+        public async Task<ActionResult<List<InactivePickerDTOs>>> GetInactivo()
+        {
+            //Validando con el mismo toquen de seguridad para saber quien es el User
+            string email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)!.Value;
+            var user = await _userHelper.GetUserAsync(email);
+            if (user == null)
+            {
+                return NotFound("Error001");
+            }
+
+            var listmodelo = await _context.TicketInactives.Where(x => x.Activo == true) 
+                .OrderBy(x => x.Orden)
+                .ToListAsync();
+
+            return Ok(listmodelo.Select(x => new { x.TicketInactiveId, x.Tiempo }));
+        }
+
+        [HttpGet("refresh")]
+        public async Task<ActionResult<List<RefreshPicketDTOs>>> GetRefresh()
+        {
+            //Validando con el mismo toquen de seguridad para saber quien es el User
+            string email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)!.Value;
+            var user = await _userHelper.GetUserAsync(email);
+            if (user == null)
+            {
+                return NotFound("Error001");
+            }
+
+            var listmodelo = await _context.TicketRefreshes.Where(x => x.Activo == true)
+                .OrderBy(x => x.Orden)
+                .ToListAsync();
+
+            return Ok(listmodelo.Select(x => new { x.TicketRefreshId, x.Tiempo }));
+        }
+
+        [HttpGet("tiempo")]
+        public async Task<ActionResult<List<TimePicketDTOs>>> GetTiempo()
+        {
+            //Validando con el mismo toquen de seguridad para saber quien es el User
+            string email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)!.Value;
+            var user = await _userHelper.GetUserAsync(email);
+            if (user == null)
+            {
+                return NotFound("Error001");
+            }
+
+            var listmodelo = await _context.TicketTimes.Where(x => x.Activo == true)
+                .OrderBy(x => x.Orden)
+                .ToListAsync();
+
+            return Ok(listmodelo.Select(x => new { x.TicketTimeId, x.Tiempo }));
+        }
+
         [HttpGet]
         public async Task<ActionResult<List<PlanIndexDTOs>>> Get()
         {
