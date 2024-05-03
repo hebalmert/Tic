@@ -27,7 +27,7 @@ namespace Tic.Web.Controllers.EntitesSoft
         // GET: Taxes/Create
         public IActionResult RepCajero()
         {
-            var user = _context.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+            var user = _context.Users.FirstOrDefault(u => u.UserName == User.Identity!.Name);
             if (user == null)
             {
                 return RedirectToAction("Index", "Home");

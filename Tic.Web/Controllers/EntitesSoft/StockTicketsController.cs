@@ -76,7 +76,7 @@ namespace Tic.Web.Controllers.EntitiesSoft
         // GET: Servers
         public async Task<IActionResult> IndexTicketPlan(StockPlans modelo)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity!.Name);
             if (user == null)
             {
                 return RedirectToAction("Index", "Home");
@@ -94,7 +94,7 @@ namespace Tic.Web.Controllers.EntitiesSoft
         // GET: Servers/Create
         public IActionResult TicketsPlanServer()
         {
-            var user = _context.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+            var user = _context.Users.FirstOrDefault(u => u.UserName == User.Identity!.Name);
             if (user == null)
             {
                 return RedirectToAction("Index", "Home");
@@ -144,7 +144,7 @@ namespace Tic.Web.Controllers.EntitiesSoft
         // GET: Servers
         public async Task<IActionResult> IndexTicketPlanServer(StockPlansServer modelo)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity!.Name);
             if (user == null)
             {
                 return RedirectToAction("Index", "Home");

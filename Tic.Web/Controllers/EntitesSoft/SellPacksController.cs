@@ -323,7 +323,7 @@ namespace Tic.Web.Controllers.EntitesSoft
 
             var sellPackItem = await _context.SellPackDetails
                 .Include(c => c.SellPack)
-                .ThenInclude(c => c.Plan)
+                .ThenInclude(c => c!.Plan)
                 .Include(c => c.OrderTicketDetail)
                 .Where(m => m.SellPackId == idSellPack).ToListAsync();
             if (sellPackItem.Count != tt || sellPackItem == null)
@@ -334,7 +334,7 @@ namespace Tic.Web.Controllers.EntitesSoft
             var FileName = $"TicketOrden-#{Sc}-Fecha{DateTime.Today.ToString("dd-MMMM-yyyy")}.xlsx";
 
             //Se arma la DataTable y se carga sus filas  "TicketVenta es el nombre del Sheet"
-            DataTable tablaExcel = new DataTable("TicketVenta");
+            DataTable tablaExcel = new ("TicketVenta");
             tablaExcel.Columns.AddRange(new DataColumn[]
             {
                 new DataColumn("Venta"),

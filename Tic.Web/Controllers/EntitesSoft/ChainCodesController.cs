@@ -58,7 +58,7 @@ namespace Tic.Web.Controllers.EntitesSoft
         // GET: ChainCodes/Create
         public IActionResult Create()
         {
-            var user = _context.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+            var user = _context.Users.FirstOrDefault(u => u.UserName == User.Identity!.Name);
             if (user == null)
             {
                 return RedirectToAction("Index", "Home");

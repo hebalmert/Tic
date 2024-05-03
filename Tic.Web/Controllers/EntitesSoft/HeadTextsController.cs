@@ -27,7 +27,7 @@ namespace Tic.Web.Controllers.EntitesSoft
         // GET: HeadTexts
         public async Task<IActionResult> Index(int? page)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity!.Name);
             if (user == null)
             {
                 return RedirectToAction("Index", "Home");
@@ -62,7 +62,7 @@ namespace Tic.Web.Controllers.EntitesSoft
         // GET: HeadTexts/Create
         public IActionResult Create()
         {
-            var user = _context.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+            var user = _context.Users.FirstOrDefault(u => u.UserName == User.Identity!.Name);
             if (user == null)
             {
                 return RedirectToAction("Index", "Home");
