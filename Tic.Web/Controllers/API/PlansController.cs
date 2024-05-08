@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using AspNetCore;
+using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using Tic.Shared.ApiDTOs;
+using Tic.Shared.EntitiesSoft;
 using Tic.Web.Data;
 using Tic.Web.Helpers;
 
@@ -16,11 +19,13 @@ namespace Tic.Web.Controllers.API
     {
         private readonly DataContext _context;
         private readonly IUserHelper _userHelper;
+        private readonly IMapper _mapper;
 
-        public PlansController(DataContext context, IUserHelper userHelper)
+        public PlansController(DataContext context, IUserHelper userHelper, IMapper mapper)
         {
             _context = context;
             _userHelper = userHelper;
+            _mapper = mapper;
         }
 
         [HttpGet("Categoria")]
@@ -129,6 +134,27 @@ namespace Tic.Web.Controllers.API
             return Ok(listServer);
         }
 
+        [HttpGet("TiempoTicket/{id:int}")]
+        public async Task<ActionResult<TicketTimeDTOs>> GetTiempoTicket(int id) 
+        {
+            //Validando con el mismo toquen de seguridad para saber quien es el User
+            string email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)!.Value;
+            var user = await _userHelper.GetUserAsync(email);
+            if (user == null)
+            {
+                return NotFound("Error001");
+            }
+
+            var modelo = await _context.TicketTimes.FirstOrDefaultAsync(x => x.TicketTimeId == id);
+            if (modelo == null)
+            {
+                return BadRequest("Tiempo Ticket no Encontrado, Verifique Informacion");
+            }
+
+            TicketTimeDTOs ticket = _mapper.Map<TicketTimeDTOs>(modelo);
+            return Ok(ticket);
+        }
+
         [HttpGet("{id:int}")]
         public async Task<ActionResult<PlanDTOs>> Get(int id)
         {
@@ -174,6 +200,44 @@ namespace Tic.Web.Controllers.API
                               }).FirstOrDefault();
 
             return Ok(planDetail);
+        }
+
+        [HttpGet("planSave/{id:int}")]
+        public async Task<ActionResult<PlanSaveDTOs>> GetPlanSaveDtos(int id) 
+        {
+            //Validando con el mismo toquen de seguridad para saber quien es el User
+            string email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)!.Value;
+            var user = await _userHelper.GetUserAsync(email);
+            if (user == null)
+            {
+                return NotFound("Error001");
+            }
+
+            Plan? plan = await _context.Plans.FirstOrDefaultAsync(x => x.PlanId == id);
+            PlanSaveDTOs plansave = _mapper.Map<PlanSaveDTOs>(plan);
+
+            return Ok(plansave);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> PostNewPlan([FromBody] PlanSaveDTOs modelo) 
+        {
+            //Validando con el mismo toquen de seguridad para saber quien es el User
+            string email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)!.Value;
+            var user = await _userHelper.GetUserAsync(email);
+            if (user == null)
+            {
+                return NotFound("Error001");
+            }
+
+            modelo.Active = true;
+            modelo.CorporateId = (int)user.CorporateId!;
+            Plan plan = _mapper.Map<Plan>(modelo);
+
+            _context.Plans.Add(plan);
+            await _context.SaveChangesAsync();
+
+            return Created();
         }
     }
 }
