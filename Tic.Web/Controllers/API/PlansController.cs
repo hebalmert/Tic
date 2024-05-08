@@ -239,5 +239,25 @@ namespace Tic.Web.Controllers.API
 
             return Created();
         }
+
+        [HttpPut]
+        public async Task<ActionResult> PutUpdatePlan([FromBody] PlanSaveDTOs modelo)
+        {
+            //Validando con el mismo toquen de seguridad para saber quien es el User
+            string email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)!.Value;
+            var user = await _userHelper.GetUserAsync(email);
+            if (user == null)
+            {
+                return NotFound("Error001");
+            }
+
+            modelo.CorporateId = (int)user.CorporateId!;
+            Plan plan = _mapper.Map<Plan>(modelo);
+
+            _context.Plans.Update(plan);
+            await _context.SaveChangesAsync();
+
+            return Created();
+        }
     }
 }
