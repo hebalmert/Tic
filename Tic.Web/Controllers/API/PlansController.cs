@@ -259,5 +259,28 @@ namespace Tic.Web.Controllers.API
 
             return Created();
         }
+
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult> Delete(int id) 
+        {
+            //Validando con el mismo toquen de seguridad para saber quien es el User
+            string email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)!.Value;
+            var user = await _userHelper.GetUserAsync(email);
+            if (user == null)
+            {
+                return NotFound("Error001");
+            }
+
+            var datoremove = await _context.Plans.FirstOrDefaultAsync(x => x.PlanId == id);
+            if (datoremove == null)
+            {
+                return BadRequest("Registro No Encontado");
+            }
+
+            _context.Remove(datoremove);
+            await _context.SaveChangesAsync();  
+
+            return Ok();
+        }
     }
 }
