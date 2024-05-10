@@ -40,5 +40,23 @@ namespace Tic.Web.Controllers.API
 
             return Ok(listIp);
         }
+
+        [HttpGet("listIpEdit/{idip:int}")]
+        public async Task<ActionResult<List<IpNetListDTOs>>> GetListIP(int idip)
+        {
+            //Validando con el mismo toquen de seguridad para saber quien es el User
+            string email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)!.Value;
+            var user = await _userHelper.GetUserAsync(email);
+            if (user == null)
+            {
+                return NotFound("Error001");
+            }
+
+            var listIp = await _context.IpNetworks.
+                Where(x => x.CorporateId == user.CorporateId && x.Active == true && x.Assigned == false || x.IpNetworkId == idip)
+                .ToListAsync();
+
+            return Ok(listIp);
+        }
     }
 }

@@ -42,8 +42,26 @@ namespace Tic.Web.Controllers.API
             return Ok(listMarks);
         }
 
+        [HttpGet("listModelo")]
+        public async Task<ActionResult<List<MarkModelDTOS>>> GetListModelo()
+        {
+            //Validando con el mismo toquen de seguridad para saber quien es el User
+            string email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)!.Value;
+            var user = await _userHelper.GetUserAsync(email);
+            if (user == null)
+            {
+                return NotFound("Error001");
+            }
+
+            var listModelo = await _context.MarkModels.
+                Where(x => x.CorporateId == user.CorporateId && x.Active == true)
+                .ToListAsync();
+
+            return Ok(listModelo);
+        }
+
         [HttpGet("listModel/{id:int}")]
-        public async Task<ActionResult<List<MarkModelDTOS>>> GetListIP(int id)
+        public async Task<ActionResult<List<MarkModelDTOS>>> GetList(int id)
         { 
             //Validando con el mismo toquen de seguridad para saber quien es el User
             string email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)!.Value;

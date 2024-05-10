@@ -14,6 +14,7 @@ namespace Tic.Web.Helpers
             CreateMap<ServerSaveDTOs, Server>().ReverseMap();
             CreateMap<TicketTimeDTOs, TicketTime>().ReverseMap();
             CreateMap<PlanSaveDTOs, Plan>().ReverseMap();
+            CreateMap<ZoneDetailsDTOs, Zone>().ReverseMap();
         }
     }
 }

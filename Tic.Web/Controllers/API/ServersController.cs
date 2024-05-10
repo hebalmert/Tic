@@ -118,22 +118,51 @@ namespace Tic.Web.Controllers.API
             return Server!;
         }
 
+        [HttpGet("cargarServidor/{id:int}")]
+        public async Task<ActionResult<ServerSaveDTOs>> GetCargarServidor(int id)
+        {
+            //Validando con el mismo toquen de seguridad para saber quien es el User
+            string email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)!.Value;
+            var user = await _userHelper.GetUserAsync(email);
+            if (user == null)
+            {
+                return NotFound("Error001");
+            }
+
+            var servidor = await _context.Servers.FirstOrDefaultAsync(x => x.ServerId == id);
+            ServerSaveDTOs modelo = _mapper.Map<ServerSaveDTOs>(servidor);
+            modelo.ClaveConfirm = servidor!.Clave;
+
+            return Ok(modelo);
+        }
+
+
 
         // PUT: api/Servers/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutServer(int id, Server server)
         {
+            //Validando con el mismo toquen de seguridad para saber quien es el User
+            string email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)!.Value;
+            var user = await _userHelper.GetUserAsync(email);
+            if (user == null)
+            {
+                return NotFound("Error001");
+            }
+            server.CorporateId = (int)user.CorporateId!;
+
             if (id != server.ServerId)
             {
                 return BadRequest();
             }
-
-            _context.Entry(server).State = EntityState.Modified;
-
             try
             {
+                _context.Update(server);
                 await _context.SaveChangesAsync();
+
+                return Ok();
+
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -146,8 +175,6 @@ namespace Tic.Web.Controllers.API
                     throw;
                 }
             }
-
-            return NoContent();
         }
 
         // POST: api/Servers
@@ -163,7 +190,7 @@ namespace Tic.Web.Controllers.API
             }
 
             Server modelo = _mapper.Map<Server>(serverSave);
-            modelo.CorporateId =Convert.ToInt32(user.CorporateId);
+            modelo.CorporateId = Convert.ToInt32(user.CorporateId);
 
             _context.Servers.Add(modelo);
             await _context.SaveChangesAsync();
@@ -175,16 +202,42 @@ namespace Tic.Web.Controllers.API
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteServer(int id)
         {
-            var server = await _context.Servers.FindAsync(id);
-            if (server == null)
+            string email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)!.Value;
+            var user = await _userHelper.GetUserAsync(email);
+            if (user == null)
             {
-                return NotFound();
+                return NotFound("Error001");
             }
 
-            _context.Servers.Remove(server);
-            await _context.SaveChangesAsync();
+            try
+            {
+                var server = await _context.Servers.FindAsync(id);
+                if (server == null)
+                {
+                    return NotFound();
+                }
 
-            return NoContent();
+                _context.Servers.Remove(server);
+                await _context.SaveChangesAsync();
+
+                return NoContent();
+            }
+            catch (DbUpdateException dbUpdateException)
+            {
+                if (dbUpdateException.InnerException!.Message.Contains("REFERENCE"))
+                {
+                    return BadRequest("Existe Algun Registro Relacionado no se puede Eliminar");
+                }
+                else
+                {
+                    return BadRequest(dbUpdateException.InnerException.Message);
+                }
+
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         private bool ServerExists(int id)

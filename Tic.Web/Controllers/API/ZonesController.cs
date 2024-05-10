@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,11 +17,13 @@ namespace Tic.Web.Controllers.API
     {
         private readonly DataContext _context;
         private readonly IUserHelper _userHelper;
+        private readonly IMapper _mapper;
 
-        public ZonesController(DataContext context, IUserHelper userHelper)
+        public ZonesController(DataContext context, IUserHelper userHelper, IMapper mapper)
         {
             _context = context;
             _userHelper = userHelper;
+            _mapper = mapper;
         }
 
 
@@ -60,6 +63,24 @@ namespace Tic.Web.Controllers.API
                 .ToListAsync();
 
             return Ok(listCity);
+        }
+
+        [HttpGet("zonadetalle/{id:int}")]
+        public async Task<ActionResult<ZoneDetailsDTOs>> GetZonaDetalle(int id)
+        {
+            //Validando con el mismo toquen de seguridad para saber quien es el User
+            string email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)!.Value;
+            var user = await _userHelper.GetUserAsync(email);
+            if (user == null)
+            {
+                return NotFound("Error001");
+            }
+
+            var zona = await _context.Zones.FirstOrDefaultAsync(x => x.ZoneId == id);
+            ZoneDetailsDTOs modelo = _mapper.Map<ZoneDetailsDTOs>(zona);
+
+
+            return Ok(modelo);
         }
 
         [HttpGet("zonas/{idstate:int}/{idcity:int}")]
