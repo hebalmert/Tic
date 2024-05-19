@@ -28,6 +28,27 @@ namespace Tic.Web.Controllers.API
             _mapper = mapper;
         }
 
+        [HttpGet("PlanServidor/{idcat:int}/{idser}")]  //Recibe el Id de Categoria y Servidor para enviar lista de Planes de esa categoria
+        public async Task<ActionResult<List<PlanPicketDTOs>>> GetPlanCategory(int idcat, int idser)
+        {
+            //Validando con el mismo toquen de seguridad para saber quien es el User
+            string email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)!.Value;
+            var user = await _userHelper.GetUserAsync(email);
+            if (user == null)
+            {
+                return NotFound("Error001");
+            }
+
+            var listPlanes = await _context.Plans.Where(x => x.CorporateId == user.CorporateId 
+            && x.PlanCategoryId == idcat && x.ServerId == idser && x.Active == true)
+                .Select(x=> new PlanPicketDTOs { PlanId = x.PlanId, PlanName = x.PlanName })
+                .OrderBy(x => x.PlanName)
+                .ToListAsync();
+
+
+            return Ok(listPlanes);
+        }
+
         [HttpGet("Categoria")]
         public async Task<ActionResult<List<PlanCategoryDTOs>>> GetCategory()
         {
@@ -197,6 +218,37 @@ namespace Tic.Web.Controllers.API
                                   Active = pl.Active == true ? "On" : "Off",
                                   MkId = !String.IsNullOrEmpty(pl.MkId) ? "On" : "Off",
                                   CorporateId = sv.CorporateId
+                              }).FirstOrDefault();
+
+            return Ok(planDetail);
+        }
+
+        [HttpGet("planOrder/{id:int}")] //Recibe el ID de Plan para mandar los datos del plan
+        public async Task<ActionResult<PlanOrderDTOs>> GetPlanOrder(int id)
+        {
+            //Validando con el mismo toquen de seguridad para saber quien es el User
+            string email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)!.Value;
+            var user = await _userHelper.GetUserAsync(email);
+            if (user == null)
+            {
+                return NotFound("Error001");
+            }
+
+            var planDetail = (from pl in _context.Plans
+                              join pc in _context.PlanCategories on pl.PlanCategoryId equals pc.PlanCategoryId
+                              join ti in _context.TicketInactives on pl.TicketInactiveId equals ti.TicketInactiveId
+                              join tr in _context.TicketRefreshes on pl.TicketRefreshId equals tr.TicketRefreshId
+                              join tt in _context.TicketTimes on pl.TicketTimeId equals tt.TicketTimeId
+                              join sv in _context.Servers on pl.ServerId equals sv.ServerId
+                              where pl.CorporateId == user.CorporateId && pl.PlanId == id
+                              select new PlanOrderDTOs
+                              {
+                                  PlanId = pl.PlanId,
+                                  PlanName = pl.PlanName,
+                                  RateTax = pl.Tax!.Rate,
+                                  SubTotal = pl.SubTotal,
+                                  Impuesto = pl.Impuesto,
+                                  Precio =pl.Precio
                               }).FirstOrDefault();
 
             return Ok(planDetail);

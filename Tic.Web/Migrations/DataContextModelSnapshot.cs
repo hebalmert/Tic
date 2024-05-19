@@ -1032,7 +1032,6 @@ namespace Tic.Web.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("MkId")
-                        .IsRequired()
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 

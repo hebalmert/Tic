@@ -296,6 +296,26 @@ namespace Tic.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "HeadTexts",
+                columns: table => new
+                {
+                    HeadTextId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TextoEncabezado = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: false),
+                    CorporateId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HeadTexts", x => x.HeadTextId);
+                    table.ForeignKey(
+                        name: "FK_HeadTexts_Corporates_CorporateId",
+                        column: x => x.CorporateId,
+                        principalTable: "Corporates",
+                        principalColumn: "CorporateId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "IpNetworks",
                 columns: table => new
                 {
@@ -639,6 +659,53 @@ namespace Tic.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Cachiers",
+                columns: table => new
+                {
+                    CachierId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Photo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    FullName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    DocumentTypeId = table.Column<int>(type: "int", nullable: false),
+                    Document = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    UserType = table.Column<int>(type: "int", nullable: false),
+                    Activo = table.Column<bool>(type: "bit", nullable: false),
+                    MultiServer = table.Column<bool>(type: "bit", nullable: false),
+                    ServerId = table.Column<int>(type: "int", nullable: true),
+                    Porcentaje = table.Column<bool>(type: "bit", nullable: false),
+                    RateCachier = table.Column<decimal>(type: "decimal(15,2)", precision: 15, scale: 2, nullable: false),
+                    CorporateId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cachiers", x => x.CachierId);
+                    table.ForeignKey(
+                        name: "FK_Cachiers_Corporates_CorporateId",
+                        column: x => x.CorporateId,
+                        principalTable: "Corporates",
+                        principalColumn: "CorporateId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Cachiers_DocumentTypes_DocumentTypeId",
+                        column: x => x.DocumentTypeId,
+                        principalTable: "DocumentTypes",
+                        principalColumn: "DocumentTypeId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Cachiers_Servers_ServerId",
+                        column: x => x.ServerId,
+                        principalTable: "Servers",
+                        principalColumn: "ServerId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Plans",
                 columns: table => new
                 {
@@ -767,6 +834,64 @@ namespace Tic.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SellPacks",
+                columns: table => new
+                {
+                    SellPackId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SellControl = table.Column<int>(type: "int", nullable: false),
+                    Date = table.Column<DateTime>(type: "date", nullable: false),
+                    ManagerId = table.Column<int>(type: "int", nullable: false),
+                    PlanCategoryId = table.Column<int>(type: "int", nullable: false),
+                    PlanId = table.Column<int>(type: "int", nullable: false),
+                    NamePlan = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    ServerId = table.Column<int>(type: "int", nullable: false),
+                    Cantidad = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    Rate = table.Column<decimal>(type: "decimal(15,2)", precision: 15, scale: 2, nullable: false),
+                    Precio = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    SubTotal = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    Impuesto = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    Total = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    DateClose = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Closed = table.Column<bool>(type: "bit", nullable: false),
+                    CorporateId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SellPacks", x => x.SellPackId);
+                    table.ForeignKey(
+                        name: "FK_SellPacks_Corporates_CorporateId",
+                        column: x => x.CorporateId,
+                        principalTable: "Corporates",
+                        principalColumn: "CorporateId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SellPacks_Managers_ManagerId",
+                        column: x => x.ManagerId,
+                        principalTable: "Managers",
+                        principalColumn: "ManagerId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_SellPacks_PlanCategories_PlanCategoryId",
+                        column: x => x.PlanCategoryId,
+                        principalTable: "PlanCategories",
+                        principalColumn: "PlanCategoryId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_SellPacks_Plans_PlanId",
+                        column: x => x.PlanId,
+                        principalTable: "Plans",
+                        principalColumn: "PlanId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_SellPacks_Servers_ServerId",
+                        column: x => x.ServerId,
+                        principalTable: "Servers",
+                        principalColumn: "ServerId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "OrderTicketDetails",
                 columns: table => new
                 {
@@ -791,7 +916,7 @@ namespace Tic.Web.Migrations
                     VentaId = table.Column<int>(type: "int", nullable: true),
                     Anulado = table.Column<bool>(type: "bit", nullable: false),
                     DateAnulado = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    MkId = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    MkId = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
                     CorporateId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -808,6 +933,211 @@ namespace Tic.Web.Migrations
                         column: x => x.OrderTicketId,
                         principalTable: "OrderTickets",
                         principalColumn: "OrderTicketId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SellOneCachiers",
+                columns: table => new
+                {
+                    SellOneCachierId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SellControl = table.Column<int>(type: "int", nullable: false),
+                    Date = table.Column<DateTime>(type: "date", nullable: false),
+                    CachierId = table.Column<int>(type: "int", nullable: false),
+                    PlanCategoryId = table.Column<int>(type: "int", nullable: false),
+                    PlanId = table.Column<int>(type: "int", nullable: false),
+                    NamePlan = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    ServerId = table.Column<int>(type: "int", nullable: false),
+                    OrderTicketDetailId = table.Column<int>(type: "int", nullable: false),
+                    Rate = table.Column<decimal>(type: "decimal(15,2)", precision: 15, scale: 2, nullable: false),
+                    SubTotal = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    Impuesto = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    Total = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    DateAnulado = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Anulada = table.Column<bool>(type: "bit", nullable: false),
+                    CorporateId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SellOneCachiers", x => x.SellOneCachierId);
+                    table.ForeignKey(
+                        name: "FK_SellOneCachiers_Cachiers_CachierId",
+                        column: x => x.CachierId,
+                        principalTable: "Cachiers",
+                        principalColumn: "CachierId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_SellOneCachiers_Corporates_CorporateId",
+                        column: x => x.CorporateId,
+                        principalTable: "Corporates",
+                        principalColumn: "CorporateId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SellOneCachiers_OrderTicketDetails_OrderTicketDetailId",
+                        column: x => x.OrderTicketDetailId,
+                        principalTable: "OrderTicketDetails",
+                        principalColumn: "OrderTicketDetailId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_SellOneCachiers_PlanCategories_PlanCategoryId",
+                        column: x => x.PlanCategoryId,
+                        principalTable: "PlanCategories",
+                        principalColumn: "PlanCategoryId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_SellOneCachiers_Plans_PlanId",
+                        column: x => x.PlanId,
+                        principalTable: "Plans",
+                        principalColumn: "PlanId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_SellOneCachiers_Servers_ServerId",
+                        column: x => x.ServerId,
+                        principalTable: "Servers",
+                        principalColumn: "ServerId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SellOnes",
+                columns: table => new
+                {
+                    SellOneId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SellControl = table.Column<int>(type: "int", nullable: false),
+                    Date = table.Column<DateTime>(type: "date", nullable: false),
+                    PlanCategoryId = table.Column<int>(type: "int", nullable: false),
+                    ServerId = table.Column<int>(type: "int", nullable: false),
+                    PlanId = table.Column<int>(type: "int", nullable: false),
+                    NamePlan = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    OrderTicketDetailId = table.Column<int>(type: "int", nullable: false),
+                    Rate = table.Column<decimal>(type: "decimal(15,2)", precision: 15, scale: 2, nullable: false),
+                    SubTotal = table.Column<decimal>(type: "decimal(15,2)", precision: 18, scale: 2, nullable: false),
+                    Impuesto = table.Column<decimal>(type: "decimal(15,2)", precision: 18, scale: 2, nullable: false),
+                    Total = table.Column<decimal>(type: "decimal(15,2)", precision: 18, scale: 2, nullable: false),
+                    ManagerId = table.Column<int>(type: "int", nullable: false),
+                    CorporateId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SellOnes", x => x.SellOneId);
+                    table.ForeignKey(
+                        name: "FK_SellOnes_Corporates_CorporateId",
+                        column: x => x.CorporateId,
+                        principalTable: "Corporates",
+                        principalColumn: "CorporateId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SellOnes_Managers_ManagerId",
+                        column: x => x.ManagerId,
+                        principalTable: "Managers",
+                        principalColumn: "ManagerId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_SellOnes_OrderTicketDetails_OrderTicketDetailId",
+                        column: x => x.OrderTicketDetailId,
+                        principalTable: "OrderTicketDetails",
+                        principalColumn: "OrderTicketDetailId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_SellOnes_PlanCategories_PlanCategoryId",
+                        column: x => x.PlanCategoryId,
+                        principalTable: "PlanCategories",
+                        principalColumn: "PlanCategoryId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_SellOnes_Plans_PlanId",
+                        column: x => x.PlanId,
+                        principalTable: "Plans",
+                        principalColumn: "PlanId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_SellOnes_Servers_ServerId",
+                        column: x => x.ServerId,
+                        principalTable: "Servers",
+                        principalColumn: "ServerId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SellPackDetails",
+                columns: table => new
+                {
+                    SellPackDetailId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SellPackId = table.Column<int>(type: "int", nullable: false),
+                    OrderTicketDetailId = table.Column<int>(type: "int", nullable: false),
+                    CorporateId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SellPackDetails", x => x.SellPackDetailId);
+                    table.ForeignKey(
+                        name: "FK_SellPackDetails_Corporates_CorporateId",
+                        column: x => x.CorporateId,
+                        principalTable: "Corporates",
+                        principalColumn: "CorporateId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SellPackDetails_OrderTicketDetails_OrderTicketDetailId",
+                        column: x => x.OrderTicketDetailId,
+                        principalTable: "OrderTicketDetails",
+                        principalColumn: "OrderTicketDetailId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_SellPackDetails_SellPacks_SellPackId",
+                        column: x => x.SellPackId,
+                        principalTable: "SellPacks",
+                        principalColumn: "SellPackId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CachierPorcents",
+                columns: table => new
+                {
+                    CachierPorcentId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Date = table.Column<DateTime>(type: "date", nullable: true),
+                    CachierId = table.Column<int>(type: "int", nullable: false),
+                    SellOneCachierId = table.Column<int>(type: "int", nullable: false),
+                    OrderTicketDetailId = table.Column<int>(type: "int", nullable: false),
+                    Porcentaje = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    NamePlan = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Precio = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    Comision = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    DatePagado = table.Column<DateTime>(type: "date", nullable: true),
+                    Control = table.Column<int>(type: "int", nullable: false),
+                    Pagado = table.Column<bool>(type: "bit", nullable: false),
+                    CorporateId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CachierPorcents", x => x.CachierPorcentId);
+                    table.ForeignKey(
+                        name: "FK_CachierPorcents_Cachiers_CachierId",
+                        column: x => x.CachierId,
+                        principalTable: "Cachiers",
+                        principalColumn: "CachierId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_CachierPorcents_Corporates_CorporateId",
+                        column: x => x.CorporateId,
+                        principalTable: "Corporates",
+                        principalColumn: "CorporateId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CachierPorcents_OrderTicketDetails_OrderTicketDetailId",
+                        column: x => x.OrderTicketDetailId,
+                        principalTable: "OrderTicketDetails",
+                        principalColumn: "OrderTicketDetailId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_CachierPorcents_SellOneCachiers_SellOneCachierId",
+                        column: x => x.SellOneCachierId,
+                        principalTable: "SellOneCachiers",
+                        principalColumn: "SellOneCachierId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -856,6 +1186,55 @@ namespace Tic.Web.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CachierPorcents_CachierId",
+                table: "CachierPorcents",
+                column: "CachierId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CachierPorcents_CorporateId",
+                table: "CachierPorcents",
+                column: "CorporateId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CachierPorcents_OrderTicketDetailId",
+                table: "CachierPorcents",
+                column: "OrderTicketDetailId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CachierPorcents_SellOneCachierId",
+                table: "CachierPorcents",
+                column: "SellOneCachierId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cachiers_CorporateId_Document",
+                table: "Cachiers",
+                columns: new[] { "CorporateId", "Document" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cachiers_CorporateId_FullName",
+                table: "Cachiers",
+                columns: new[] { "CorporateId", "FullName" },
+                unique: true,
+                filter: "[FullName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cachiers_DocumentTypeId",
+                table: "Cachiers",
+                column: "DocumentTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cachiers_ServerId",
+                table: "Cachiers",
+                column: "ServerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cachiers_UserName",
+                table: "Cachiers",
+                column: "UserName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ChainCodes_CorporateId",
                 table: "ChainCodes",
                 column: "CorporateId");
@@ -900,6 +1279,12 @@ namespace Tic.Web.Migrations
                 name: "IX_DocumentTypes_DocumentName_CorporateId",
                 table: "DocumentTypes",
                 columns: new[] { "DocumentName", "CorporateId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HeadTexts_CorporateId_TextoEncabezado",
+                table: "HeadTexts",
+                columns: new[] { "CorporateId", "TextoEncabezado" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -1036,6 +1421,127 @@ namespace Tic.Web.Migrations
                 column: "CorporateId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_SellOneCachiers_CachierId",
+                table: "SellOneCachiers",
+                column: "CachierId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SellOneCachiers_CorporateId_SellControl",
+                table: "SellOneCachiers",
+                columns: new[] { "CorporateId", "SellControl" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SellOneCachiers_OrderTicketDetailId",
+                table: "SellOneCachiers",
+                column: "OrderTicketDetailId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SellOneCachiers_PlanCategoryId",
+                table: "SellOneCachiers",
+                column: "PlanCategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SellOneCachiers_PlanId",
+                table: "SellOneCachiers",
+                column: "PlanId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SellOneCachiers_SellOneCachierId_OrderTicketDetailId_CorporateId",
+                table: "SellOneCachiers",
+                columns: new[] { "SellOneCachierId", "OrderTicketDetailId", "CorporateId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SellOneCachiers_ServerId",
+                table: "SellOneCachiers",
+                column: "ServerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SellOnes_CorporateId",
+                table: "SellOnes",
+                column: "CorporateId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SellOnes_ManagerId",
+                table: "SellOnes",
+                column: "ManagerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SellOnes_OrderTicketDetailId",
+                table: "SellOnes",
+                column: "OrderTicketDetailId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SellOnes_PlanCategoryId",
+                table: "SellOnes",
+                column: "PlanCategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SellOnes_PlanId",
+                table: "SellOnes",
+                column: "PlanId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SellOnes_SellControl_CorporateId",
+                table: "SellOnes",
+                columns: new[] { "SellControl", "CorporateId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SellOnes_SellOneId_OrderTicketDetailId_CorporateId",
+                table: "SellOnes",
+                columns: new[] { "SellOneId", "OrderTicketDetailId", "CorporateId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SellOnes_ServerId",
+                table: "SellOnes",
+                column: "ServerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SellPackDetails_CorporateId_SellPackDetailId_OrderTicketDetailId",
+                table: "SellPackDetails",
+                columns: new[] { "CorporateId", "SellPackDetailId", "OrderTicketDetailId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SellPackDetails_OrderTicketDetailId",
+                table: "SellPackDetails",
+                column: "OrderTicketDetailId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SellPackDetails_SellPackId",
+                table: "SellPackDetails",
+                column: "SellPackId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SellPacks_CorporateId_SellControl",
+                table: "SellPacks",
+                columns: new[] { "CorporateId", "SellControl" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SellPacks_ManagerId",
+                table: "SellPacks",
+                column: "ManagerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SellPacks_PlanCategoryId",
+                table: "SellPacks",
+                column: "PlanCategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SellPacks_PlanId",
+                table: "SellPacks",
+                column: "PlanId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SellPacks_ServerId",
+                table: "SellPacks",
+                column: "ServerId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Servers_CorporateId",
                 table: "Servers",
                 column: "CorporateId");
@@ -1143,25 +1649,46 @@ namespace Tic.Web.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "CachierPorcents");
+
+            migrationBuilder.DropTable(
                 name: "ChainCodes");
 
             migrationBuilder.DropTable(
-                name: "DocumentTypes");
-
-            migrationBuilder.DropTable(
-                name: "Managers");
-
-            migrationBuilder.DropTable(
-                name: "OrderTicketDetails");
+                name: "HeadTexts");
 
             migrationBuilder.DropTable(
                 name: "Registers");
+
+            migrationBuilder.DropTable(
+                name: "SellOnes");
+
+            migrationBuilder.DropTable(
+                name: "SellPackDetails");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "SellOneCachiers");
+
+            migrationBuilder.DropTable(
+                name: "SellPacks");
+
+            migrationBuilder.DropTable(
+                name: "Cachiers");
+
+            migrationBuilder.DropTable(
+                name: "OrderTicketDetails");
+
+            migrationBuilder.DropTable(
+                name: "Managers");
+
+            migrationBuilder.DropTable(
+                name: "DocumentTypes");
 
             migrationBuilder.DropTable(
                 name: "OrderTickets");

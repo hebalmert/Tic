@@ -12,7 +12,7 @@ using Tic.Web.Data;
 namespace Tic.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240416222128_InitialDb")]
+    [Migration("20240517173456_InitialDb")]
     partial class InitialDb
     {
         /// <inheritdoc />
@@ -592,6 +592,158 @@ namespace Tic.Web.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.Cachier", b =>
+                {
+                    b.Property<int>("CachierId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CachierId"));
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<int>("CorporateId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Document")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<int>("DocumentTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("FullName")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<bool>("MultiServer")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<string>("Photo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Porcentaje")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("RateCachier")
+                        .HasPrecision(15, 2)
+                        .HasColumnType("decimal(15,2)");
+
+                    b.Property<int?>("ServerId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<int>("UserType")
+                        .HasColumnType("int");
+
+                    b.HasKey("CachierId");
+
+                    b.HasIndex("DocumentTypeId");
+
+                    b.HasIndex("ServerId");
+
+                    b.HasIndex("UserName")
+                        .IsUnique();
+
+                    b.HasIndex("CorporateId", "Document")
+                        .IsUnique();
+
+                    b.HasIndex("CorporateId", "FullName")
+                        .IsUnique()
+                        .HasFilter("[FullName] IS NOT NULL");
+
+                    b.ToTable("Cachiers");
+                });
+
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.CachierPorcent", b =>
+                {
+                    b.Property<int>("CachierPorcentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CachierPorcentId"));
+
+                    b.Property<int>("CachierId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Comision")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Control")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CorporateId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime?>("DatePagado")
+                        .HasColumnType("date");
+
+                    b.Property<string>("NamePlan")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("OrderTicketDetailId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Pagado")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("Porcentaje")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Precio")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("SellOneCachierId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CachierPorcentId");
+
+                    b.HasIndex("CachierId");
+
+                    b.HasIndex("CorporateId");
+
+                    b.HasIndex("OrderTicketDetailId");
+
+                    b.HasIndex("SellOneCachierId");
+
+                    b.ToTable("CachierPorcents");
+                });
+
             modelBuilder.Entity("Tic.Shared.EntitiesSoft.ChainCode", b =>
                 {
                     b.Property<int>("ChainCodeId")
@@ -649,6 +801,30 @@ namespace Tic.Web.Migrations
                         .IsUnique();
 
                     b.ToTable("DocumentTypes");
+                });
+
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.HeadText", b =>
+                {
+                    b.Property<int>("HeadTextId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("HeadTextId"));
+
+                    b.Property<int>("CorporateId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TextoEncabezado")
+                        .IsRequired()
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
+
+                    b.HasKey("HeadTextId");
+
+                    b.HasIndex("CorporateId", "TextoEncabezado")
+                        .IsUnique();
+
+                    b.ToTable("HeadTexts");
                 });
 
             modelBuilder.Entity("Tic.Shared.EntitiesSoft.IpNetwork", b =>
@@ -859,7 +1035,6 @@ namespace Tic.Web.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("MkId")
-                        .IsRequired()
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 
@@ -1077,6 +1252,268 @@ namespace Tic.Web.Migrations
                     b.HasIndex("CorporateId");
 
                     b.ToTable("Registers");
+                });
+
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.SellOne", b =>
+                {
+                    b.Property<int>("SellOneId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SellOneId"));
+
+                    b.Property<int>("CorporateId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<decimal>("Impuesto")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(15,2)");
+
+                    b.Property<int>("ManagerId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NamePlan")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("OrderTicketDetailId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PlanCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PlanId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Rate")
+                        .HasPrecision(15, 2)
+                        .HasColumnType("decimal(15,2)");
+
+                    b.Property<int>("SellControl")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ServerId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("SubTotal")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(15,2)");
+
+                    b.Property<decimal>("Total")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(15,2)");
+
+                    b.HasKey("SellOneId");
+
+                    b.HasIndex("CorporateId");
+
+                    b.HasIndex("ManagerId");
+
+                    b.HasIndex("OrderTicketDetailId");
+
+                    b.HasIndex("PlanCategoryId");
+
+                    b.HasIndex("PlanId");
+
+                    b.HasIndex("ServerId");
+
+                    b.HasIndex("SellControl", "CorporateId")
+                        .IsUnique();
+
+                    b.HasIndex("SellOneId", "OrderTicketDetailId", "CorporateId")
+                        .IsUnique();
+
+                    b.ToTable("SellOnes");
+                });
+
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.SellOneCachier", b =>
+                {
+                    b.Property<int>("SellOneCachierId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SellOneCachierId"));
+
+                    b.Property<bool>("Anulada")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("CachierId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CorporateId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime?>("DateAnulado")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Impuesto")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("NamePlan")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("OrderTicketDetailId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PlanCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PlanId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Rate")
+                        .HasPrecision(15, 2)
+                        .HasColumnType("decimal(15,2)");
+
+                    b.Property<int>("SellControl")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ServerId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("SubTotal")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Total")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("SellOneCachierId");
+
+                    b.HasIndex("CachierId");
+
+                    b.HasIndex("OrderTicketDetailId");
+
+                    b.HasIndex("PlanCategoryId");
+
+                    b.HasIndex("PlanId");
+
+                    b.HasIndex("ServerId");
+
+                    b.HasIndex("CorporateId", "SellControl")
+                        .IsUnique();
+
+                    b.HasIndex("SellOneCachierId", "OrderTicketDetailId", "CorporateId")
+                        .IsUnique();
+
+                    b.ToTable("SellOneCachiers");
+                });
+
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.SellPack", b =>
+                {
+                    b.Property<int>("SellPackId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SellPackId"));
+
+                    b.Property<decimal>("Cantidad")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("Closed")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("CorporateId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime?>("DateClose")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Impuesto")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("ManagerId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NamePlan")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("PlanCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PlanId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Precio")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Rate")
+                        .HasPrecision(15, 2)
+                        .HasColumnType("decimal(15,2)");
+
+                    b.Property<int>("SellControl")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ServerId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("SubTotal")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Total")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("SellPackId");
+
+                    b.HasIndex("ManagerId");
+
+                    b.HasIndex("PlanCategoryId");
+
+                    b.HasIndex("PlanId");
+
+                    b.HasIndex("ServerId");
+
+                    b.HasIndex("CorporateId", "SellControl")
+                        .IsUnique();
+
+                    b.ToTable("SellPacks");
+                });
+
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.SellPackDetail", b =>
+                {
+                    b.Property<int>("SellPackDetailId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SellPackDetailId"));
+
+                    b.Property<int>("CorporateId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderTicketDetailId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SellPackId")
+                        .HasColumnType("int");
+
+                    b.HasKey("SellPackDetailId");
+
+                    b.HasIndex("OrderTicketDetailId");
+
+                    b.HasIndex("SellPackId");
+
+                    b.HasIndex("CorporateId", "SellPackDetailId", "OrderTicketDetailId")
+                        .IsUnique();
+
+                    b.ToTable("SellPackDetails");
                 });
 
             modelBuilder.Entity("Tic.Shared.EntitiesSoft.Server", b =>
@@ -1344,6 +1781,67 @@ namespace Tic.Web.Migrations
                     b.Navigation("Corporate");
                 });
 
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.Cachier", b =>
+                {
+                    b.HasOne("Tic.Shared.Entites.Corporate", "Corporate")
+                        .WithMany()
+                        .HasForeignKey("CorporateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Tic.Shared.EntitiesSoft.DocumentType", "DocumentType")
+                        .WithMany("Cachiers")
+                        .HasForeignKey("DocumentTypeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Tic.Shared.EntitiesSoft.Server", "Server")
+                        .WithMany("Cachiers")
+                        .HasForeignKey("ServerId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Corporate");
+
+                    b.Navigation("DocumentType");
+
+                    b.Navigation("Server");
+                });
+
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.CachierPorcent", b =>
+                {
+                    b.HasOne("Tic.Shared.EntitiesSoft.Cachier", "Cachier")
+                        .WithMany("CachierPorcents")
+                        .HasForeignKey("CachierId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Tic.Shared.Entites.Corporate", "Corporate")
+                        .WithMany()
+                        .HasForeignKey("CorporateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Tic.Shared.EntitiesSoft.OrderTicketDetail", "OrderTicketDetail")
+                        .WithMany("CachierPorcents")
+                        .HasForeignKey("OrderTicketDetailId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Tic.Shared.EntitiesSoft.SellOneCachier", "SellOneCachier")
+                        .WithMany("CachierPorcents")
+                        .HasForeignKey("SellOneCachierId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Cachier");
+
+                    b.Navigation("Corporate");
+
+                    b.Navigation("OrderTicketDetail");
+
+                    b.Navigation("SellOneCachier");
+                });
+
             modelBuilder.Entity("Tic.Shared.EntitiesSoft.ChainCode", b =>
                 {
                     b.HasOne("Tic.Shared.Entites.Corporate", "Corporate")
@@ -1356,6 +1854,17 @@ namespace Tic.Web.Migrations
                 });
 
             modelBuilder.Entity("Tic.Shared.EntitiesSoft.DocumentType", b =>
+                {
+                    b.HasOne("Tic.Shared.Entites.Corporate", "Corporate")
+                        .WithMany()
+                        .HasForeignKey("CorporateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Corporate");
+                });
+
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.HeadText", b =>
                 {
                     b.HasOne("Tic.Shared.Entites.Corporate", "Corporate")
                         .WithMany()
@@ -1542,6 +2051,178 @@ namespace Tic.Web.Migrations
                     b.Navigation("Corporate");
                 });
 
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.SellOne", b =>
+                {
+                    b.HasOne("Tic.Shared.Entites.Corporate", "Corporate")
+                        .WithMany()
+                        .HasForeignKey("CorporateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Tic.Shared.Entites.Manager", "Manager")
+                        .WithMany("SellOnes")
+                        .HasForeignKey("ManagerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Tic.Shared.EntitiesSoft.OrderTicketDetail", "OrderTicketDetail")
+                        .WithMany("SellOnes")
+                        .HasForeignKey("OrderTicketDetailId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Tic.Shared.EntitiesSoft.PlanCategory", "PlanCategory")
+                        .WithMany("SellOnes")
+                        .HasForeignKey("PlanCategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Tic.Shared.EntitiesSoft.Plan", "Plan")
+                        .WithMany("SellOnes")
+                        .HasForeignKey("PlanId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Tic.Shared.EntitiesSoft.Server", "Server")
+                        .WithMany("SellOnes")
+                        .HasForeignKey("ServerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Corporate");
+
+                    b.Navigation("Manager");
+
+                    b.Navigation("OrderTicketDetail");
+
+                    b.Navigation("Plan");
+
+                    b.Navigation("PlanCategory");
+
+                    b.Navigation("Server");
+                });
+
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.SellOneCachier", b =>
+                {
+                    b.HasOne("Tic.Shared.EntitiesSoft.Cachier", "Cachier")
+                        .WithMany("SellOneCachiers")
+                        .HasForeignKey("CachierId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Tic.Shared.Entites.Corporate", "Corporate")
+                        .WithMany()
+                        .HasForeignKey("CorporateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Tic.Shared.EntitiesSoft.OrderTicketDetail", "OrderTicketDetail")
+                        .WithMany("SellOneCachiers")
+                        .HasForeignKey("OrderTicketDetailId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Tic.Shared.EntitiesSoft.PlanCategory", "PlanCategory")
+                        .WithMany("SellOneCachiers")
+                        .HasForeignKey("PlanCategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Tic.Shared.EntitiesSoft.Plan", "Plan")
+                        .WithMany("SellOneCachiers")
+                        .HasForeignKey("PlanId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Tic.Shared.EntitiesSoft.Server", "Server")
+                        .WithMany("SellOneCachiers")
+                        .HasForeignKey("ServerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Cachier");
+
+                    b.Navigation("Corporate");
+
+                    b.Navigation("OrderTicketDetail");
+
+                    b.Navigation("Plan");
+
+                    b.Navigation("PlanCategory");
+
+                    b.Navigation("Server");
+                });
+
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.SellPack", b =>
+                {
+                    b.HasOne("Tic.Shared.Entites.Corporate", "Corporate")
+                        .WithMany()
+                        .HasForeignKey("CorporateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Tic.Shared.Entites.Manager", "Manager")
+                        .WithMany("SellPacks")
+                        .HasForeignKey("ManagerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Tic.Shared.EntitiesSoft.PlanCategory", "PlanCategory")
+                        .WithMany("SellPacks")
+                        .HasForeignKey("PlanCategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Tic.Shared.EntitiesSoft.Plan", "Plan")
+                        .WithMany("SellPacks")
+                        .HasForeignKey("PlanId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Tic.Shared.EntitiesSoft.Server", "Server")
+                        .WithMany("SellPacks")
+                        .HasForeignKey("ServerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Corporate");
+
+                    b.Navigation("Manager");
+
+                    b.Navigation("Plan");
+
+                    b.Navigation("PlanCategory");
+
+                    b.Navigation("Server");
+                });
+
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.SellPackDetail", b =>
+                {
+                    b.HasOne("Tic.Shared.Entites.Corporate", "Company")
+                        .WithMany()
+                        .HasForeignKey("CorporateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Tic.Shared.EntitiesSoft.OrderTicketDetail", "OrderTicketDetail")
+                        .WithMany("SellPackDetails")
+                        .HasForeignKey("OrderTicketDetailId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Tic.Shared.EntitiesSoft.SellPack", "SellPack")
+                        .WithMany("SellPackDetails")
+                        .HasForeignKey("SellPackId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Company");
+
+                    b.Navigation("OrderTicketDetail");
+
+                    b.Navigation("SellPack");
+                });
+
             modelBuilder.Entity("Tic.Shared.EntitiesSoft.Server", b =>
                 {
                     b.HasOne("Tic.Shared.Entites.Corporate", "Corporate")
@@ -1642,6 +2323,13 @@ namespace Tic.Web.Migrations
                     b.Navigation("States");
                 });
 
+            modelBuilder.Entity("Tic.Shared.Entites.Manager", b =>
+                {
+                    b.Navigation("SellOnes");
+
+                    b.Navigation("SellPacks");
+                });
+
             modelBuilder.Entity("Tic.Shared.Entites.SoftPlan", b =>
                 {
                     b.Navigation("Corporates");
@@ -1671,6 +2359,18 @@ namespace Tic.Web.Migrations
                     b.Navigation("Plans");
                 });
 
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.Cachier", b =>
+                {
+                    b.Navigation("CachierPorcents");
+
+                    b.Navigation("SellOneCachiers");
+                });
+
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.DocumentType", b =>
+                {
+                    b.Navigation("Cachiers");
+                });
+
             modelBuilder.Entity("Tic.Shared.EntitiesSoft.IpNetwork", b =>
                 {
                     b.Navigation("Servers");
@@ -1693,9 +2393,26 @@ namespace Tic.Web.Migrations
                     b.Navigation("OrderTicketDetails");
                 });
 
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.OrderTicketDetail", b =>
+                {
+                    b.Navigation("CachierPorcents");
+
+                    b.Navigation("SellOneCachiers");
+
+                    b.Navigation("SellOnes");
+
+                    b.Navigation("SellPackDetails");
+                });
+
             modelBuilder.Entity("Tic.Shared.EntitiesSoft.Plan", b =>
                 {
                     b.Navigation("OrderTickets");
+
+                    b.Navigation("SellOneCachiers");
+
+                    b.Navigation("SellOnes");
+
+                    b.Navigation("SellPacks");
                 });
 
             modelBuilder.Entity("Tic.Shared.EntitiesSoft.PlanCategory", b =>
@@ -1703,13 +2420,37 @@ namespace Tic.Web.Migrations
                     b.Navigation("OrderTickets");
 
                     b.Navigation("Plans");
+
+                    b.Navigation("SellOneCachiers");
+
+                    b.Navigation("SellOnes");
+
+                    b.Navigation("SellPacks");
+                });
+
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.SellOneCachier", b =>
+                {
+                    b.Navigation("CachierPorcents");
+                });
+
+            modelBuilder.Entity("Tic.Shared.EntitiesSoft.SellPack", b =>
+                {
+                    b.Navigation("SellPackDetails");
                 });
 
             modelBuilder.Entity("Tic.Shared.EntitiesSoft.Server", b =>
                 {
+                    b.Navigation("Cachiers");
+
                     b.Navigation("OrderTickets");
 
                     b.Navigation("Plans");
+
+                    b.Navigation("SellOneCachiers");
+
+                    b.Navigation("SellOnes");
+
+                    b.Navigation("SellPacks");
                 });
 
             modelBuilder.Entity("Tic.Shared.EntitiesSoft.Tax", b =>

@@ -95,7 +95,6 @@ namespace Tic.Shared.EntitiesSoft
         //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
         //Se Agrega el Index de Mikrotik para el Ticket.
         [MaxLength(25, ErrorMessage = "El Maximo de caracteres es {1}")]
-        [Required(ErrorMessage = "El campo {0} es Requerido")]
         [Display(Name = "Mk Id")]
         public string? MkId { get; set; }
 
