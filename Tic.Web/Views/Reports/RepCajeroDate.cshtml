@@ -44,6 +44,9 @@
                                             Ticket
                                     </th>
                                     <th>
+                                            @Html.DisplayNameFor(model => model.CachierPorcents.FirstOrDefault().Comision)
+                                    </th>
+                                    <th>
                                             @Html.DisplayNameFor(model => model.Total)
                                     </th>
                                     <th></th>
@@ -69,12 +72,11 @@
                                                 @Html.DisplayFor(modelItem => item.OrderTicketDetail!.Usuario)
                                         </td>
                                         <td>
+                                                @Html.DisplayFor(modelItem => item.CachierPorcents.FirstOrDefault().Comision)
+                                        </td>
+                                        <td>
                                                 @Html.DisplayFor(modelItem => item.Total)
                                         </td>
-                                            @{
-                                                cant += 1;
-                                                totales += item.Total;
-                                            }
                                         <td style="width:1px; padding-left:1px; padding-right:4px">
                                             <a title="Detalle" asp-action="Details" asp-controller="SellOneCachiers" asp-route-id="@item.SellOneCachierId" class="btn btn-outline-dark btn-back"><i class="fa fa-clipboard-list"></i></a>
                                         </td>
@@ -84,12 +86,16 @@
                             <tfoot>
                             <td></td>
                             <td></td>
+                            <td></td>
                             <td>Total Registros</td>
                             <td> @cant</td>
-                            <td></td>
                             <td>
-                                        @totales
+                                @Model.Sum(x=> x.CachierPorcents.FirstOrDefault().Comision)
                             </td>
+                            <td>
+                                @Model.Sum(x => x.Total)
+                            </td>
+                            <td></td>
                             </tfoot>
                         </table>
 

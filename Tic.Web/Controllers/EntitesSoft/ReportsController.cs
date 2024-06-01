@@ -63,6 +63,7 @@ namespace Tic.Web.Controllers.EntitesSoft
 
 
             var dataContext = _context.SellOneCachiers
+                .Include(s => s.CachierPorcents)
                 .Include(s => s.Cachier)
                 .Include(s => s.PlanCategory)
                 .Include(s => s.Corporate)
