@@ -12,7 +12,7 @@ using Tic.Web.Data;
 namespace Tic.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240517173456_InitialDb")]
+    [Migration("20240601141808_InitialDb")]
     partial class InitialDb
     {
         /// <inheritdoc />

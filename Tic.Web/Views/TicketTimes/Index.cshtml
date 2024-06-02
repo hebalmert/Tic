@@ -59,16 +59,16 @@
                                                 @Html.DisplayFor(modelItem => item.Activo)
                                         </td>
                                         <td style="width:1px; padding-left:1px; padding-right:4px">
-                                            <a title="Editar" asp-action="Edit" asp-route-id="@item.TicketTimeId" class="btn btn-outline-dark btn-back"><i class="fa fa-pencil-alt"></i></a>
+                                            <a title="Editar" asp-action="Edit" asp-route-id="@item.TicketTimeId" class="btn btn-outline-dark btn-bor btn-sm"><i class="bi bi-pencil-square" style="font-size: 17px;"></i></a>
                                         </td>
                                         <td style="width:1px; padding-left:1px; padding-right:4px">
-                                            <a title="Detalle" asp-action="Details" asp-route-id="@item.TicketTimeId" class="btn btn-outline-dark btn-back"><i class="fa fa-clipboard-list"></i></a>
+                                            <a title="Detalle" asp-action="Details" asp-route-id="@item.TicketTimeId" class="btn btn-outline-dark btn-bor btn-sm"><i class="bi bi-card-text" style="font-size: 17px;"></i></a>
                                         </td>
                                         <td style="width:1px; padding-left:1px; padding-right:4px">
                                             <button type="button" title="Borrar" data-id="@item.TicketTimeId"
-                                                    class="btn btn-outline-danger btn-backDelete deleteItem"
+                                                    class="btn btn-outline-danger btn-bor btn-sm" id="deleteItem"
                                                     data-bs-toggle="modal" data-bs-target="#deleteDialog">
-                                                <i class="bi-trash"></i>
+                                                <i class="bi bi-trash" style="font-size: 17px;"></i>
                                             </button>
                                         </td>
                                     </tr>

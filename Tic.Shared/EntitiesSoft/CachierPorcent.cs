@@ -38,7 +38,7 @@ namespace Tic.Shared.EntitiesSoft
 
         [Required(ErrorMessage = "El campo {0} es Requerido")]
         [Range(1, double.MaxValue, ErrorMessage = "El Valor del Precio debe ser mayor que {1}")]
-        [Display(Name = "Precio Sin Impuesto")]
+        [Display(Name = "Vendedor")]
         public decimal Comision { get; set; }
 
 
