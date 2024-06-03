@@ -13,7 +13,7 @@ using Tic.Web.Helpers;
 namespace Tic.Web.Controllers.API
 {
     [Route("api/plans")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, UserAux, Cachier")]
     [ApiController]
     public class PlansController : ControllerBase
     {
@@ -39,14 +39,49 @@ namespace Tic.Web.Controllers.API
                 return NotFound("Error001");
             }
 
-            var listPlanes = await _context.Plans.Where(x => x.CorporateId == user.CorporateId 
+            var listPlanes = await _context.Plans.Where(x => x.CorporateId == user.CorporateId
             && x.PlanCategoryId == idcat && x.ServerId == idser && x.Active == true)
-                .Select(x=> new PlanPicketDTOs { PlanId = x.PlanId, PlanName = x.PlanName })
+                .Select(x => new PlanPicketDTOs { PlanId = x.PlanId, PlanName = x.PlanName })
                 .OrderBy(x => x.PlanName)
                 .ToListAsync();
 
 
             return Ok(listPlanes);
+        }
+
+        [HttpGet("PlanInvePre/{idplan:int}/{idser}")]  //Recibe el Id de Categoria y Servidor para enviar lista de Planes de esa categoria
+        public async Task<ActionResult<PlanInventarioDTOs>> GetPlanInvPrecio(int idplan, int idser)
+        {
+            //Validando con el mismo toquen de seguridad para saber quien es el User
+            string email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)!.Value;
+            var user = await _userHelper.GetUserAsync(email);
+            if (user == null)
+            {
+                return NotFound("Error001");
+            }
+
+            var data3 = _context.OrderTicketDetails
+                .Include(c => c.OrderTickets)
+                .Where(c => c.OrderTickets!.PlanId == idplan && c.ServerId == idser
+                && c.Vendido == false && c.Anulado == false).FirstOrDefault();
+            if (data3 == null)
+            {
+                return null!;
+            }
+            var data4 = _context.OrderTicketDetails
+                .Include(c => c.OrderTickets)
+                .Where(c => c.CorporateId == data3.CorporateId &&
+                c.Vendido == false && c.Anulado == false &&
+                c.ServerId == idser && c.OrderTickets!.PlanId == idplan)
+                .ToList();
+
+            PlanInventarioDTOs nuevodato = new()
+            {
+                Inventario = data4.Count,
+                Precio = data3.OrderTickets!.Precio
+            };
+
+            return Ok(nuevodato);
         }
 
         [HttpGet("Categoria")]
@@ -78,7 +113,7 @@ namespace Tic.Web.Controllers.API
                 return NotFound("Error001");
             }
 
-            var listmodelo = await _context.TicketInactives.Where(x => x.Activo == true) 
+            var listmodelo = await _context.TicketInactives.Where(x => x.Activo == true)
                 .OrderBy(x => x.Orden)
                 .ToListAsync();
 
@@ -156,7 +191,7 @@ namespace Tic.Web.Controllers.API
         }
 
         [HttpGet("TiempoTicket/{id:int}")]
-        public async Task<ActionResult<TicketTimeDTOs>> GetTiempoTicket(int id) 
+        public async Task<ActionResult<TicketTimeDTOs>> GetTiempoTicket(int id)
         {
             //Validando con el mismo toquen de seguridad para saber quien es el User
             string email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)!.Value;
@@ -211,7 +246,7 @@ namespace Tic.Web.Controllers.API
                                   Proxy = pl.Proxy,
                                   MacCookies = pl.MacCookies,
                                   ContinueTime = pl.ContinueTime,
-                                  RateTax =$"{pl.Tax!.Rate}",
+                                  RateTax = $"{pl.Tax!.Rate}",
                                   SubTotal = $"{pl.SubTotal}",
                                   Impuesto = $"{pl.Impuesto}",
                                   Precio = $"{pl.Precio}",
@@ -248,14 +283,14 @@ namespace Tic.Web.Controllers.API
                                   RateTax = pl.Tax!.Rate,
                                   SubTotal = pl.SubTotal,
                                   Impuesto = pl.Impuesto,
-                                  Precio =pl.Precio
+                                  Precio = pl.Precio
                               }).FirstOrDefault();
 
             return Ok(planDetail);
         }
 
         [HttpGet("planSave/{id:int}")]
-        public async Task<ActionResult<PlanSaveDTOs>> GetPlanSaveDtos(int id) 
+        public async Task<ActionResult<PlanSaveDTOs>> GetPlanSaveDtos(int id)
         {
             //Validando con el mismo toquen de seguridad para saber quien es el User
             string email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)!.Value;
@@ -272,7 +307,7 @@ namespace Tic.Web.Controllers.API
         }
 
         [HttpPost]
-        public async Task<ActionResult> PostNewPlan([FromBody] PlanSaveDTOs modelo) 
+        public async Task<ActionResult> PostNewPlan([FromBody] PlanSaveDTOs modelo)
         {
             //Validando con el mismo toquen de seguridad para saber quien es el User
             string email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)!.Value;
@@ -313,7 +348,7 @@ namespace Tic.Web.Controllers.API
         }
 
         [HttpDelete("{id:int}")]
-        public async Task<ActionResult> Delete(int id) 
+        public async Task<ActionResult> Delete(int id)
         {
             //Validando con el mismo toquen de seguridad para saber quien es el User
             string email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)!.Value;
@@ -330,7 +365,7 @@ namespace Tic.Web.Controllers.API
             }
 
             _context.Remove(datoremove);
-            await _context.SaveChangesAsync();  
+            await _context.SaveChangesAsync();
 
             return Ok();
         }

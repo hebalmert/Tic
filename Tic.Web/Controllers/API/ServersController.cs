@@ -12,7 +12,7 @@ using Tic.Web.Helpers;
 namespace Tic.Web.Controllers.API
 {
     [Route("api/servers")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, UserAux, Cachier")]
     [ApiController]
     public class ServersController : ControllerBase
     {
@@ -44,6 +44,40 @@ namespace Tic.Web.Controllers.API
 
             return Ok(listaServer);
         }
+
+        [HttpGet("servidores/cachier")]
+        public async Task<ActionResult<List<ServerPicketDTOs>>> GetListServerCachier()
+        {
+            //Validando con el mismo toquen de seguridad para saber quien es el User
+            string email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)!.Value;
+            var user = await _userHelper.GetUserAsync(email);
+            if (user == null)
+            {
+                return NotFound("Error001");
+            }
+
+            var cajero = await _context.Cachiers.FirstOrDefaultAsync(x => x.UserName == user.UserName && x.Activo == true);
+            if (cajero == null)
+            {
+                return BadRequest("Cajero no se Encuentra o no Esta Activo");
+            }
+            if (cajero.MultiServer == false)
+            {
+                var listaServer1 = await _context.Servers.Where(x => x.CorporateId == user.CorporateId && x.Active == true && x.ServerId == cajero.ServerId)
+                    .OrderBy(x => x.ServerName)
+                    .ToListAsync();
+                return Ok(listaServer1);
+            }
+            else
+            { 
+                var listaServer = await _context.Servers.Where(x => x.CorporateId == user.CorporateId && x.Active == true)
+                    .OrderBy(x => x.ServerName)
+                    .ToListAsync();
+
+            return Ok(listaServer);
+            }
+        }
+
 
         // GET: api/Servers
         [HttpGet("listaservidores")]
