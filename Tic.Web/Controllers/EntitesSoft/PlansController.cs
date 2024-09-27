@@ -96,7 +96,7 @@ namespace Spi.Web.Controllers.EntitiesSoft
         }
 
         // GET: Plans/Create
-        public IActionResult Create()
+        public IActionResult Create(int id) //id viene de Servidores y es el ServerId
         {
             var user = _context.Users.Include(u => u.Corporate).FirstOrDefault(u => u.UserName == User.Identity!.Name);
             if (user == null)
@@ -122,7 +122,8 @@ namespace Spi.Web.Controllers.EntitiesSoft
             modelo.ListTimeTicket = _comboHelper.GetComboTimeTicket();
             modelo.ListTimeRefresh = _comboHelper.GetComboTimeRefresh();
             modelo.ListTimeInactive = _comboHelper.GetComboTimeInactive();
-            modelo.ListServer = _comboHelper.GetComboServerActivos(modelo.CorporateId);
+            //modelo.ListServer = _comboHelper.GetComboServerActivos(modelo.CorporateId);
+            modelo.ServerId = id;
 
             return View(modelo);
         }
@@ -307,7 +308,7 @@ namespace Spi.Web.Controllers.EntitiesSoft
             modelo.ListTimeTicket = _comboHelper.GetComboTimeTicket();
             modelo.ListTimeRefresh = _comboHelper.GetComboTimeRefresh();
             modelo.ListTimeInactive = _comboHelper.GetComboTimeInactive();
-            modelo.ListServer = _comboHelper.GetComboTimeInactive();
+            //modelo.ListServer = _comboHelper.GetComboTimeInactive();
 
             return View(modelo);
         }
@@ -533,7 +534,7 @@ namespace Spi.Web.Controllers.EntitiesSoft
                 await transaction.CommitAsync();
 
                 _notyfService.Custom("El Regitro se ha Eliminado Con Exito -  Notificacion", 5, "#D90000", "fa fa-trash");
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details","Servers", new { id = dato.ServerId});
 
             }
             catch (DbUpdateException dbUpdateException)

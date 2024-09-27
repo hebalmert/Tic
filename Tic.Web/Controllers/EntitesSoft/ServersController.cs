@@ -89,6 +89,7 @@ namespace Tic.Web.Controllers.EntitiesSoft
                 .ThenInclude(n => n!.State)
                 .Include(n => n.Zone)
                 .ThenInclude(n => n!.City)
+                .Include(s=> s.Plans)
                 .FirstOrDefaultAsync(m => m.ServerId == id);
             if (server == null)
             {

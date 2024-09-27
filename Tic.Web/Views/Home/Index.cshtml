@@ -1,8 +1,191 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿<partial name="_Carousel" />
+
+@*     <partial name="_SoftwareParts" /> *@
+
+
+@{
+    ViewBag.Title = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<!-- Page Content /////////////////////////////////////////////////////////////////////////////////////////////////////-->
+<div class="container">
+
+    <!-- Heading Row -->
+    <div class="row align-items-center my-5 py-5" style="background-color:white;">
+        <div class="col-lg-7">
+            <img class="img-fluid rounded mb-4 mb-lg-0" src="~/imagen/home1.jpg" alt="">
+        </div>
+        <!-- /.col-lg-8 -->
+        <div class="col-lg-5">
+            <h1 class="font-weight-light">Multiples Mikrotik</h1>
+            <p>
+                Creación de Ticket para Zonas WIFI en Múltiples Servidores Mikrotik. Sistema híbrido de creación de tickets, para olvidarte de VPN o Depender de Dirección IP Pública para acceder a tu Mikrotik.
+            </p>
+            <a class="btn btn-primary" href="#">Escribenos!</a>
+
+        </div>
+        <!-- /.col-md-4 -->
+    </div>
+    <p></p>
+    <!-- /.row -->
+    <!-- Call to Action Well -->
+    @*<div class="card text-white bg-secondary my-5 py-4 text-center">
+    <div class="card-body">
+    <p class="text-white m-0">This call to action card is a great place to showcase some important information or display a clever tagline!</p>
+    </div>
+    </div>*@
+
+    <!-- Heading Row -->
+    <div class="row align-items-center my-5" style="background-color:white">
+        <div class="col-lg-5">
+            <h1 class="font-weight-light">Grupo Servidores</h1>
+            <p>Puedes crear varios servidores y agruparlos, de esta manera cuando creas tus planes, seran creados de manera automatica en todos los servidores.  Ahorra tiempo en la creacion de Planes</p>
+            <a class="btn btn-primary" href="#">Call to Action!</a>
+        </div>
+        <!-- /.col-md-4 -->
+        <div class="col-lg-7">
+            <img class="img-fluid rounded mb-4 mb-lg-0" src="~/Imagen/home2.jpg" alt="">
+        </div>
+        <!-- /.col-lg-8 -->
+    </div>
+    <p></p>
+    <!-- /.row -->
+    <!-- Heading Row -->
+    <div class="row align-items-center my-5" style="background-color:white">
+        <div class="col-lg-7">
+            <img class="img-fluid rounded mb-4 mb-lg-0" src="~/Imagen/home3.jpg" alt="">
+        </div>
+        <!-- /.col-lg-8 -->
+        <div class="col-lg-5">
+            <h1 class="font-weight-light">Creacion Tickets</h1>
+            <p>Ahora puedes especificar la cantidad de caracteres del Tickets y podras definir los caracteres que seran usados en la generacion de los tickets.</p>
+            <a class="btn btn-primary" href="#">Call to Action!</a>
+        </div>
+        <!-- /.col-md-4 -->
+    </div>
+    <p></p>
+    <!-- /.row -->
+    <!-- Content Row -->
+    <div class="row">
+        <div class="col-md-4 mb-5">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div style="text-align:center">
+                        <img src="~/ImgHomePage/ImgNetwork.gif" class="card-img-top" alt="Image" style="width:100px;height:100px;max-width: 100%; height: auto;">
+                    </div>
+
+                    <h2 class="card-title">Mikrotik App</h2>
+                    <p class="card-text">Puedes crear los tickets desde la App para Android, ya no necesitas IP Publica o Conexiones VPN</p>
+                </div>
+                <div class="card-footer">
+                    <a href="https://play.google.com/store/apps/details?id=com.companyname.ticapp" target="_blank" class="btn btn-primary btn-sm">App Android</a>
+                </div>
+            </div>
+        </div>
+        <!-- /.col-md-4 -->
+        <div class="col-md-4 mb-5">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div style="text-align:center">
+                        <img src="~/ImgHomePage/ImgConfiguracion.gif" class="card-img-top" alt="Image" style="width:100px;height:100px;max-width: 100%; height: auto;">
+                    </div>
+                    <h2 class="card-title">Compatibilidad</h2>
+                    <p class="card-text">Ahora puedes Instalar el software de PC en cualquier Windows 10 o superior y tendras conexion directa Mikrotik V6.43 o superior.</p>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="btn btn-primary btn-sm">More Info</a>
+                </div>
+            </div>
+        </div>
+        <!-- /.col-md-4 -->
+        <div class="col-md-4 mb-5">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div style="text-align:center">
+                        <img src="~/ImgHomePage/ImgService.gif" class="card-img-top" alt="Image" style="width:100px;height:100px;max-width: 100%; height: auto;">
+                    </div>
+                    <h2 class="card-title">Soporte</h2>
+                    <p class="card-text">Nuestros clientes cuantan con soporte y ayuda para cualquier problema o solicitud de Mejora sobre la plataforma</p>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <a href="https://wa.me/+573136984997?text=¡Estoy+interesado!" class="btn btn-primary btn-sm">WhatApps1</a>
+                        </div>
+                        <div class="col-md-3">
+                        </div>
+                        <div class="col-md-3">
+                            <a href="https://www.facebook.com/Nexxtplanet.net/inbox" class="btn btn-primary btn-sm">FaceMsn</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.col-md-4 -->
+
+    </div>
+    <!-- /.row -->
+
 </div>
+
+
+
+
+@if (Model == null)
+{
+    <div class="card text-center">
+        <div class="card-header">
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Para Aquirir nuestro Software</h5>
+            <p class="card-text">
+                <div class="row">
+                    <div class="col-md-12 mb-2">
+                        <img src="~/ImgHomePage/ImgPayPal.gif" class="card-img-top" alt="Image" style="width:293px;height:82px;max-width: 100%; height: auto;">
+                        <hr />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 mb-2" style="align-items:center">
+                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                            <input type="hidden" name="cmd" value="_s-xclick" />
+                            <input type="hidden" name="hosted_button_id" value="T7HBPSJNDV548" />
+                            <table class="table table-responsive justify-content-center">
+                                <tr>
+                                    <td>
+                                        <input type="hidden" name="on0" value="Seleccione Su Plan" />
+                                        Seleccione Su Plan
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <select name="os0">
+                                            <option value="3 Meses">
+                                                3 Meses $60.00 USD
+                                            </option>
+                                            <option value="6 Meses">
+                                                6 Meses $120.00 USD
+                                            </option>
+                                            <option value="9 Meses">
+                                                9 Meses $180.00 USD
+                                            </option>
+                                            <option value="12 Meses">
+                                                12 Meses $200.00 USD
+                                            </option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </table>
+                            <input type="hidden" name="currency_code" value="USD" />
+                            <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Buy Now" />
+                        </form>
+                    </div>
+                </div>
+            </p>
+            @*<a href="#" class="btn btn-primary">Go somewhere</a>*@
+        </div>
+        <div class="card-footer text-muted">
+        </div>
+    </div>
+}

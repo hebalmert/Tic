@@ -19,6 +19,7 @@
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <input hidden="hidden" asp-for="CorporateId" />
                             <input hidden="hidden" asp-for="DateCreated" />
+                            <input hidden="hidden" asp-for="ServerId" />
                             <input hidden="hidden" asp-for="PlanId" />
                              <input hidden="hidden" asp-for="MkId" />
                             <input hidden="hidden" asp-for="MkContinuoId" />
@@ -33,7 +34,8 @@
 
                                     <div class="form-group">
                                         <br />
-                                        <button title="Volver" type="button" class="btn btn-outline-dark btn-bor" onclick="location.href = '@Url.Action("Index", new  {})'">
+                                        <button title="Volver" type="button" class="btn btn-outline-dark btn-bor" 
+                                        onclick="location.href = '@Url.Action("Details", "Servers", new  {id = Model.ServerId})'">
                                             <i class="bi bi-box-arrow-left" style="font-size: 20px;"></i>
                                             Volver
                                         </button>
