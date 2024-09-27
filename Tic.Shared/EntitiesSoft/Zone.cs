@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Tic.Shared.Entites;
-using System.Xml.Linq;
 
 namespace Tic.Shared.EntitiesSoft
 {

@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -84,13 +83,17 @@ namespace Tic.Web.Controllers.API
 
         private TokenDTO BuildToken(User user)
         {
+            var corporateDato = _context.Corporates.FirstOrDefault(x => x.CorporateId == user.CorporateId);
+
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, user.Email!),
                 new Claim(ClaimTypes.Role, user.UserType.ToString()),
                 new Claim("FirstName", user.FirstName),
                 new Claim("LastName", user.LastName),
-                new Claim("Photo", user.PhotoPath!)
+                new Claim("Photo", user.PhotoPath!),
+                new Claim("CorpName", corporateDato!.Name),
+                new Claim("LogoCorp", corporateDato!.ImageFullPath),
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["jwtKey"]!));
@@ -119,7 +122,7 @@ namespace Tic.Web.Controllers.API
                 return BadRequest(ModelState);
             }
 
-            string email = User.Claims.FirstOrDefault(x=> x.Type == ClaimTypes.Email)!.Value;
+            string email = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Email)!.Value;
             User user = await _userHelper.GetUserAsync(email);
             if (user == null || user.Activo == false)
             {
