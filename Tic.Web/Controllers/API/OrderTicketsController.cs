@@ -255,6 +255,12 @@ namespace Tic.Web.Controllers.API
                 return BadRequest("Lista de Codigos esta Vacio, error en la Crecion de Tickets.");
             }
 
+            int countNul = modelo.Count(m => string.IsNullOrEmpty(m.MkId));
+            if (countNul > 0)
+            {
+                return BadRequest("No se puede Guardar los Tickets en Servidor porque no se Crearon los Ticket en la Mikrotik.");
+            }
+
             _context.OrderTicketDetails.UpdateRange(modelo);
             await _context.SaveChangesAsync();
             var idorder = modelo[0].OrderTicketId;

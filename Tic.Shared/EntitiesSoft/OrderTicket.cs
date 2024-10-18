@@ -58,7 +58,7 @@ namespace Tic.Shared.EntitiesSoft
         [Required(ErrorMessage = "El campo {0} es Requerido")]
         [Range(1, double.MaxValue, ErrorMessage = "El Valor del Precio debe ser mayor que {1}")]
         [Column(TypeName = "decimal(18,2)")]
-        [Display(Name = "Cantidad ")]
+        [Display(Name = "Cant")]
         public decimal Cantidad { get; set; }
 
         //[Required(ErrorMessage = "El campo {0} es Requerido")]
@@ -84,8 +84,11 @@ namespace Tic.Shared.EntitiesSoft
 
 
         //Total de Tickets Creados
-        [Display(Name = "Creados")]
+        [Display(Name = "Total")]
         public int TotalTickets => OrderTicketDetails == null ? 0 : OrderTicketDetails.Count;
+
+        [Display(Name = "Mk*")]
+        public int TotalTicketMK => OrderTicketDetails == null ? 0 : OrderTicketDetails.Where(x=> x.MkId != null || x.MkId == string.Empty).Count();
 
         [Display(Name = "Mikrotik")]
         public bool? Mikrotik { get; set; }

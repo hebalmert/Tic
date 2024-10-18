@@ -81,6 +81,8 @@ namespace Tic.Shared.EntitiesSoft
 
         public ICollection<Plan>? Plans { get; set; }
 
+        [Display(Name = "Plans")]
+        public int CantPlans => Plans?.Count is null ? 0 : Plans.Count; 
 
         //Propiedades de Solo Control y Consultas de datos
         //No mapeadas a la Base de datos

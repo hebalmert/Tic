@@ -40,19 +40,16 @@
                                             @Html.DisplayNameFor(model => model.Date)
                                     </th>
                                     <th>
-                                            @Html.DisplayNameFor(model => model.NamePlan)
+                                            @Html.DisplayNameFor(model => model.Server!.ServerName)
                                     </th>
                                     <th>
-                                            @Html.DisplayNameFor(model => model.Rate)
+                                            @Html.DisplayNameFor(model => model.NamePlan)
                                     </th>
                                     <th>
                                             @Html.DisplayNameFor(model => model.Cantidad)
                                     </th>
                                     <th>
-                                            @Html.DisplayNameFor(model => model.SubTotal)
-                                    </th>
-                                    <th>
-                                            @Html.DisplayNameFor(model => model.Impuesto)
+                                            @Html.DisplayNameFor(model => model.TotalTicketMK)
                                     </th>
                                     <th>
                                             @Html.DisplayNameFor(model => model.Total)
@@ -73,19 +70,16 @@
                                                 @Html.DisplayFor(modelItem => item.Date)
                                         </td>
                                         <td>
-                                                @Html.DisplayFor(modelItem => item.NamePlan)
+                                                @Html.DisplayFor(modelItem => item.Server!.ServerName)
                                         </td>
                                         <td>
-                                                @Html.DisplayFor(modelItem => item.Rate)
+                                                @Html.DisplayFor(modelItem => item.NamePlan)
                                         </td>
                                         <td>
                                                 @Html.DisplayFor(modelItem => item.Cantidad)
                                         </td>
                                         <td>
-                                                @Html.DisplayFor(modelItem => item.SubTotal)
-                                        </td>
-                                        <td>
-                                                @Html.DisplayFor(modelItem => item.Impuesto)
+                                                @Html.DisplayFor(modelItem => item.TotalTicketMK)
                                         </td>
                                         <td>
                                                 @Html.DisplayFor(modelItem => item.Total)
@@ -101,7 +95,7 @@
                                             <a title="Detalle" asp-action="Details" asp-route-id="@item.OrderTicketId" class="btn btn-outline-dark btn-bor btn-sm"><i class="bi bi-card-text"></i></a>
                                         </td>
                                         <td style="width:1px; padding-left:1px; padding-right:4px">
-                                                @if (item.Cantidad != item.TotalTickets)
+                                                @if (item.TotalTickets == 0 || item.TotalTicketMK == 0)
                                                 {
                                                 <button type="button" title="Borrar" data-id="@item.OrderTicketId"
                                                         class="btn btn-outline-danger btn-bor btn-sm" id="deleteItem"

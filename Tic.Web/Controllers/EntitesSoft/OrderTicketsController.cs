@@ -401,6 +401,55 @@ namespace Tic.Web.Controllers.EntitesSoft
                     return NotFound();
                 }
 
+                var datoDetails = await _context.OrderTicketDetails.Where(m => m.OrderTicketId == id).ToListAsync();
+                if (datoDetails.Any())
+                {
+                    List<int> RecordsIds = datoDetails.Select(x => x.OrderTicketDetailId).ToList();
+                    var cashierRecords = _context.CachierPorcents
+                                          .Where(p => RecordsIds.Contains(p.OrderTicketDetailId))
+                                          .ToList();
+                    if (cashierRecords.Any())
+                    {
+                        _context.RemoveRange(cashierRecords);
+                        await _context.SaveChangesAsync();
+                    }
+
+                    var SellOneCachierRecords = _context.SellOneCachiers
+                                                  .Where(p => RecordsIds.Contains(p.OrderTicketDetailId))
+                                                  .ToList();
+                    if (SellOneCachierRecords.Any())
+                    {
+                        _context.SellOneCachiers.RemoveRange(SellOneCachierRecords);
+                        await _context.SaveChangesAsync();
+                    }
+
+                    var SellOneRecords = _context.SellOnes
+                                                  .Where(p => RecordsIds.Contains(p.OrderTicketDetailId))
+                                                  .ToList();
+                    if (SellOneRecords.Any())
+                    {
+                        _context.SellOnes.RemoveRange(SellOneRecords);
+                        await _context.SaveChangesAsync();
+                    }
+
+                    var SellPackRecords = _context.SellPackDetails
+                                          .Where(p => RecordsIds.Contains(p.OrderTicketDetailId))
+                                          .ToList();
+                    if (SellPackRecords.Any())
+                    {
+                        var sellPack = await _context.SellPacks.FirstOrDefaultAsync(x => x.SellPackId == SellPackRecords.First().SellPackId);
+                        _context.SellPacks.Remove(sellPack!);
+                        await _context.SaveChangesAsync();
+
+                        _context.SellPackDetails.RemoveRange(SellPackRecords);
+                        await _context.SaveChangesAsync();
+                    }
+
+
+                    _context.RemoveRange(datoDetails);
+                    await _context.SaveChangesAsync();
+                }
+
                 _context.Remove(dato);
                 await _context.SaveChangesAsync();
 

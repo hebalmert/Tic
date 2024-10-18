@@ -55,7 +55,7 @@ namespace Tic.Web.Controllers.EntitiesSoft
             if (buscarId != null)
             {
                 var dataContext = _context.Servers.Include(n => n.IpNetwork).Include(n => n.Mark)
-                    .Include(n => n.MarkModel).Include(n => n.Zone)
+                    .Include(n => n.MarkModel).Include(n => n.Zone).Include(n=> n.Plans)
                     .Where(c => c.ServerId == buscarId && c.CorporateId == user.CorporateId).OrderBy(o => o.ServerName);
 
                 return View(await dataContext.ToPagedListAsync(page ?? 1, 25));
@@ -64,7 +64,7 @@ namespace Tic.Web.Controllers.EntitiesSoft
             {
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
                 var dataContext = _context.Servers.Include(n => n.IpNetwork).Include(n => n.Mark)
-                    .Include(n => n.MarkModel).Include(n => n.Zone)
+                    .Include(n => n.MarkModel).Include(n => n.Zone).Include(n => n.Plans)
                     .Where(n => n.CorporateId == user.CorporateId).OrderBy(o => o.IpNetwork.Ip);
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
 

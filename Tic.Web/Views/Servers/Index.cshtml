@@ -63,6 +63,9 @@
                                                     @Html.DisplayNameFor(model => model.IpNetwork!.Ip)
                                             </th>
                                             <th>
+                                                    @Html.DisplayNameFor(model => model.CantPlans)
+                                            </th>
+                                            <th>
                                                     @Html.DisplayNameFor(model => model.MarkModel!.MarkModelName)
                                             </th>
                                             <th>
@@ -87,6 +90,9 @@
                                                 </td>
                                                 <td>
                                                         @Html.DisplayFor(modelItem => item.IpNetwork!.Ip)
+                                                </td>
+                                                <td>
+                                                        @Html.DisplayFor(modelItem => item.CantPlans)
                                                 </td>
                                                 <td>
                                                         @Html.DisplayFor(modelItem => item.MarkModel!.MarkModelName)
